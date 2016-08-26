@@ -1,0 +1,11 @@
+<<<<<<< HEAD
+include 'gradle-plugin', 'commons-java', 'commons-web', 'hephaestus'
+=======
+include 'commons-java', 'commons-web',
+        //Web projects
+        'playroom', 'smartchannel', 'trismegistus', 'claro-kids', 'multiclub', 'sportsworld',
+        //Embedded projects
+        'hephaestus',
+        //Banamex
+        'banamex:core', 'banamex:api', 'banamex:messaging'
+>>>>>>> a46c750b40d36617ac7dad104eef24f876721378
