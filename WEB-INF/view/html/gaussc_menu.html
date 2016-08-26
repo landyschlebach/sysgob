@@ -1,0 +1,193 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+	
+    <title th:text="#{app.title}">Sports World</title>
+    
+    <link href="../../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.css}" rel="stylesheet"/>
+    <link href="../../../resources/css/metisMenu.min.css" th:href="@{/resources/css/metisMenu.min.css}" rel="stylesheet"/>
+    <link href="../../../resources/css/sb-admin-2.css" th:href="@{/resources/css/sb-admin-2.css}" rel="stylesheet"/>
+    <link href="../../../resources/css/style.css" th:href="@{/resources/css/style.css}" rel="stylesheet"/>
+    <link href="../../../resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+	<div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top nav-white" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+            	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img alt="Brand" src="../../../resources/img/logo_2.png" th:src="@{/resources/img/logo_2.png}"/></a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+<!--                 <li class="dropdown" id="notifications" name="notifications">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" th:href="@{#}">
+                        <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <a href="#" th:href="@{#}">
+                                <div>
+                                    <strong th:utext="${campaign.name}">John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em th:utext="${campaign.sendDate}">Yesterday</em>
+                                    </span>
+                                </div>
+                                <div th:utext="${campaign.message}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        
+                        <th:block th:remove="all">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        </th:block>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong th:utext="#{menu.notifications.read}">Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    /.dropdown-messages
+                </li> -->
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a><i class="fa fa-user fa-fw"></i><th th:utext="${currentUser}"> User Profile</th></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i><th th:utext="#{menu.settings}"> Settings </th></a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a th:href="@{/logout}" href="login.html"><i class="fa fa-sign-out fa-fw"></i><th th:utext="#{menu.logout}"> Logout</th></a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a class="a_gray" th:href="@{/campaigns}" href="dashboard.html"><i class="fa fa-dashboard fa-fw"></i><th th:utext="#{menu.dashboard}"> Dashboard</th></a>
+                        </li>
+                        <li>
+                            <a class="a_gray" th:href="@{/configure/sms}" href="sms.html"><i class="fa fa-comments fa-fw"></i><th th:utext="#{menu.sms}"> SMS</th></a>
+                        </li>
+<!--                         <li>
+                            <a class="a_gray" th:href="@{/configure/survey}" href="encuestas.html"><i class="fa fa-edit  fa-fw"></i><th  th:utext="#{menu.surveys}"> Encuestas</th></a>
+                        </li> -->
+                        <li>
+                        	<a class="a_gray" th:href="@{/gaussc/menu}" href="calc.html"><i class="fa fa-edit  fa-fw"></i><th th:utext="#{menu.surveys}"> GAUSSC</th></a>
+                        </li>                           
+                        <li>
+                            <a class="a_gray" href="#" th:href="@{#}"><i class="fa fa-bar-chart-o fa-fw"></i><th  th:utext="#{menu.reports}"> Reportes</th><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a class="a_gray" th:href="@{/reports/sms}" href="reportes_sms.html"><th th:utext="#{menu.reports.sms}">Reportes SMS</th></a>
+                                </li>
+<!--                                 <li>
+                                    <a class="a_gray" th:href="@{/reports/survey}" href="reportes_encuestas.html"><th th:utext="#{menu.reports.surveys}">Reportes Encuestas</th></a>
+                                </li>
+                                <li>
+                                    <a class="a_gray" th:href="@{/reports/historical}" href="aspectos_generales.html"><th th:utext="#{menu.reports.general}">Aspectos Generales</th></a>
+                                </li> -->
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>                     
+<!--                         <li>
+                            <a class="a_gray" href="#"><i class="fa fa-wrench fa-fw"></i><th th:utext="#{menu.config}">Configuraci&oacute;n</th></a>
+                        </li -->
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+        <ol class="breadcrumb">
+          <li class="pull-right"><i class="fa fa-comments fa-fw"></i><th th:text="#{menu.gaussc}">GAUSSC</th></li>
+          <li><a class="a_white" th:text="#{menu.home}" th:href="@{/campaigns}" href="#">Home</a></li>
+          <li class="active" th:text="#{menu.gaussc}">GAUSSC</li>
+        </ol>
+        <div id="page-wrapper" th:fragment="wrapper">
+            
+        	<div class="row content_margin">
+              <div class="col-lg-12">
+		  		<p th:utext="#{gaussc.select}">GAUSSC</p>
+                   <p th:utext="#{gaussc.surveys}">Tipos de Encuestas:</p>
+                   	<span th:each="cat : ${categories}">
+                       <p>
+                       <a class="btn btn-default btn-danger" th:value="${cat.categoryId}" th:href="@{/gaussc/survey/__${cat.categoryId}__}" th:utext="${cat.description}">Categoria 1</a>
+                       </p>
+                    </span>
+              </div>
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+        <div class="modal show_modal" id="loader" data-backdrop="static">
+    		<div class="modal-dialog">
+        		<div class="modal-content">
+            		<div class="modal-body">
+                		<img class="center-block" src="../../../resources/img/loading.gif" th:src="@{/resources/img/loading.gif}" width="60" />
+            		</div>
+        		</div>
+    		</div>
+		</div>
+    <script src="../../../resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="../../../resources/js/form.js" th:src="@{/resources/js/form.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <script src="../../../resources/js/metisMenu.min.js" th:src="@{/resources/js/metisMenu.min.js}"></script>
+    <script src="../../../resources/js/sb-admin-2.js" th:src="@{/resources/js/sb-admin-2.js}"></script>
+</body>
+</html>

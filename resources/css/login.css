@@ -1,0 +1,143 @@
+@charset "UTF-8";
+/* CSS Document */
+
+html, body {
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 1;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-weight: lighter;
+}
+
+#full-screen-background-image {
+  z-index: -999;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#wrapper {
+  width: 325px;
+  height: 500px;
+  overflow: auto;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.logo_login{
+  width: 220px;
+  height: 70px;
+  margin: auto;
+  position: absolute;
+  top: -620px; left: 0; bottom: 0; right: 0;
+}
+
+.legend_login{
+	padding-top:80px;
+	padding-bottom:20px;
+	border-bottom:none;
+	text-align:center;
+	color: #fff;
+	font-weight: lighter;
+	font-size:18px;
+	
+}
+	
+.input_login{
+	font-weight:lighter;
+	color:#fff;
+	background: none;
+    border: 0;
+    box-shadow: none;
+    border-bottom: 1px solid #fff;
+    height: 45px;
+	font-size:17px;
+	width:100%;
+}
+
+.input_login:focus{
+	outline:0px;
+}
+	
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #fff;
+	font-weight:100;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #fff;
+   opacity:  1;
+   font-weight:100;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #fff;
+   opacity:  1;
+   font-weight:100;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #fff;
+   font-weight:100;
+}
+
+.padding_login{
+	padding-bottom:30px;
+	
+	}
+	
+.btn_login{
+    background-color: #282a2b;
+	outline: none;
+	border:0;
+	color:#fff;
+	width:100%;
+	height: 57px;
+   font-size:16px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 8px;
+	}
+		
+.btn_login:hover{
+	color: #545454;
+	font-weight:bold;
+	}
+	
+.btn_login:focus{
+	outline: none;
+	}
+	
+p.message_login{
+	text-align:center;
+	color: #fff;
+	margin-top:10px;
+	}
+
+.padright {
+    padding-right: 20px;
+}
+
+fieldset {
+	background:#545454;
+    display: block;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 0.35em;
+    padding-bottom: 0.625em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    border: 1px solid #282a2b;
+	opacity: 0.85;
+	/* IE 8 */
+   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+   /* IE 5-7 */
+   filter: alpha(opacity=85);
+   -moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+} 
