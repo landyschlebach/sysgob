@@ -49,4 +49,7 @@
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
+	
+	<bean id="projectRepository" class="com.db.sysgob.repository.ProjectRepository" />	
+	<bean id="expenseRepository" class="com.db.sysgob.repository.ExpenseRepository" />	
 </beans>
