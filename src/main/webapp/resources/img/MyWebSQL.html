@@ -1,0 +1,601 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="height: 100%; overflow: hidden;"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MyWebSQL</title>
+	<link rel="stylesheet" type="text/css" href="MyWebSQL%20Archivos/cache_003.css">
+	<link rel="SHORTCUT ICON" href="http://nemonico.com.mx/myweb/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="MyWebSQL%20Archivos/cache_002.css">
+	<script type="text/javascript" language="javascript" src="MyWebSQL%20Archivos/cache_002.js"></script>
+	<!--[if lt IE 8]>
+		<script type="text/javascript" language="javascript" src="cache.php?script=json2"></script>
+	<![endif]-->
+</head>
+<body class="mainbody" style="position: relative; height: 100%; overflow: hidden; margin: 0px; padding: 0px; border: medium none; cursor: text;">
+	<div id="editToolbar">
+		<div class="tb-header ui-widget-header"><span class="fname"></span></div>
+		<div class="tb-row">Type: <span class="ftype"></span></div>
+		<div class="tb-row">[ Pulse Shift + Del para establecer NULL ]</div>
+	</div>
+
+	<div id="inplace-text">
+		<div class="tb-row"><textarea rows="4" cols="20"></textarea></div>
+	</div>
+
+	<div class="ui-layout-north ui-layout-pane ui-layout-pane-north" style="position: absolute; margin: 0px; top: 0px; bottom: auto; left: 0px; right: 0px; width: auto; z-index: 3; height: 76px; visibility: visible; display: block; overflow: visible;">
+		<div id="main_header">
+			<a target="_blank" href="http://mywebsql.net/"><img src="MyWebSQL%20Archivos/logo.png" class="logo" alt="MyWebSQL" width="45" border="0" height="38"></a>
+			<div class="title">
+				<div class="main">MyWebSQL</div>
+				<div class="version">version 3.6</div>
+			</div>
+			<div class="info">
+				<span class="server">Localhost MySQL</span> - MySQL Community Server (GPL)&nbsp;5.6.33-log<br>
+				Conectado como: sepherot_DSC11@localhost			</div>
+			<div class="updates ui-state-active"></div>
+		</div>
+		<div id="toolbarHolder">
+
+<div class="ui-state-default ui-corner-all ui-helper-clearfix">
+	<ul id="main-menu" class="dropdown">
+		<li>
+			<a href="javascript:void(0)">Base de datos</a>
+			<ul class="ui-state-default">
+				<li class="db"><a class="irfrsh" href="javascript:objectsRefresh()" title="Actualizar la base de datos objeto de la lista">Actualizar</a></li>
+				<li><a href="javascript:dbCreate()" title="Create a new database">Crear nuevo...</a></li>
+				<li class="db option mysql4 mysql5 mysqli sqlite sqlite3 pgsql"><a class="ibatch" href="javascript:dbBatch()" title="Lleve a cabo una o más operaciones por lotes en la base de datos">Las operaciones por lotes...</a></li>
+				<li class="db option mysql4 mysql5 pgsql mysqli sqlite sqlite3"><a class="iexpdb" href="javascript:dataExport()" title="Exportar base de datos a un archivo externo">Exportación...</a></li>
+			</ul>
+		</li>
+		<li class="db">
+			<a href="javascript:void(0)">Objetos</a>
+			<ul class="ui-state-default">
+				<li class="option mysql5 mysqli"><a class="itable" href="javascript:tableCreate()" title="Crear una nueva tabla en la base de datos">Crear tabla...</a></li>
+				
+				<li class="option mysql5 mysqli pgsql sqlite sqlite3"><a class="iview" href="javascript:objCreate(1)" title="Crear una nueva vista en la base de datos">Crear vista...</a></li>
+				<li class="option mysql5 mysqli"><a class="iproc" href="javascript:objCreate(2)" title="Crear un nuevo procedimiento almacenado en la base de datos">Crear procedimientos almacenados...</a></li>
+				<li class="option mysql5 mysqli pgsql"><a class="ifunc" href="javascript:objCreate(3)" title="Crear una nueva función definida por el usuario en la base de datos">Crear la función...</a></li>
+				<li class="option mysql5 mysqli pgsql sqlite sqlite3"><a class="itrig" href="javascript:objCreate(4)" title="Crea un nuevo disparador en la base de datos">Crear Trigger...</a></li>
+				<li class="option mysql5 mysqli"><a class="ievt" href="javascript:objCreate(5)" title="Crear un nuevo evento en la base de datos">Crear un evento...</a></li>
+				
+			</ul>
+		</li>
+
+		<li>
+			<a href="javascript:void(0)">Datos</a>
+			<ul class="ui-state-default">
+				<li class="option mysql4 mysql5 mysqli pgsql sqlite sqlite3"><a class="iimprt" href="javascript:dataImport()" title="Importar múltiples consultas de archivo por lotes">Importación de archivos de proceso por lotes...</a></li>
+				<li class="option mysql4 mysql5 mysqli pgsql sqlite sqlite3"><a class="iimprt" href="javascript:tableImport()" title="Importar datos de tabla desde un archivo externo">Importar datos de tabla...</a></li>
+				<li class="db option mysql4 mysql5 pgsql mysqli sqlite sqlite3"><a class="iexpdb" href="javascript:dataExport()" title="Exportar base de datos a archivo por lotes como volcado sql">Exportar base de datos...</a></li>
+				<li class="db"><a class="iexprt" href="javascript:resultsExport()" title="Exportar resultados de la consulta al portapapeles o archivos">Resultados de exportación en curso...</a></li>
+				<li class="db option mysql4 mysql5 mysqli"><a class="iexpdb" href="javascript:dataBackup()" title="Backup database on the server as sql dump">Copia de seguridad de base de datos...</a></li>
+			</ul>
+		</li>
+
+		<li class="option mysql4 mysql5 mysqli pgsql sqlite sqlite3">
+			<a href="javascript:void(0)">Herramientas</a>
+			<ul class="ui-state-default">
+				<li class="option mysql4 mysql5 mysqli pgsql"><a class="itdb" href="javascript:toolsDbManager()" title="Administrar bases de datos">Database Manager</a></li>
+				<li class="option mysql4 mysql5 mysqli"><a class="itprc" href="javascript:toolsProcManager()" title="Ver y gestionar los procesos de base de datos">Process Manager</a></li>
+				<li class="option mysql4 mysql5 mysqli"><a class="itusr" href="javascript:toolsUsers()" title="Administrar usuarios de base de datos">Administrador de usuarios</a></li>
+				<li class="db option mysql4 mysql5 pgsql mysqli"><a class="itchk" href="javascript:toolsDbCheck()" title="Analizar y reparar tablas de bases de datos">Reparar tablas</a></li>
+				<li class="db option mysql4 mysql5 mysqli pgsql sqlite sqlite3"><a class="itsrch" href="javascript:toolsDbSearch()" title="Búsqueda de texto en la base de datos">Búsqueda en la base de datos</a></li>
+				<li><a class="itopts" href="javascript:toolsOptions()" title="Configurar las opciones de aplicación">Opciones</a></li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="javascript:void(0)">Información</a>
+			<ul class="ui-state-default">
+				<li class="option mysql4 mysql5 mysqli pgsql"><a href="javascript:infoServer()" title="Ver detalles de conexión del servidor y">Servidor / Conexión Detalles</a></li>
+				<li class="option mysql4 mysql5 mysqli pgsql"><a href="javascript:infoVariables()" title="Ver configuración del servidor">Variables de servidor</a></li>
+				<li class="db"><a href="javascript:infoDatabase()" title="Vista actual de las estadísticas de base de datos de resumen">Resumen de base de datos</a></li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="javascript:void(0)">Interfaz</a>
+			<ul>
+				<li><a href="javascript:void(0)">IU Tema » </a>
+					<ul class="ui-state-default">
+						<li><a class="check" href="javascript:setPreference('theme',%20'default')">Default</a></li><li><a href="javascript:setPreference('theme',%20'light')">Light (Gray)</a></li><li><a href="javascript:setPreference('theme',%20'dark')">Dark</a></li><li><a href="javascript:setPreference('theme',%20'paper')">Paper</a></li><li><a href="javascript:setPreference('theme',%20'human')">Humanity (Ubuntu style)</a></li><li><a href="javascript:setPreference('theme',%20'bootstrap')">Bootstrap</a></li><li><a href="javascript:setPreference('theme',%20'chocolate')">Mint-Chocolate</a></li><li><a href="javascript:setPreference('theme',%20'pinky')">Pinky</a></li>
+					</ul>
+				</li>
+				<li><a href="javascript:void(0)">Idioma » </a>
+					<ul id="menu-language" class="ui-state-default">
+						<li><a href="javascript:setPreference('lang',%20'en')">English</a></li><li><a href="javascript:setPreference('lang',%20'ar')">العربية</a></li><li><a href="javascript:setPreference('lang',%20'af')">Afrikaans</a></li><li><a href="javascript:setPreference('lang',%20'sq')">Albanian</a></li><li><a href="javascript:setPreference('lang',%20'bg')">Български</a></li><li><a href="javascript:setPreference('lang',%20'ca')">Català</a></li><li><a href="javascript:setPreference('lang',%20'zh')">中文(简体)</a></li><li><a href="javascript:setPreference('lang',%20'hr')">Croatian</a></li><li><a href="javascript:setPreference('lang',%20'cs')">Čeština</a></li><li><a href="javascript:setPreference('lang',%20'da')">Dansk</a></li><li><a href="javascript:setPreference('lang',%20'nl')">Nederlands</a></li><li><a class="check" href="javascript:setPreference('lang',%20'es')">Español</a></li><li><a href="javascript:setPreference('lang',%20'et')">Estonian</a></li><li><a href="javascript:setPreference('lang',%20'fi')">Suomi</a></li><li><a href="javascript:setPreference('lang',%20'fr')">Français</a></li><li><a href="javascript:setPreference('lang',%20'gl')">Galician</a></li><li><a href="javascript:setPreference('lang',%20'de')">Deutsch</a></li><li><a href="javascript:setPreference('lang',%20'el')">Ελληνικά</a></li><li><a href="javascript:setPreference('lang',%20'he')">עברית‏</a></li><li><a href="javascript:setPreference('lang',%20'hu')">Magyar</a></li><li><a href="javascript:setPreference('lang',%20'id')">Bahasa Indonesia</a></li><li><a href="javascript:setPreference('lang',%20'it')">Italiano</a></li><li><a href="javascript:setPreference('lang',%20'ja')">日本語</a></li><li><a href="javascript:setPreference('lang',%20'ko')">한국어</a></li><li><a href="javascript:setPreference('lang',%20'lt')">Lietuvių</a></li><li><a href="javascript:setPreference('lang',%20'lv')">Latvian</a></li><li><a href="javascript:setPreference('lang',%20'ms')">Bahasa Melayu</a></li><li><a href="javascript:setPreference('lang',%20'no')">Norsk</a></li><li><a href="javascript:setPreference('lang',%20'pl')">Polski</a></li><li><a href="javascript:setPreference('lang',%20'pt')">Português</a></li><li><a href="javascript:setPreference('lang',%20'ro')">Română</a></li><li><a href="javascript:setPreference('lang',%20'ru')">Русский</a></li><li><a href="javascript:setPreference('lang',%20'sk')">Slovenčina</a></li><li><a href="javascript:setPreference('lang',%20'sl')">Slovenščina</a></li><li><a href="javascript:setPreference('lang',%20'sr')">Српски</a></li><li><a href="javascript:setPreference('lang',%20'sv')">Svenska</a></li><li><a href="javascript:setPreference('lang',%20'th')">ภาษาไทย</a></li><li><a href="javascript:setPreference('lang',%20'tr')">Türkçe</a></li><li><a href="javascript:setPreference('lang',%20'uk')">Ukrainian</a></li>
+					</ul>
+				</li>
+				<li><a href="javascript:void(0)">SQL Editor » </a>
+					<ul class="ui-state-default">
+						<li><a href="javascript:setPreference('editor',%20'simple')">Plain Text</a></li><li><a class="check" href="javascript:setPreference('editor',%20'codemirror')">CodeMirror</a></li><li><a href="javascript:setPreference('editor',%20'codemirror2')">CodeMirror 2 (Experimental)</a></li>
+					</ul>
+				</li>
+				<li><a href="javascript:void(0)">Mostrar / Ocultar panel » </a>
+					<ul class="ui-state-default">
+						<li><a href="javascript:main_layout.toggle('west')" title="Activar Visor de objetos">Base de datos de objetos</a></li>
+						<li><a href="javascript:data_layout.toggle('south')" title="Alternar editor de SQL">SQL Editor</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="javascript:void(0)">Ayuda</a>
+			<ul class="ui-state-default">
+				<li><a class="ihlp" href="javascript:helpShowAll()" title="Aprenda los aspectos básicos del uso MyWebSQL">contenido de la Ayuda</a></li>
+				<li class="db"><a class="itutor" href="javascript:helpQuickTutorial()" title="Ver interfaz rápida tutorial práctico de MyWebSQL">Tutoriales rápidos</a></li>
+				<li><a class="idocs" href="javascript:helpOnlineDocs()" title="Ver documentación en línea en el sitio web del proyecto">Documentación en línea</a></li>
+				<li><a class="iftr" href="javascript:helpRequestFeature()" title="Si desea que su característica más favorito para ser parte de MyWebSQL, por favor haga clic aquí para informar al respecto">Solicitar una característica...</a></li>
+				<li><a class="ibug" href="javascript:helpReportBug()" title="If you have found a problem, or having trouble using the application, please click here to report the problem">Informar de un problema</a></li>
+				<li><a href="javascript:helpCheckUpdates()" title="Compruebe si hay versiones actualizadas de la solicitud en línea">Buscar actualizaciones</a></li>
+			</ul>
+		</li>
+
+		<li class="right"><a class="ilgout" href="javascript:logout()" title="Cerrar sesión de este período de sesiones">Desconectarse</a></li>
+	</ul>
+</div>	</div>
+</div>
+
+<div class="ui-layout-west ui-layout-pane ui-layout-pane-west" style="position: absolute; margin: 0px; left: 0px; right: auto; top: 76px; bottom: 0px; height: 542px; z-index: 1; width: 253px; visibility: visible; display: block;">
+
+	<div id="db_combo" class="ui-state-default">
+		
+<select name="dblist" id="dblist" onchange="dbSelect()" class="defselect" style="width:100%">
+<option value="information_schema">information_schema</option>
+<option value="sepherot_DSC7_BD_Landy" selected="selected">sepherot_DSC7_BD_Landy</option></select>	</div>
+
+	<div id="object_list" class="ui-state-default">
+		<ul id="tablelist" class="filetree treeview"><li id="tables" class="collapsable"><div class="hitarea collapsable-hitarea"></div><span class="tablef">Tables</span><span class="count">14</span><ul><li class="last"><span class="file otable" id="t_T_Catalogo"><a href='javascript:objDefault("table",%20"t_T_Catalogo")'>T_Catalogo</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_T_NIM"><a href='javascript:objDefault("table",%20"t_T_NIM")'>T_NIM</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_T_Noticias"><a href='javascript:objDefault("table",%20"t_T_Noticias")'>T_Noticias</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_T_Usuarios"><a href='javascript:objDefault("table",%20"t_T_Usuarios")' class="">T_Usuarios</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_budgets"><a href='javascript:objDefault("table",%20"t_budgets")' class="">budgets</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_categories"><a href='javascript:objDefault("table",%20"t_categories")' class="">categories</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_dependencies"><a href='javascript:objDefault("table",%20"t_dependencies")' class="">dependencies</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_expenses"><a href='javascript:objDefault("table",%20"t_expenses")' class="">expenses</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_projects"><a href='javascript:objDefault("table",%20"t_projects")' class="">projects</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_resources"><a href='javascript:objDefault("table",%20"t_resources")' class="">resources</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_resources_by_project"><a href='javascript:objDefault("table",%20"t_resources_by_project")' class="">resources_by_project</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_resources_spent_by_dependency"><a href='javascript:objDefault("table",%20"t_resources_spent_by_dependency")' class="">resources_spent_by_dependency</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable" id="t_roles"><a href='javascript:objDefault("table",%20"t_roles")' class="">roles</a></span><span class="count"></span></li></ul><ul><li class="last"><span class="file otable current" id="t_users"><a href='javascript:objDefault("table",%20"t_users")' class="">users</a></span><span class="count"></span></li></ul></li>
+<li id="views"><span class="viewf">Views</span><span class="count">0</span></li>
+<li id="procs"><span class="procf">Procedures</span><span class="count">0</span></li>
+<li id="funcs"><span class="funcf">Functions</span><span class="count">0</span></li>
+<li id="trigs"><span class="trigf">Triggers</span><span class="count">0</span></li>
+<li id="events" class="last"><span class="evtf">Events</span><span class="count">0</span></li>
+</ul>	</div>
+
+	<div id="object-filter" class="ui-state-default">
+		<input id="object-filter-text" size="5" data-placeholder="Type to filter object list" class="blur" value="Type to filter object list" type="text">
+	</div>
+
+</div>
+
+<div class="ui-layout-center ui-layout-pane ui-layout-pane-center ui-layout-pane-hover ui-layout-pane-center-hover ui-layout-pane-open-hover ui-layout-pane-center-open-hover" style="position: absolute; margin: 0px; left: 256px; right: 0px; top: 76px; bottom: 0px; height: 542px; width: 888px; z-index: 1; visibility: visible; display: block; overflow: hidden;">
+	<div id="screenContent" class="ui-layout-data-center ui-tabs ui-widget ui-widget-content ui-corner-all ui-layout-pane ui-layout-pane-center" style="position: absolute; margin: 0px; left: 0px; right: 0px; top: 0px; bottom: 222px; height: 320px; width: 888px; z-index: 1; visibility: visible; display: block;">
+		<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+			<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="#tab-results" id="headerResults">Los datos de users</a></li>
+			<li class="ui-state-default ui-corner-top"><a href="#tab-messages" id="headerMessages">Mensajes</a></li>
+			<li class="ui-state-default ui-corner-top"><a href="#tab-info" id="headerInfo">Información</a></li>
+			<li class="ui-state-default ui-corner-top"><a href="#tab-history" id="headerHistory">Historia</a></li>
+		</ul>
+
+		<div id="screen-pane-buttons">
+			<button id="sp-results-maximize" title="Maximizar / Restaurar panel de resultados" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false"><span class="ui-button-icon-primary ui-icon ui-icon-newwin"></span><span class="ui-button-text"></span></button>
+		</div>
+
+		<div class="ui-layout-content ui-corner-bottom" style="height: 294px; visibility: visible;">
+			<div id="tab-results" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+				<div id="results-div"><form id="result_form" name="resForm" method="post" action="#" onsubmit="return false;"><table class="results" id="dataTable" width="100%" cellspacing="0" border="0"><thead>
+<tr id="fhead"><th class="th tch"><div>#</div></th><th class="th_nosort tch"><div><input class="check-all" onclick="resultSelectAll()" title="Seleccionar / deseleccionar todos los registros" type="checkbox"></div></th><th class="th_numeric" nowrap="nowrap"><div><span class="pk" title="columna de clave primaria">&nbsp;</span>id</div></th><th class="th" nowrap="nowrap"><div>user</div></th><th class="th" nowrap="nowrap"><div>password</div></th><th class="th" nowrap="nowrap"><div>seed</div></th><th class="th" nowrap="nowrap"><div>encryption</div></th><th class="th_numeric" nowrap="nowrap"><div>role_id</div></th><th class="th" nowrap="nowrap"><div>email</div></th><th class="th" nowrap="nowrap"><div>create_date</div></th><th class="th" nowrap="nowrap"><div>update_date</div></th><th class="th_numeric" nowrap="nowrap"><div>blocked</div></th></tr></thead><tbody>
+</tbody></table></form></div>
+				<div id="rec_pager">
+					<table class="ui-state-default" width="100%" cellspacing="0" cellpadding="0" border="0">
+					<tbody><tr>
+						<td id="recordCounter" class="footer" nowrap="nowrap">0 record(s)</td>
+						<td id="timeCounter" class="footer" nowrap="nowrap">0.04 ms</td>
+						<td id="modifyFlag" class="footer" nowrap="nowrap"><!--button id="nav_refresh">Refresh results</button--></td>
+						<td id="messageContainer" class="footer" nowrap="nowrap"></td>
+						<td id="pagingContainer" class="footer" nowrap="nowrap"></td>
+					</tr>
+					</tbody></table>
+				</div>
+			</div>
+			<div id="tab-messages" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+				<div id="messages-div"></div>
+			</div>
+			<div id="tab-info" class="ui-widget ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide"><div class="message ui-state-default">Base de datos de resumen: [sepherot_DSC7_BD_Landy]<span style="float:right">Búsqueda rápida&nbsp;<input id="quick-info-search" maxlength="50" type="text"></span></div>
+				<div id="info-div" scrolltop="0"><table class="results" id="infoTable" width="100%" cellspacing="0" border="0"><thead>
+<tr id="fhead"><th class="th" data-sort="numeric"><div>#</div></th><th class="th" data-sort="text" nowrap="nowrap"><div>Name</div></th><th class="th" data-sort="text" nowrap="nowrap"><div>Engine</div></th><th class="th_numeric" data-sort="numeric" nowrap="nowrap"><div>Version</div></th><th class="th" data-sort="text" nowrap="nowrap"><div>Row_format</div></th><th class="th_numeric" data-sort="numeric" nowrap="nowrap"><div>Rows</div></th><th class="th_numeric" data-sort="numeric" nowrap="nowrap"><div>Avg_row_length</div></th><th class="th_numeric" data-sort="numeric" nowrap="nowrap"><div>Data_length</div></th><th class="th_numeric" data-sort="numeric" nowrap="nowrap"><div>Max_data_length</div></th><th class="th_numeric" data-sort="numeric" nowrap="nowrap"><div>Index_length</div></th><th class="th_numeric" data-sort="numeric" nowrap="nowrap"><div>Data_free</div></th><th class="th_numeric" data-sort="numeric" nowrap="nowrap"><div>Auto_increment</div></th><th class="th" data-sort="text" nowrap="nowrap"><div>Create_time</div></th><th class="th" data-sort="text" nowrap="nowrap"><div>Update_time</div></th><th class="th" data-sort="text" nowrap="nowrap"><div>Check_time</div></th><th class="th" data-sort="text" nowrap="nowrap"><div>Collation</div></th><th class="th_numeric" data-sort="numeric" nowrap="nowrap"><div>Checksum</div></th><th class="th" data-sort="text" nowrap="nowrap"><div>Create_options</div></th><th class="th" data-sort="text" nowrap="nowrap"><div>Comment</div></th></tr></thead><tbody>
+<tr id="rc0" class="row"><td class="tj">1</td><td id="r0f0" class="tl" nowrap="nowrap">T_Catalogo</td><td id="r0f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r0f2" class="tr" nowrap="nowrap">10</td><td id="r0f3" class="tl" nowrap="nowrap">Dynamic</td><td id="r0f4" class="tr" nowrap="nowrap">24</td><td id="r0f5" class="tr" nowrap="nowrap">25</td><td id="r0f6" class="tr" nowrap="nowrap">608</td><td id="r0f7" class="tr" nowrap="nowrap">281474976710655</td><td id="r0f8" class="tr" nowrap="nowrap">2048</td><td id="r0f9" class="tr" nowrap="nowrap">0</td><td id="r0f10" class="tr" nowrap="nowrap">25</td><td id="r0f11" class="tl" nowrap="nowrap">2016-08-18 01:44:23</td><td id="r0f12" class="tl" nowrap="nowrap">2016-09-15 02:37:36</td><td id="r0f13" class="tl" nowrap="nowrap">2016-10-01 00:50:09</td><td id="r0f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r0f15" class="tnl" nowrap="nowrap">NULL</td><td id="r0f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r0f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc1" class="row"><td class="tj">2</td><td id="r1f0" class="tl" nowrap="nowrap">T_NIM</td><td id="r1f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r1f2" class="tr" nowrap="nowrap">10</td><td id="r1f3" class="tl" nowrap="nowrap">Fixed</td><td id="r1f4" class="tr" nowrap="nowrap">22</td><td id="r1f5" class="tr" nowrap="nowrap">39</td><td id="r1f6" class="tr" nowrap="nowrap">858</td><td id="r1f7" class="tr" nowrap="nowrap">10977524091715583</td><td id="r1f8" class="tr" nowrap="nowrap">2048</td><td id="r1f9" class="tr" nowrap="nowrap">0</td><td id="r1f10" class="tr" nowrap="nowrap">23</td><td id="r1f11" class="tl" nowrap="nowrap">2016-09-07 02:27:07</td><td id="r1f12" class="tl" nowrap="nowrap">2016-09-07 02:58:00</td><td id="r1f13" class="tl" nowrap="nowrap">2016-10-01 00:50:09</td><td id="r1f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r1f15" class="tnl" nowrap="nowrap">NULL</td><td id="r1f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r1f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc2" class="row"><td class="tj">3</td><td id="r2f0" class="tl" nowrap="nowrap">T_Noticias</td><td id="r2f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r2f2" class="tr" nowrap="nowrap">10</td><td id="r2f3" class="tl" nowrap="nowrap">Dynamic</td><td id="r2f4" class="tr" nowrap="nowrap">6</td><td id="r2f5" class="tr" nowrap="nowrap">413</td><td id="r2f6" class="tr" nowrap="nowrap">2480</td><td id="r2f7" class="tr" nowrap="nowrap">281474976710655</td><td id="r2f8" class="tr" nowrap="nowrap">2048</td><td id="r2f9" class="tr" nowrap="nowrap">0</td><td id="r2f10" class="tr" nowrap="nowrap">7</td><td id="r2f11" class="tl" nowrap="nowrap">2016-09-29 01:47:12</td><td id="r2f12" class="tl" nowrap="nowrap">2016-10-01 00:50:09</td><td id="r2f13" class="tl" nowrap="nowrap">2016-10-01 00:50:09</td><td id="r2f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r2f15" class="tnl" nowrap="nowrap">NULL</td><td id="r2f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r2f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc3" class="row"><td class="tj">4</td><td id="r3f0" class="tl" nowrap="nowrap">T_Usuarios</td><td id="r3f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r3f2" class="tr" nowrap="nowrap">10</td><td id="r3f3" class="tl" nowrap="nowrap">Dynamic</td><td id="r3f4" class="tr" nowrap="nowrap">7</td><td id="r3f5" class="tr" nowrap="nowrap">52</td><td id="r3f6" class="tr" nowrap="nowrap">368</td><td id="r3f7" class="tr" nowrap="nowrap">281474976710655</td><td id="r3f8" class="tr" nowrap="nowrap">2048</td><td id="r3f9" class="tr" nowrap="nowrap">0</td><td id="r3f10" class="tr" nowrap="nowrap">11</td><td id="r3f11" class="tl" nowrap="nowrap">2016-08-17 00:55:42</td><td id="r3f12" class="tl" nowrap="nowrap">2016-09-01 00:54:33</td><td id="r3f13" class="tl" nowrap="nowrap">2016-09-01 00:54:33</td><td id="r3f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r3f15" class="tnl" nowrap="nowrap">NULL</td><td id="r3f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r3f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc4" class="row"><td class="tj">5</td><td id="r4f0" class="tl" nowrap="nowrap">budgets</td><td id="r4f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r4f2" class="tr" nowrap="nowrap">10</td><td id="r4f3" class="tl" nowrap="nowrap">Fixed</td><td id="r4f4" class="tr" nowrap="nowrap">0</td><td id="r4f5" class="tr" nowrap="nowrap">0</td><td id="r4f6" class="tr" nowrap="nowrap">0</td><td id="r4f7" class="tr" nowrap="nowrap">5066549580791807</td><td id="r4f8" class="tr" nowrap="nowrap">1024</td><td id="r4f9" class="tr" nowrap="nowrap">0</td><td id="r4f10" class="tr" nowrap="nowrap">1</td><td id="r4f11" class="tl" nowrap="nowrap">2016-09-21 01:12:08</td><td id="r4f12" class="tl" nowrap="nowrap">2016-09-21 01:12:08</td><td id="r4f13" class="tnl" nowrap="nowrap">NULL</td><td id="r4f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r4f15" class="tnl" nowrap="nowrap">NULL</td><td id="r4f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r4f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc5" class="row"><td class="tj">6</td><td id="r5f0" class="tl" nowrap="nowrap">categories</td><td id="r5f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r5f2" class="tr" nowrap="nowrap">10</td><td id="r5f3" class="tl" nowrap="nowrap">Dynamic</td><td id="r5f4" class="tr" nowrap="nowrap">4</td><td id="r5f5" class="tr" nowrap="nowrap">243</td><td id="r5f6" class="tr" nowrap="nowrap">972</td><td id="r5f7" class="tr" nowrap="nowrap">281474976710655</td><td id="r5f8" class="tr" nowrap="nowrap">2048</td><td id="r5f9" class="tr" nowrap="nowrap">0</td><td id="r5f10" class="tr" nowrap="nowrap">6</td><td id="r5f11" class="tl" nowrap="nowrap">2016-10-03 21:52:02</td><td id="r5f12" class="tl" nowrap="nowrap">2016-10-03 21:54:20</td><td id="r5f13" class="tnl" nowrap="nowrap">NULL</td><td id="r5f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r5f15" class="tnl" nowrap="nowrap">NULL</td><td id="r5f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r5f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc6" class="row"><td class="tj">7</td><td id="r6f0" class="tl" nowrap="nowrap">dependencies</td><td id="r6f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r6f2" class="tr" nowrap="nowrap">10</td><td id="r6f3" class="tl" nowrap="nowrap">Dynamic</td><td id="r6f4" class="tr" nowrap="nowrap">18</td><td id="r6f5" class="tr" nowrap="nowrap">200</td><td id="r6f6" class="tr" nowrap="nowrap">3616</td><td id="r6f7" class="tr" nowrap="nowrap">281474976710655</td><td id="r6f8" class="tr" nowrap="nowrap">2048</td><td id="r6f9" class="tr" nowrap="nowrap">0</td><td id="r6f10" class="tr" nowrap="nowrap">19</td><td id="r6f11" class="tl" nowrap="nowrap">2016-09-21 01:12:35</td><td id="r6f12" class="tl" nowrap="nowrap">2016-09-26 18:24:49</td><td id="r6f13" class="tl" nowrap="nowrap">2016-10-01 00:50:09</td><td id="r6f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r6f15" class="tnl" nowrap="nowrap">NULL</td><td id="r6f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r6f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc7" class="row"><td class="tj">8</td><td id="r7f0" class="tl" nowrap="nowrap">expenses</td><td id="r7f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r7f2" class="tr" nowrap="nowrap">10</td><td id="r7f3" class="tl" nowrap="nowrap">Dynamic</td><td id="r7f4" class="tr" nowrap="nowrap">0</td><td id="r7f5" class="tr" nowrap="nowrap">0</td><td id="r7f6" class="tr" nowrap="nowrap">0</td><td id="r7f7" class="tr" nowrap="nowrap">281474976710655</td><td id="r7f8" class="tr" nowrap="nowrap">1024</td><td id="r7f9" class="tr" nowrap="nowrap">0</td><td id="r7f10" class="tr" nowrap="nowrap">1</td><td id="r7f11" class="tl" nowrap="nowrap">2016-09-21 01:13:20</td><td id="r7f12" class="tl" nowrap="nowrap">2016-09-21 01:13:20</td><td id="r7f13" class="tnl" nowrap="nowrap">NULL</td><td id="r7f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r7f15" class="tnl" nowrap="nowrap">NULL</td><td id="r7f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r7f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc8" class="row"><td class="tj">9</td><td id="r8f0" class="tl" nowrap="nowrap">projects</td><td id="r8f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r8f2" class="tr" nowrap="nowrap">10</td><td id="r8f3" class="tl" nowrap="nowrap">Dynamic</td><td id="r8f4" class="tr" nowrap="nowrap">0</td><td id="r8f5" class="tr" nowrap="nowrap">0</td><td id="r8f6" class="tr" nowrap="nowrap">0</td><td id="r8f7" class="tr" nowrap="nowrap">281474976710655</td><td id="r8f8" class="tr" nowrap="nowrap">1024</td><td id="r8f9" class="tr" nowrap="nowrap">0</td><td id="r8f10" class="tr" nowrap="nowrap">1</td><td id="r8f11" class="tl" nowrap="nowrap">2016-09-21 01:11:04</td><td id="r8f12" class="tl" nowrap="nowrap">2016-09-21 01:11:04</td><td id="r8f13" class="tnl" nowrap="nowrap">NULL</td><td id="r8f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r8f15" class="tnl" nowrap="nowrap">NULL</td><td id="r8f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r8f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc9" class="row"><td class="tj">10</td><td id="r9f0" class="tl" nowrap="nowrap">resources</td><td id="r9f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r9f2" class="tr" nowrap="nowrap">10</td><td id="r9f3" class="tl" nowrap="nowrap">Dynamic</td><td id="r9f4" class="tr" nowrap="nowrap">4</td><td id="r9f5" class="tr" nowrap="nowrap">136</td><td id="r9f6" class="tr" nowrap="nowrap">544</td><td id="r9f7" class="tr" nowrap="nowrap">281474976710655</td><td id="r9f8" class="tr" nowrap="nowrap">2048</td><td id="r9f9" class="tr" nowrap="nowrap">0</td><td id="r9f10" class="tr" nowrap="nowrap">5</td><td id="r9f11" class="tl" nowrap="nowrap">2016-09-21 01:13:42</td><td id="r9f12" class="tl" nowrap="nowrap">2016-09-29 20:50:34</td><td id="r9f13" class="tl" nowrap="nowrap">2016-10-01 00:50:09</td><td id="r9f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r9f15" class="tnl" nowrap="nowrap">NULL</td><td id="r9f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r9f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc10" class="row"><td class="tj">11</td><td id="r10f0" class="tl" nowrap="nowrap">resources_by_project</td><td id="r10f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r10f2" class="tr" nowrap="nowrap">10</td><td id="r10f3" class="tl" nowrap="nowrap">Fixed</td><td id="r10f4" class="tr" nowrap="nowrap">0</td><td id="r10f5" class="tr" nowrap="nowrap">0</td><td id="r10f6" class="tr" nowrap="nowrap">0</td><td id="r10f7" class="tr" nowrap="nowrap">5910974510923775</td><td id="r10f8" class="tr" nowrap="nowrap">1024</td><td id="r10f9" class="tr" nowrap="nowrap">0</td><td id="r10f10" class="tnl" nowrap="nowrap">NULL</td><td id="r10f11" class="tl" nowrap="nowrap">2016-09-21 01:14:42</td><td id="r10f12" class="tl" nowrap="nowrap">2016-09-21 01:14:42</td><td id="r10f13" class="tnl" nowrap="nowrap">NULL</td><td id="r10f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r10f15" class="tnl" nowrap="nowrap">NULL</td><td id="r10f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r10f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc11" class="row"><td class="tj">12</td><td id="r11f0" class="tl" nowrap="nowrap">resources_spent_by_dependency</td><td id="r11f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r11f2" class="tr" nowrap="nowrap">10</td><td id="r11f3" class="tl" nowrap="nowrap">Fixed</td><td id="r11f4" class="tr" nowrap="nowrap">0</td><td id="r11f5" class="tr" nowrap="nowrap">0</td><td id="r11f6" class="tr" nowrap="nowrap">0</td><td id="r11f7" class="tr" nowrap="nowrap">5910974510923775</td><td id="r11f8" class="tr" nowrap="nowrap">1024</td><td id="r11f9" class="tr" nowrap="nowrap">0</td><td id="r11f10" class="tnl" nowrap="nowrap">NULL</td><td id="r11f11" class="tl" nowrap="nowrap">2016-09-21 01:14:29</td><td id="r11f12" class="tl" nowrap="nowrap">2016-09-21 01:14:29</td><td id="r11f13" class="tnl" nowrap="nowrap">NULL</td><td id="r11f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r11f15" class="tnl" nowrap="nowrap">NULL</td><td id="r11f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r11f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc12" class="row"><td class="tj">13</td><td id="r12f0" class="tl" nowrap="nowrap">roles</td><td id="r12f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r12f2" class="tr" nowrap="nowrap">10</td><td id="r12f3" class="tl" nowrap="nowrap">Dynamic</td><td id="r12f4" class="tr" nowrap="nowrap">73</td><td id="r12f5" class="tr" nowrap="nowrap">180</td><td id="r12f6" class="tr" nowrap="nowrap">13164</td><td id="r12f7" class="tr" nowrap="nowrap">281474976710655</td><td id="r12f8" class="tr" nowrap="nowrap">2048</td><td id="r12f9" class="tr" nowrap="nowrap">0</td><td id="r12f10" class="tr" nowrap="nowrap">74</td><td id="r12f11" class="tl" nowrap="nowrap">2016-10-02 23:59:42</td><td id="r12f12" class="tl" nowrap="nowrap">2016-10-03 00:15:36</td><td id="r12f13" class="tnl" nowrap="nowrap">NULL</td><td id="r12f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r12f15" class="tnl" nowrap="nowrap">NULL</td><td id="r12f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r12f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+<tr id="rc13" class="row"><td class="tj">14</td><td id="r13f0" class="tl" nowrap="nowrap">users</td><td id="r13f1" class="tl" nowrap="nowrap">MyISAM</td><td id="r13f2" class="tr" nowrap="nowrap">10</td><td id="r13f3" class="tl" nowrap="nowrap">Dynamic</td><td id="r13f4" class="tr" nowrap="nowrap">0</td><td id="r13f5" class="tr" nowrap="nowrap">0</td><td id="r13f6" class="tr" nowrap="nowrap">0</td><td id="r13f7" class="tr" nowrap="nowrap">281474976710655</td><td id="r13f8" class="tr" nowrap="nowrap">1024</td><td id="r13f9" class="tr" nowrap="nowrap">0</td><td id="r13f10" class="tr" nowrap="nowrap">1</td><td id="r13f11" class="tl" nowrap="nowrap">2016-09-21 01:18:19</td><td id="r13f12" class="tl" nowrap="nowrap">2016-09-21 01:18:19</td><td id="r13f13" class="tnl" nowrap="nowrap">NULL</td><td id="r13f14" class="tl" nowrap="nowrap">latin1_general_ci</td><td id="r13f15" class="tnl" nowrap="nowrap">NULL</td><td id="r13f16" class="tl" nowrap="nowrap">&nbsp;</td><td id="r13f17" class="tl" nowrap="nowrap">&nbsp;</td></tr>
+</tbody></table><table class="results" id="infoHeader" style="width: 1672px;" width="100%" cellspacing="0" border="0"><thead>
+<tr id="fhead"><th class="th" data-sort="numeric" style="width: 9px;"><div>#</div></th><th class="th" data-sort="text" style="width: 174px;" nowrap="nowrap"><div>Name</div></th><th class="th" data-sort="text" style="width: 39px;" nowrap="nowrap"><div>Engine</div></th><th class="th_numeric" data-sort="numeric" style="width: 40px;" nowrap="nowrap"><div>Version</div></th><th class="th" data-sort="text" style="width: 67px;" nowrap="nowrap"><div>Row_format</div></th><th class="th_numeric" data-sort="numeric" style="width: 29px;" nowrap="nowrap"><div>Rows</div></th><th class="th_numeric" data-sort="numeric" style="width: 89px;" nowrap="nowrap"><div>Avg_row_length</div></th><th class="th_numeric" data-sort="numeric" style="width: 66px;" nowrap="nowrap"><div>Data_length</div></th><th class="th_numeric" data-sort="numeric" style="width: 109px;" nowrap="nowrap"><div>Max_data_length</div></th><th class="th_numeric" data-sort="numeric" style="width: 73px;" nowrap="nowrap"><div>Index_length</div></th><th class="th_numeric" data-sort="numeric" style="width: 53px;" nowrap="nowrap"><div>Data_free</div></th><th class="th_numeric" data-sort="numeric" style="width: 86px;" nowrap="nowrap"><div>Auto_increment</div></th><th class="th" data-sort="text" style="width: 105px;" nowrap="nowrap"><div>Create_time</div></th><th class="th" data-sort="text" style="width: 105px;" nowrap="nowrap"><div>Update_time</div></th><th class="th" data-sort="text" style="width: 105px;" nowrap="nowrap"><div>Check_time</div></th><th class="th" data-sort="text" style="width: 85px;" nowrap="nowrap"><div>Collation</div></th><th class="th_numeric" data-sort="numeric" style="width: 55px;" nowrap="nowrap"><div>Checksum</div></th><th class="th" data-sort="text" style="width: 82px;" nowrap="nowrap"><div>Create_options</div></th><th class="th" data-sort="text" style="width: 52px;" nowrap="nowrap"><div>Comment</div></th></tr></thead></table></div>
+			</div>
+			<div id="tab-history" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+				<table id="sql-history" width="100%"><tbody><tr><td></td></tr><tr><td class="dt" valign="top">[20:56]</td><td class="hst">select * from `dependencies`;</td></tr><tr><td class="dt" valign="top">[20:56]</td><td class="hst">select * from `users`;</td></tr><tr><td class="dt" valign="top">[20:56]</td><td class="hst">select * from `roles`;</td></tr><tr><td class="dt" valign="top">[20:57]</td><td class="hst">select * from `users`;</td></tr><tr><td class="dt" valign="top">[21:07]</td><td class="hst">select * from `roles`;</td></tr><tr><td class="dt" valign="top">[21:07]</td><td class="hst">select * from `users`;</td></tr></tbody></table>
+			</div>
+		</div>
+	</div>
+	<div id="sql-editor-pane" class="ui-layout-data-south ui-tabs ui-widget ui-widget-content ui-corner-all ui-layout-pane ui-layout-pane-south ui-layout-pane-hover ui-layout-pane-south-hover ui-layout-pane-open-hover ui-layout-pane-south-open-hover" style="position: absolute; margin: 0px; top: auto; bottom: 0px; left: 0px; right: 0px; width: auto; z-index: 1; height: 219px; visibility: visible; display: block;">
+
+		<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+			<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="#editor_container">SQL Editor</a></li>
+			<li class="ui-state-default ui-corner-top"><a href="#editor_container2">SQL Editor 2</a></li>
+			<li class="ui-state-default ui-corner-top"><a href="#editor_container3">SQL Editor 3</a></li>
+		</ul>
+
+		<div id="editor_container" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+			<textarea class="sql-editor" id="commandEditor" name="commandEditor" rows="5" cols="40" style="display: none;"></textarea><div style="position: relative; height: 100%; padding-left: 26px;" class="CodeMirror-wrapping"><textarea style="position: absolute; left: -10000px; width: 10px;" tabindex="100000"></textarea><iframe class="sqlEditFrame" id="sqlEditFrame" style="border: 0px none; width: 100%; height: 100%; display: block;" src="javascript:;" frameborder="0"></iframe><div style="position: absolute; height: 100%; top: 0px; left: 0px; overflow: hidden;"><div class="CodeMirror-line-numbers"><div>1</div><div>2</div><div>3</div><div>&nbsp;</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div></div></div></div>
+		</div>
+		<div id="editor_container2" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+			<textarea class="sql-editor" id="commandEditor2" name="commandEditor2" rows="5" cols="40" style="display: none;"></textarea><div style="position: relative; height: 100%; padding-left: 26px;" class="CodeMirror-wrapping"><textarea style="position: absolute; left: -10000px; width: 10px;" tabindex="100000"></textarea><iframe class="sqlEditFrame" id="sqlEditFrame2" style="border: 0px none; width: 100%; height: 100%; display: block;" src="javascript:;" frameborder="0"></iframe><div style="position: absolute; height: 100%; top: 0px; left: 0px; overflow: hidden;"><div class="CodeMirror-line-numbers"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div></div></div></div>
+		</div>
+		<div id="editor_container3" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+			<textarea class="sql-editor" id="commandEditor3" name="commandEditor3" rows="5" cols="40" style="display: none;"></textarea><div style="position: relative; height: 100%;" class="CodeMirror-wrapping"><textarea style="position: absolute; left: -10000px; width: 10px;" tabindex="100000"></textarea><iframe class="sqlEditFrame" id="sqlEditFrame3" style="border: 0px none; width: 100%; height: 100%; display: block;" src="javascript:;" frameborder="0"></iframe><div style="position: absolute; height: 100%; top: 0px; left: 0px; overflow: hidden;"><div class="CodeMirror-line-numbers"><div>1</div></div></div></div>
+		</div>
+
+		<div id="nav_bar" style="display: table-row;">
+			<button id="nav_queryall" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" aria-disabled="false" style="display: block;"><span class="ui-button-icon-primary ui-icon ui-icon-seek-end"></span><span class="ui-button-text">Todas las consultas</span></button>
+			<button id="nav_query" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" aria-disabled="false" style="display: block;"><span class="ui-button-icon-primary ui-icon ui-icon-play"></span><span class="ui-button-text">Consulta</span></button>
+			<button id="nav_addrec" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" aria-disabled="false" style="display: none;"><span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span><span class="ui-button-text">Añadir Registro</span></button>
+			<button id="nav_copyrec" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" aria-disabled="false" style="display: none;"><span class="ui-button-icon-primary ui-icon ui-icon-copy"></span><span class="ui-button-text">Copia del registro (s)</span></button>
+			<button id="nav_delete" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" aria-disabled="false" style="display: none;"><span class="ui-button-icon-primary ui-icon ui-icon-close"></span><span class="ui-button-text">Eliminar registro (s)</span></button>
+			<button id="nav_update" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" aria-disabled="false" style="display: none;"><span class="ui-button-icon-primary ui-icon ui-icon-disk"></span><span class="ui-button-text">Actualización de Registro (s)</span></button>
+			<button id="nav_gensql" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" aria-disabled="false" style="display: none;"><span class="ui-button-icon-primary ui-icon ui-icon-script"></span><span class="ui-button-text">Generar SQL</span></button>
+		</div>
+
+		<div id="loader" style="display: none;">
+			<img id="loaderImg" src="MyWebSQL%20Archivos/loading.gif" alt="Cargando..." width="60" height="12">
+		</div>
+
+	</div>
+<div style="position: absolute; padding: 0px; margin: 0px; font-size: 1px; text-align: left; overflow: hidden; z-index: 2; cursor: s-resize; bottom: 219px; width: 888px; height: 3px; left: 0px;" class="ui-data-resizer ui-data-resizer-south ui-data-resizer-open ui-data-resizer-south-open" title="Cambiar el tamaño" aria-disabled="false"><div id="" style="position: absolute; display: block; padding: 0px; margin: 0px; overflow: hidden; text-align: center; font-size: 1px; cursor: pointer; z-index: 1; width: 50px; height: 3px; left: 419px; top: 0px;" class="ui-data-toggler ui-data-toggler-south ui-data-toggler-open ui-data-toggler-south-open" title="Cerrar"></div></div></div>
+
+<div class="ui-layout-south ui-layout-pane ui-layout-pane-south" style="position: absolute; margin: 0px; top: auto; bottom: 0px; left: 0px; right: 0px; width: auto; z-index: 1; height: 32px; visibility: visible; display: none;">
+	<div id="taskbar" class="ui-state-default">
+		<button class="min-all ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" title="Minimizar todas las" role="button" aria-disabled="false"><span class="ui-button-text">Minimizar todas las</span></button>
+	</div>
+</div>
+<div class="ui-helper-hidden">
+
+	<div id="dialog-template" title="Dialog">
+		<div class="dialog_msg ui-widget ui-state-highlight ui-corner-all" style="margin:5px; padding:5px">Please wait ...</div>
+		<iframe src="javascript:false" class="dialog_contents" frameborder="0"></iframe>
+	</div>
+
+	<div id="dialog-dbcreate" title="Create Database">
+		<form name="dbform" action="" method="get" onsubmit="return dbCreate(1);">
+			<div id="popup_content">
+				<div>
+					<label for="dbname">Base de datos de nombre:</label>
+					<input name="dbname" id="dbname" class="text ui-widget-content" type="text">
+				</div>
+				<div>
+					<input name="dbselect" id="dbselect" class="text ui-widget-content" type="checkbox">
+					<label class="right" for="dbselect">Seleccione la base de datos después de la creación</label>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="dialog-text-editor" title="Editar">
+		<textarea name="text-editor" id="text-editor" class="text ui-widget-content"></textarea>
+	</div>
+
+</div><iframe src="index.php?q=wrkfrm&amp;type=info" name="wrkfrm" id="wrkfrm" width="0" height="0" frameborder="0"></iframe>
+
+<script type="text/javascript" language="javascript">
+	var THEME_PATH = "default";
+	var EXTERNAL_PATH = "/myweb/";
+	var COOKIE_LIFETIME = 1440; // hours
+	var MAX_TEXT_LENGTH_DISPLAY = 80;
+	var APP_LANGUAGE = "es";
+	var APP_VERSION = "3.6";
+	var DB_DRIVER = "mysqli";
+	var DB_VERSION = 5;
+	var DB = db_mysql;
+	var commandEditor = null;
+	var commandEditor2 = null;
+	var commandEditor3 = null;
+document.getElementById("messageContainer").innerHTML = "Connected to: localhost as sepherot_DSC11";</script>
+<script type="text/javascript" language="javascript" src="MyWebSQL%20Archivos/cache_003.js"></script>
+<div id="object-context-menus" style="display:none">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="data-menu-th">
+<ul class="dropdown context">
+	<li><a href="http://nemonico.com.mx/myweb/copyColumn%28[name]%29">Copiar columna valores</a></li>
+</ul>
+</div>
+
+<div id="data-menu-td">
+<ul class="dropdown context">
+	<li><a href="http://nemonico.com.mx/myweb/copyText%28[name]%29">Copiar al portapapeles</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/sqlFilterText%28[name]%29">Generar SQL filtro</a></li>
+</ul>
+</div>
+
+</div><link rel="stylesheet" type="text/css" href="MyWebSQL%20Archivos/cache.css"><script type="text/javascript" language="javascript" src="MyWebSQL%20Archivos/cache_004.js"></script><script type="text/javascript" language="javascript">
+			function editorHotkey(code, fn) {
+				$(document.getElementById('sqlEditFrame').contentWindow.document).bind('keydown', code, fn);
+				$(document.getElementById('sqlEditFrame2').contentWindow.document).bind('keydown', code, fn);
+				$(document.getElementById('sqlEditFrame3').contentWindow.document).bind('keydown', code, fn);
+			}
+			$(function() {
+commandEditor = CodeMirror.fromTextArea("commandEditor", { basefiles: ["js/min/codemirror_base.js"],iframeId: "sqlEditFrame", iframeClass: "sqlEditFrame", autoMatchParens: true,
+				height: "100%", tabMode : "default", stylesheet: "cache.php?css=editor",
+				lineNumbers: true, tabFunction : function() { document.getElementById("nav_query").focus(); },
+				onLoad : function() { initEditor(0); }
+				});commandEditor2 = CodeMirror.fromTextArea("commandEditor2", { basefiles: ["js/min/codemirror_base.js"],iframeId: "sqlEditFrame2", iframeClass: "sqlEditFrame", autoMatchParens: true,
+				height: "100%", tabMode : "default", stylesheet: "cache.php?css=editor",
+				lineNumbers: true, tabFunction : function() { document.getElementById("nav_query").focus(); },
+				onLoad : function() { initEditor(1); }
+				});commandEditor3 = CodeMirror.fromTextArea("commandEditor3", { basefiles: ["js/min/codemirror_base.js"],iframeId: "sqlEditFrame3", iframeClass: "sqlEditFrame", autoMatchParens: true,
+				height: "100%", tabMode : "default", stylesheet: "cache.php?css=editor",
+				lineNumbers: true, tabFunction : function() { document.getElementById("nav_query").focus(); },
+				onLoad : function() { initEditor(2); }
+				});}); </script><script type="text/javascript" language="javascript" src="MyWebSQL%20Archivos/cache.js"></script><script type="text/javascript" language="javascript"> $(function() {
+$(document).bind('keydown', 'shift+del', function (evt) { closeEditor(true, null); return false; });
+$(document).bind('keydown', 'alt+1', function (evt) { switchEditor(0); return false; });
+$(document).bind('keydown', 'alt+2', function (evt) { switchEditor(1); return false; });
+$(document).bind('keydown', 'alt+3', function (evt) { switchEditor(2); return false; });
+editorHotkey('ctrl+return', function (evt) { queryGo(0); return false; } );
+editorHotkey('ctrl+shift+return', function (evt) { queryGo(1); return false; } );
+editorHotkey('alt+1', function (evt) { switchEditor(0); return false; } );
+editorHotkey('alt+2', function (evt) { switchEditor(1); return false; } );
+editorHotkey('alt+3', function (evt) { switchEditor(2); return false; } );
+editorHotkey('ctrl+up', function (evt) { editorTextSize(0.2); return false; } );
+editorHotkey('ctrl+down', function (evt) { editorTextSize(-0.2); return false; } );
+editorHotkey('ctrl+shift+del', function (evt) { editorClear(); return false; } );
+ }); </script><script language="javascript" type="text/javascript">
+window.lang = {
+"all":"todos los",
+"all selected":"todos seleccionados",
+"An error occured while refreshing the object list.":"Se produjo un error al actualizar la lista de objetos.",
+"Are you sure you want to clear all field information from table?":"¿Está seguro que desea borrar toda la información de campo de la tabla?",
+"Are you sure you want to delete this user account?":"¿Está seguro que desea eliminar esta cuenta de usuario?",
+"Are you sure you want to DROP all objects from the database {{NAME}}?":"¿Está seguro que desea eliminar todos los objetos de la base de datos de {{NAME}}?",
+"Are you sure you want to DROP selected objects?":"¿Seguro que quiere eliminar los objetos seleccionados?",
+"Are you sure you want to DROP the database {{NAME}}?":"¿Está seguro que desea colocar la base de datos {{NAME}}?",
+"Are you sure you want to drop this object? {{NAME}}":"¿Está seguro que desea colocar este objeto? {{NAME}}",
+"Are you sure you want to execute {{SELECTED}} queries?":"¿Está seguro que desea ejecutar {{SELECTED}} consultas?",
+"Are you sure you want to logout?":"¿Seguro que quieres salir?",
+"Are you sure you want to truncate the table {{NAME}}?":"¿Está seguro que desea truncar la tabla de {{NAME}}?",
+"Blob Data [{{SIZE}}]":"Los datos Blob [{{SIZE}}]",
+"Cancel":"Cancelar",
+"Check for Updates":"Buscar actualizaciones",
+"Clear command history?":"Borrar historial de comandos?",
+"Close":"Cerrar",
+"Confirm Action":"Confirmar la acción",
+"Confirm and do not ask me again about this choice":"Confirmar y no me vuelva a preguntar sobre esta opción",
+"Copy Object":"Copia de objetos",
+"Create Database":"Crear base de datos",
+"Create Primary Index on this field":"Crear índice principal en este campo",
+"Databases":"Bases de datos",
+"Default value [Use quotes to specify string values]":"Valor por defecto [Use comillas para especificar los valores de cadena]",
+"Disallow NULL values in Field":"No permitir valores NULL en el campo",
+"Enter new index name":"Escriba el nombre nuevo índice",
+"Enter new name for the database object":"Introducir un nuevo nombre para el objeto de base de datos",
+"Enter the text to search in database":"Introduzca el texto para buscar en la base de datos",
+"Error":"Error",
+"Events":"Eventos",
+"Execute query":"Ejecutar la consulta",
+"Exports results":"Las exportaciones resultados",
+"Failed to refresh the results.":"No se ha podido actualizar los resultados.",
+"Field Datatype":"Campo de tipo de datos",
+"Field Name":"Nombre del campo",
+"Field value is Auto Incremented":"El valor del campo se incrementa en Auto",
+"Functions":"Funciones",
+"Indexes Updated":"Índices de Actualización",
+"Maximum Length of field value":"Longitud máxima del campo de valor",
+"Navigation Error. Try reloading the page":"Error de navegación. Intenta volver a cargar la página",
+"New settings saved and applied":"Nueva configuración de guardar y aplicar",
+"New version is available":"La nueva versión está disponible",
+"Next":"Siguiente",
+"No":"N",
+"No Table selected":"N la tabla seleccionada",
+"Not enough room to show this pane.":"No hay suficiente espacio para mostrar este panel.",
+"OK":"Aceptar",
+"One or more field information is incomplete":"Uno o más información de campo está incompleta",
+"Open":"Abierto",
+"Operation failed":"Error en la operación",
+"Pad field values with leading zeros":"Pad valores de campo con ceros a la izquierda",
+"Pane":"Panel",
+"Passwords do not match":"Las contraseñas no coinciden",
+"Pin":"Pin",
+"Please select one or more operations to perform":"Por favor, seleccione uno o más de las operaciones para llevar a cabo",
+"Please type in one or more queries in the SQL editor!":"Por favor, escriba una o más consultas en el editor de SQL!",
+"Please wait...":"Por favor espere ...",
+"Previous":"Anterior",
+"Procedures":"Procedimientos",
+"Prompt":"Del sistema",
+"Refresh results":"Actualizar resultados",
+"Refreshing object list":"Actualización de lista de objetos",
+"Rename Object":"Cambiar el nombre de objetos",
+"Resize":"Cambiar el tamaño",
+"Results page:":"Página de resultados:",
+"Select a database to view privileges for the user":"Seleccione una base de datos para ver los privilegios para el usuario",
+"Select an index to view / edit its details":"Seleccionar una lista para ver y editar sus detalles",
+"Select at least one field type for searching":"Seleccione al menos un tipo de campo para la búsqueda",
+"Select objects to operate upon":"Seleccione los objetos que operan sobre",
+"selector":"selector de",
+"Slide Open":"Abrir Slide",
+"Table information requires at least one valid field":"Tabla de información requiere al menos un campo válido",
+"Table name is required":"Nombre de la tabla es necesario",
+"Table successfully created":"Tabla creado con éxito",
+"Table successfully modified":"Cuadro modificado correctamente",
+"Tables":"Tablas",
+"Text Data [{{SIZE}}]":"Los datos de texto [{{SIZE}}]",
+"There is no record in the results to export":"No hay registro de los resultados de la exportación",
+"This attribute is not required for selected field type":"Este atributo no es necesario para el tipo de campo seleccionado",
+"Triggers":"Desencadenantes",
+"Un-Pin":"Un-Pin",
+"Unsigned numbered field only":"Sin firmar número único campo",
+"Update check failed":"Actualizar Error en la comprobación",
+"User information is incomplete or invalid":"Usuario de la información es incompleta o no es válido",
+"User Manager":"Administrador de usuarios",
+"Views":"Vistas",
+"WARNING":"ADVERTENCIA",
+"Yes":"Sí",
+"You have the latest version":"Usted tiene la última versión",
+"MyWebSQL":"MyWebSQL"
+};
+</script>
+<script type="text/javascript" src="MyWebSQL%20Archivos/mu"></script>
+
+<div id="" style="position: absolute; padding: 0px; margin: 0px; font-size: 1px; text-align: left; overflow: hidden; z-index: 2; top: 76px; cursor: default; display: none; visibility: visible;" class="ui-layout-resizer ui-layout-resizer-north ui-layout-resizer-open ui-layout-resizer-north-open"><div id="" style="position: absolute; display: block; padding: 0px; margin: 0px; overflow: hidden; text-align: center; font-size: 1px; cursor: pointer; z-index: 1;" class="ui-layout-toggler ui-layout-toggler-north ui-layout-toggler-open ui-layout-toggler-north-open" title="Cerrar"></div></div><div id="" style="position: absolute; padding: 0px; margin: 0px; font-size: 1px; text-align: left; overflow: hidden; z-index: 2; bottom: 0px; cursor: pointer; display: none; visibility: visible;" class="ui-layout-resizer ui-layout-resizer-south ui-layout-resizer-closed ui-layout-resizer-south-closed" title="Abrir Slide"><div id="" style="position: absolute; display: block; padding: 0px; margin: 0px; overflow: hidden; text-align: center; font-size: 1px; cursor: pointer; z-index: 1;" class="ui-layout-toggler ui-layout-toggler-south ui-layout-toggler-closed ui-layout-toggler-south-closed" title="Abierto"></div></div><div id="" style="position: absolute; padding: 0px; margin: 0px; font-size: 1px; text-align: left; overflow: hidden; z-index: 2; cursor: w-resize; left: 253px; height: 542px; width: 3px; top: 76px;" class="ui-layout-resizer ui-layout-resizer-west ui-layout-resizer-open ui-layout-resizer-west-open" title="Cambiar el tamaño" aria-disabled="false"><div id="" style="position: absolute; display: block; padding: 0px; margin: 0px; overflow: hidden; text-align: center; font-size: 1px; cursor: pointer; z-index: 1; height: 50px; width: 3px; top: 246px; left: 0px;" class="ui-layout-toggler ui-layout-toggler-west ui-layout-toggler-open ui-layout-toggler-west-open" title="Cerrar"></div></div><div id="panel-header" style="display: none;">
+<ul class="dropdown context">
+	<li><a href="http://nemonico.com.mx/myweb/main_layout.toggle%28%27north%27%29">Mostrar / Ocultar Encabezado</a></li>
+</ul>
+</div><div id="panel-menu-objects" style="display: none;">
+<ul class="dropdown context">
+	<li><a href="http://nemonico.com.mx/myweb/main_layout.toggle%28%27west%27%29">Mostrar / Ocultar panel</a></li>
+</ul>
+</div><div id="panel-menu-editor" style="display: none;">
+<ul class="dropdown context">
+	<li><a href="http://nemonico.com.mx/myweb/data_layout.toggle%28%27south%27%29">Mostrar / Ocultar panel</a></li>
+</ul>
+</div><div id="history-menu" style="display: none;">
+<ul class="dropdown context">
+	<li class="clipboard single"><a href="javascript:void(0)" title="Copiar al portapapeles">Copiar al portapapeles</a></li>
+	<li class="clipboard"><a href="javascript:void(0)" title="Copia todas las consultas al portapapeles">Copia todas las consultas al portapapeles</a></li>
+	<li><a href="javascript:historyClear($(this))" title="Clear all queries from history">Borrar el historial</a></li>
+</ul>
+</div><div id="db-menu" style="display: none;">
+	<ul class="dropdown context ui-state-default">
+		<li><a href="javascript:dbSelect([name])" title="Use this database">Uso de bases de datos</a></li>
+	</ul>
+</div><div id="table-menu" style="top: 144px; left: 80px; position: absolute; z-index: 99999; display: none;">
+<ul class="dropdown context ui-state-default">
+	<li><a href="http://nemonico.com.mx/myweb/tableSelect%28[name]%29">Seleccione la declaración</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/tableInsert%28[name]%29">Inserte declaración</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/tableUpdate%28[name]%29">Actualización de la declaración</a></li>
+	<li class="option mysql4 mysql5 mysqli pgsql"><a href="http://nemonico.com.mx/myweb/tableDescribe%28[name]%29">Describir</a></li>
+	<li class="option mysql4 mysql5 mysqli sqlite sqlite3"><a href="http://nemonico.com.mx/myweb/showCreateCmd%28%27table%27,[name]%29">Mostrar comando create</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/tableViewData%28[name]%29">Ver datos</a></li>
+	<li class="option mysql4 mysql5 mysqli sqlite sqlite3"><a href="javascript:void(0)">Modificar tabla »</a>
+		<ul class="ui-state-default">
+			<li class="option mysql4 mysql5 mysqli"><a href="javascript:tableAlter([name])">Estructura</a></li>
+			<li class="option mysql4 mysql5 mysqli"><a href="http://nemonico.com.mx/myweb/tableIndexes%28[name]%29">Índices</a></li>
+			<li class="option mysql4 mysql5 mysqli"><a href="http://nemonico.com.mx/myweb/tableEngine%28[name]%29">Tipo de motor</a></li>
+		</ul>
+	</li>
+	<li><a href="javascript:void(0)">Más operaciones »</a>
+		<ul class="ui-state-default">
+			<li><a class="itrunc" href="http://nemonico.com.mx/myweb/objTruncate%28%27table%27,%20[name]%29">Truncar</a></li>
+			<li><a class="idrop" href="http://nemonico.com.mx/myweb/objDrop%28%27table%27,%20[name]%29">Drop</a></li>
+			<li><a class="iren" href="http://nemonico.com.mx/myweb/objRename%28%27table%27,%20[name]%29">Cambiar el nombre de</a></li>
+			<li><a class="icopy" href="http://nemonico.com.mx/myweb/objCopy%28%27table%27,%20[name]%29">Crear copia</a></li>
+		</ul>
+	</li>
+	<li class="separator">-------------------------------------------------------</li>
+	<li><a class="iexprt" href="http://nemonico.com.mx/myweb/tableExport%28[name]%29">Exportar datos de la tabla</a></li>
+	<li class="option mysql4 mysql5 mysqli sqlite sqlite3"><a class="itable" href="http://nemonico.com.mx/myweb/tableCreate%28%29">Crear tabla</a></li>
+</ul>
+</div><div id="view-menu" style="display: none;">
+<ul class="dropdown context ui-state-default">
+	<li><a href="http://nemonico.com.mx/myweb/tableSelect%28[name]%29">Seleccione la declaración</a></li>
+	<li class="option mysql4 mysql5 mysqli"><a href="http://nemonico.com.mx/myweb/tableDescribe%28[name]%29">Describir</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/showCreateCmd%28%27view%27,%20[name]%29">Mostrar comando create</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/tableViewData%28[name]%29">Ver datos</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/objCreate%281%29">Crear vista</a></li>
+	<li><a href="javascript:void(0)">Más operaciones »</a>
+		<ul class="ui-state-default">
+			<li><a href="http://nemonico.com.mx/myweb/objDrop%28%27view%27,%20[name]%29">Drop</a></li>
+			<li class="option mysql4 mysql5 mysqli sqlite sqlite3"><a href="http://nemonico.com.mx/myweb/objRename%28%27view%27,%20[name]%29">Cambiar el nombre de</a></li>
+			<li class="option mysql4 mysql5 mysqli sqlite sqlite3"><a class="icopy" href="http://nemonico.com.mx/myweb/objCopy%28%27view%27,%20[name]%29">Crear copia</a></li>
+		</ul>
+	</li>
+</ul>
+</div><div id="proc-menu" style="display: none;">
+<ul class="dropdown context ui-state-default">
+	<li><a href="http://nemonico.com.mx/myweb/showCreateCmd%28%27procedure%27,%20[name]%29">Mostrar comando create</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/objCreate%282%29">Crear Procedimiento</a></li>
+	<li><a href="javascript:void(0)">Más operaciones »</a>
+		<ul class="ui-state-default">
+			<li><a href="http://nemonico.com.mx/myweb/objDrop%28%27procedure%27,%20[name]%29">Drop</a></li>
+			<li><a href="http://nemonico.com.mx/myweb/objRename%28%27procedure%27,%20[name]%29">Cambiar el nombre de</a></li>
+			<li><a class="icopy" href="http://nemonico.com.mx/myweb/objCopy%28%27procedure%27,%20[name]%29">Crear copia</a></li>
+		</ul>
+	</li>
+</ul>
+</div><div id="func-menu" style="display: none;">
+<ul class="dropdown context ui-state-default">
+	<li class="option mysql4 mysql5 mysqli sqlite sqlite3"><a href="http://nemonico.com.mx/myweb/showCreateCmd%28%27function%27,%20[name]%29">Mostrar comando create</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/objCreate%283%29">Crear la función</a></li>
+	<li class="option mysql4 mysql5 mysqli sqlite sqlite3"><a href="javascript:void(0)">Más operaciones »</a>
+		<ul class="ui-state-default">
+			<li><a href="http://nemonico.com.mx/myweb/objDrop%28%27function%27,%20[name]%29">Drop</a></li>
+			<li><a href="http://nemonico.com.mx/myweb/objRename%28%27function%27,%20[name]%29">Cambiar el nombre de</a></li>
+			<li><a class="icopy" href="http://nemonico.com.mx/myweb/objCopy%28%27function%27,%20[name]%29">Crear copia</a></li>
+		</ul>
+	</li>
+</ul>
+</div><div id="trig-menu" style="display: none;">
+<ul class="dropdown context ui-state-default">
+	<li class="option mysql4 mysql5 mysqli sqlite sqlite3"><a href="http://nemonico.com.mx/myweb/showCreateCmd%28%27trigger%27,%20[name]%29">Mostrar comando create</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/objCreate%284%29">Crear Trigger</a></li>
+	<li class="option mysql4 mysql5 mysqli sqlite sqlite3"><a href="javascript:void(0)">More
+	operations »</a>
+		<ul class="ui-state-default">
+			<li><a href="http://nemonico.com.mx/myweb/objDrop%28%27trigger%27,%20[name]%29">Drop</a></li>
+		</ul>
+	</li>
+</ul>
+</div><div id="evt-menu" style="display: none;">
+<ul class="dropdown context">
+	<li><a href="http://nemonico.com.mx/myweb/showCreateCmd%28%27event%27,%20[name]%29">Mostrar comando create</a></li>
+	<li><a href="http://nemonico.com.mx/myweb/objCreate%285%29">Crear un evento</a></li>
+	<li><a href="javascript:void(0)">Más operaciones »</a>
+		<ul>
+			<li><a href="http://nemonico.com.mx/myweb/objDrop%28%27event%27,%20[name]%29">Drop</a></li>
+			<!--li><a href="objRename('event', [name])">Cambiar el nombre de</a></li-->
+		</ul>
+	</li>
+</ul>
+</div><div id="schm-menu" style="display: none;">
+<ul class="dropdown context">
+	<li><a href="http://nemonico.com.mx/myweb/objCreate%286%29">Crear esquema</a></li>
+	<li><a href="javascript:void(0)">Más operaciones »</a>
+		<ul>
+			<li><a href="http://nemonico.com.mx/myweb/objDrop%28%27schema%27,%20[name]%29">Drop</a></li>
+		</ul>
+	</li>
+</ul>
+</div><div id="object-menu" style="display: none;">
+	<ul class="dropdown context ui-state-default">
+		<li><a class="itable" href="javascript:tableCreate([name])" title="Crear una nueva tabla en la base de datos">Crear tabla</a></li>
+		<li class="option mysql5 mysqli pgsql sqlite sqlite3"><a class="iview" href="javascript:objCreate(1,[name])" title="Crear una nueva vista en la base de datos">Crear vista</a></li>
+		<li class="option mysql5 mysqli"><a class="iproc" href="javascript:objCreate(2,%20[name])" title="Crear un nuevo procedimiento almacenado en la base de datos">Crear procedimientos almacenados</a></li>
+		<li class="option mysql5 mysqli pgsql"><a class="ifunc" href="javascript:objCreate(3,%20[name])" title="Crear una nueva función definida por el usuario en la base de datos">Crear la función</a></li>
+		<li class="option mysql5 mysqli pgsql sqlite sqlite3"><a class="itrig" href="javascript:objCreate(4,%20[name])" title="Crea un nuevo disparador en la base de datos">Crear Trigger</a></li>
+		<li class="option mysql5 mysqli"><a class="ievt" href="javascript:objCreate(5,%20[name])" title="Crear un nuevo evento en la base de datos">Crear un evento</a></li>
+		
+	</ul>
+</div></body></html>
