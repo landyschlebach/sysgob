@@ -28,6 +28,9 @@ public class Expense {
 	
 	@Column(name = "update_date")
 	private Date updateDate;
+	
+	@Column(name = "dependency_id", nullable = false)
+	private Long dependencyId;
 
 	public Long getId() {
 		return id;
@@ -67,6 +70,14 @@ public class Expense {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public Long getDependencyId() {
+		return dependencyId;
+	}
+
+	public void setDependencyId(Long dependencyId) {
+		this.dependencyId = dependencyId;
 	}
 
 }
