@@ -4,29 +4,27 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.db.sysgob.entity.Dependency;
-import com.db.sysgob.entity.Project;
+import com.db.sysgob.entity.Role;
 
 @Repository
-public class DependencyRepository {
+public class RoleRepository {
 	
 	@PersistenceContext
 	private EntityManager em;
 	
 	@Transactional(value = "transactionManager", readOnly = true)
-	public Dependency getById(Long id) {
-		return em.find(Dependency.class, id);
+	public Role getById(Long id) {
+		return em.find(Role.class, id);
 	}
 	
 	@Transactional(value = "transactionManager", readOnly = true)
-	public List<Dependency> getDependencies() {
+	public List<Role> getRoles() {
 	      return em.createQuery(
-	          "from Dependency as d",
-	          Dependency.class).getResultList();
+	          "from Role as r",
+	          Role.class).getResultList();
 	}
 }
