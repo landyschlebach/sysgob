@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class Categories {
+public class Category {
 
 	@Id
 	@Column(name = "category_id", columnDefinition="serial")
@@ -21,10 +21,10 @@ public class Categories {
 	private String description;
 	
 	@Column(name = "min_score", nullable = false)
-	private Date minScore;
+	private Long minScore;
 
 	@Column(name = "max_score", nullable = false)
-	private Date maxScore;
+	private Long maxScore;
 	
 	
 	public Long getCategoryId() {
@@ -51,19 +51,19 @@ public class Categories {
 		this.description = description;
 	}
 
-	public Date getMinScore() {
+	public Long getMinScore() {
 		return minScore;
 	}
 
-	public void setMinScore(Date minScore) {
+	public void setMinScore(Long minScore) {
 		this.minScore = minScore;
 	}
 
-	public Date getMaxScore() {
+	public Long getMaxScore() {
 		return maxScore;
 	}
 
-	public void setMaxScore(Date maxScore) {
+	public void setMaxScore(Long maxScore) {
 		this.maxScore = maxScore;
 	}
 

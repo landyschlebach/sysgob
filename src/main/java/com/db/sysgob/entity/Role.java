@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class Roles {
+public class Role {
 
 	@Id
 	@Column(name = "role_id", columnDefinition="serial")
