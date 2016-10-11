@@ -70,11 +70,11 @@ public class ExpenseTest extends BaseTest {
 	    EntityManager entityManagerMock = mock(EntityManager.class);
 	    
 	    // Invoke class
-	    projectRepository.setEntityManager(entityManagerMock);
-	    projectRepository.createProject(project);
+	    expenseRepository.setEntityManager(entityManagerMock);
+	    expenseRepository.createExpense(expense);
 	    
 	    // Validate flow
-	    verify(entityManagerMock).persist(project);
+	    verify(entityManagerMock).persist(expense);
 	    log.info("Succesfully added user to the DB");
 	  }
 }
