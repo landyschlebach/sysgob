@@ -10,9 +10,9 @@ import javax.persistence.Id;
 public class Users {
 
 	@Id
-	@Column(name = "id", columnDefinition="serial")
+	@Column(name = "user_id", columnDefinition="serial")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long userId;
 	
 	@Column(name = "user", nullable = false)
 	private String user;
@@ -41,12 +41,12 @@ public class Users {
 	@Column(name = "blocked")
 	private boolean blocked;
 
-	public Long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getUser() {

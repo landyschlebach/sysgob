@@ -36,8 +36,8 @@ public class Project {
 	@Column(name = "budget_id")
 	private Long budgetId;
 
-	@Column(name = "id")
-	private Long id;
+	@Column(name = "user_id")
+	private Long userId;
 	
 	public Long getProjectId() {
 		return projectId;
@@ -95,11 +95,11 @@ public class Project {
 		this.budgetId = budgetId;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(Long userId) {
+		this.userId = userId;
 	}
 }
