@@ -17,6 +17,9 @@ public class Budgets {
 	
 	@Column(name = "expiration_date")
 	private String expirationDate;
+	
+	@Column(name = "dependency_id")
+	private Long dependencyId;
 
 	public Long getBudgetId() {
 		return budgetId;
@@ -40,6 +43,14 @@ public class Budgets {
 
 	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
+	}
+
+	public Long getDependencyId() {
+		return dependencyId;
+	}
+
+	public void setDependencyId(Long dependencyId) {
+		this.dependencyId = dependencyId;
 	}
 
 }
