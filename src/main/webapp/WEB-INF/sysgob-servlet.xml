@@ -10,18 +10,22 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
  
     <mvc:annotation-driven/>
+
     <context:annotation-config/>
     <context:component-scan base-package="com.db.sysgob"/>
+        
     <mvc:default-servlet-handler/>
  
 	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/view/" />
-		<property name="suffix" value=".html" />
+		<property name="suffix" value=".jsp" />
 	</bean>
  
     <!-- Database Config -->
     <context:property-placeholder location="classpath:/db.properties"/>
     <import resource="db-context.xml"/>
+    
+    <import resource="beans-context.xml"/>
      
 </beans>
