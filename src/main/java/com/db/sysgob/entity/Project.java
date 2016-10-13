@@ -39,6 +39,9 @@ public class Project {
 	@Column(name = "user_id")
 	private Long userId;
 	
+	@Column(name = "amount")
+	private int amount;
+	
 	public Long getProjectId() {
 		return projectId;
 	}
@@ -99,7 +102,15 @@ public class Project {
 		return userId;
 	}
 
-	public void setId(Long userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 }
