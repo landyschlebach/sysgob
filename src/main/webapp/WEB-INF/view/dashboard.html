@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+	
+    <title>Gobierno de México</title>
+    
+    <link href="../../resources/css/bootstrap.css" rel="stylesheet">
+    <link href="../../resources/css/metisMenu.min.css" rel="stylesheet">
+    <link href="../../resources/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../resources/css/morris.css" rel="stylesheet">
+    <link href="../../resources/css/style.css" rel="stylesheet"/>
+    <link href="../../resources/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+            	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img alt="Gobierno de México" src="../../resources/img/logo_2.png"/></a>
+            </div>
+            <!-- /.navbar-header -->
+        </nav>
+        
+        <div style="min-height: 317px;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 align="center" style="margin-bottom: 21px;">Presupuesto: Secretarías del Gobierno de México</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel panel-default" style="margin-left: 24px; margin-right: 24px; margin-bottom: 50px;">
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-pie-chart" style="padding: 0px; position: relative;"><canvas class="flot-base" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 837px; height: 400px;" width="837" height="400"></canvas><canvas class="flot-overlay" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 837px; height: 400px;" width="837" height="400"></canvas><div class="legend"><div style="position: absolute; width: 53.65px; height: 62.8667px; top: 5px; right: 5px; background-color: rgb(255, 255, 255); opacity: 0.85;"> </div><table style="position:absolute;top:5px;right:5px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(237,194,64);overflow:hidden"></div></div></td><td class="legendLabel">Series 0</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(175,216,248);overflow:hidden"></div></div></td><td class="legendLabel">Series 1</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(203,75,75);overflow:hidden"></div></div></td><td class="legendLabel">Series 2</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(77,167,77);overflow:hidden"></div></div></td><td class="legendLabel">Series 3</td></tr></tbody></table></div></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <script src="../../resources/js/jquery.min.js"></script>
+    <script src="../../resources/js/bootstrap.min.js"></script>
+    <script src="../../resources/js/metisMenu.min.js"></script>
+    <script src="../../resources/js/excanvas.min.js"></script>
+    <script src="../../resources/js/jquery.flot.js"></script>
+    <script src="../../resources/js/jquery.flot.pie.js"></script>
+    <script src="../../resources/js/jquery.flot.resize.js"></script>
+    <script src="../../resources/js/jquery.flot.time.js"></script>
+    <script src="../../resources/js/jquery.flot.tooltip.min.js"></script>
+    <script src="../../resources/js/flot-data.js"></script>
+    <script src="../../resources/js/sb-admin-2.js"></script>
+    
+    <script>
+    	setTimeout(function(){
+   			window.location.reload(1);
+		}, 5000);
+    </script>
+
+<div class="flotTip" style="position: absolute; background: rgb(255, 255, 255) none repeat scroll 0% 0%; z-index: 1040; padding: 0.4em 0.6em; border-radius: 0.5em; font-size: 0.8em; border: 1px solid rgb(17, 17, 17); white-space: nowrap; left: 340px; top: 907.033px; display: none;"></div></body>
+</html>

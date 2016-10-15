@@ -1,4 +1,4 @@
-//Flot Pie Chart
+//Flot Pie Chart: Dashboard data
 $(document).ready(function() {
 
     var offset = 0;
