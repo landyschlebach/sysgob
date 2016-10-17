@@ -59,4 +59,13 @@ public class ExpenseRepository {
 	          "from Expense as e",
 	          Expense.class).getResultList();
 	}
+	
+	/* For JUnit Testing */
+	public EntityManager getEntityManager() {
+	  return em;
+	}
+	
+	public void setEntityManager(EntityManager em) {
+	  this.em = em;
+	}
 }

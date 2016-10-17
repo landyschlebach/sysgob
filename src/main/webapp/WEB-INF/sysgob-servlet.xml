@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+ 
+    <mvc:annotation-driven/>
+    <context:annotation-config/>
+    <context:component-scan base-package="com.db.sysgob"/>
+    <mvc:default-servlet-handler/>
+
+	<!-- Thymeleaf Configuration -->
+	<bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="suffix" value=".html" />
+		<property name="templateMode" value="HTML 5" />
+	</bean>
+	
+	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+		<property name="templateResolver" ref="templateResolver" />
+	</bean>
+
+	<bean class="org.thymeleaf.view.ThymeleafViewResolver">
+		<property name="templateEngine" ref="templateEngine" />
+	</bean> 
+  
+    <!-- Database Config -->
+    <context:property-placeholder location="classpath:/db.properties"/>
+    <import resource="db-context.xml"/>
+    
+    <!-- Import @Autowired Beans for Spring Context -->
+    <import resource="beans-context.xml"/>
+     
+</beans>

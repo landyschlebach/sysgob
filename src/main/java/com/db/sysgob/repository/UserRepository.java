@@ -4,12 +4,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.db.sysgob.entity.Project;
+import com.db.sysgob.entity.User;
+import com.db.sysgob.entity.UserBasicInfo;
 
 @Repository
 public class UserRepository {
@@ -29,6 +30,23 @@ public class UserRepository {
 		em.getTransaction().commit();		
 	}
 
+	@Transactional(value = "transactionManager", readOnly = true)
+	public UserBasicInfo getUserByName(String username) {
+		
+		  Query qry = em.createNativeQuery("SELECT"
+		      		+ " u.user, u.role_id, r.name, r.dependency_id, d.name"
+		      		+ " FROM users u"
+		      		+ " INNER JOIN roles r"
+		      		+ " ON u.role_id = r.role_id"
+		      		+ " INNER JOIN dependencies d"
+		      		+ " ON r.dependency_id = d.dependency_id"
+		      		+ " WHERE u.user = :user");
+		  qry.setParameter("user", username);
+		  UserBasicInfo result = (UserBasicInfo) qry.getResultList().get(0);
+		
+		  return result;
+	}
+	
 	@Transactional(value = "transactionManager", readOnly = true)
 	public User getUserById(Long id) {
 		return em.find(User.class, id);

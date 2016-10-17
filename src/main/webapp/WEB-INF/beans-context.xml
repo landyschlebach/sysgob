@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<!-- Business Objects -->
+	<bean id="budgetBO" class="com.db.sysgob.bo.BudgetBO"></bean>
+	<bean id="expenseBO" class="com.db.sysgob.bo.ExpenseBO"></bean>
+	<bean id="homeBO" class="com.db.sysgob.bo.HomeBO"></bean>
+	<bean id="projectBO" class="com.db.sysgob.bo.ProjectBO"></bean>
+	<bean id="userBO" class="com.db.sysgob.bo.UserBO"></bean>
+	
+	<!-- Controllers -->
+	<bean id="dashboardController" class="com.db.sysgob.controller.DashboardController" scope="session"></bean>
+	<bean id="expenseController" class="com.db.sysgob.controller.ExpenseController" scope="session"></bean>
+	<bean id="homeController" class="com.db.sysgob.controller.HomeController" scope="session"></bean>
+	<bean id="loginController" class="com.db.sysgob.controller.LoginController" scope="session"></bean>
+	<bean id="projectController" class="com.db.sysgob.controller.ProjectController" scope="session"></bean>
+	<bean id="tutorialController" class="com.db.sysgob.controller.TutorialController" scope="session"></bean>	
+	
+	<!-- Entity -->
+	<bean id="budget" class="com.db.sysgob.entity.Budget"></bean>
+	<bean id="category" class="com.db.sysgob.entity.Category"></bean>
+	<bean id="dependency" class="com.db.sysgob.entity.Dependency"></bean>
+	<bean id="expense" class="com.db.sysgob.entity.Expense"></bean>
+	<bean id="project" class="com.db.sysgob.entity.Project"></bean>
+	<bean id="role" class="com.db.sysgob.entity.Role"></bean>
+	<bean id="user" class="com.db.sysgob.entity.User"></bean>
+	
+	<bean id="classification" class="com.db.sysgob.entity.Classification"></bean>
+	<bean id="userBasicInfo" class="com.db.sysgob.entity.UserBasicInfo"></bean>
+	
+	<!-- Repository -->
+	<bean id="budgetRepository" class="com.db.sysgob.repository.BudgetRepository"></bean>
+	<bean id="categoryRepository" class="com.db.sysgob.repository.CategoryRepository"></bean>
+	<bean id="dependencyRepository" class="com.db.sysgob.repository.DependencyRepository"></bean>
+	<bean id="expenseRepository" class="com.db.sysgob.repository.ExpenseRepository"></bean>
+	<bean id="projectRepository" class="com.db.sysgob.repository.ProjectRepository"></bean>
+	<bean id="roleRepository" class="com.db.sysgob.repository.RoleRepository"></bean>
+	<bean id="userRepository" class="com.db.sysgob.repository.UserRepository"></bean>
+	
+	<!-- Services -->
+	<bean id="budgetService" class="com.db.sysgob.service.BudgetService"></bean>
+	<bean id="expenseService" class="com.db.sysgob.service.ExpenseService"></bean>
+	<bean id="projectService" class="com.db.sysgob.service.ProjectService"></bean>
+
+</beans>

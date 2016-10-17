@@ -71,7 +71,7 @@ public class ProjectRepository {
 	    return queryResult;
 	}
 	
-	  
+	/* For JUnit Testing */
 	public EntityManager getEntityManager() {
 	  return em;
 	}

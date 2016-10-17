@@ -14,28 +14,22 @@
 
 	<tx:annotation-driven />
 
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-			destroy-method="close"
-			p:driverClass="${jdbc.driverClassName}"
-			p:jdbcUrl="${jdbc.url}"
-			p:user="${jdbc.username}"
-			p:password="${jdbc.password}"
-			p:acquireIncrement="1"
-			p:idleConnectionTestPeriod="60"
-			p:maxPoolSize="100"
-			p:maxStatements="1000"
-			p:minPoolSize="20" />
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+			p:driverClassName="${jdbc.driver}"
+			p:url="${jdbc.url}"
+			p:username="${jdbc.user}"
+			p:password="${jdbc.password}"/>
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="sysgobDS" />
+		<property name="dataSource" ref="dataSource" />
 		<property name="persistenceUnitName" value="persistenceUnit"/>
 		<property name="packagesToScan"
 				value="com.db.sysgob.entity" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="generateDdl" value="${hibernate.generateDdl}" />
-				<property name="showSql" value="${hibernate.showSql}" />
+				<property name="generateDdl" value="${hibernate.generate_ddl}" />
+				<property name="showSql" value="${hibernate.show_sql}" />
 				<property name="database" value="${hibernate.database}" />
-				<property name="databasePlatform" value="${hibernate.databasePlatform}" />
+				<property name="databasePlatform" value="${hibernate.dialect}" />
 			</bean>
 		</property>
 		<property name="jpaProperties">
