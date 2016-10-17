@@ -65,6 +65,18 @@ public class ProjectService {
 		return result;
 	}
 	
+	public Project search(Long id){
+		Project result = null;
+		
+		try {
+			result = projectRepository.getById(id);
+		} catch (Exception e){
+			e.getMessage();
+		}
+		
+		return result;
+	}
+	
 	public List<Project> search(){
 		List<Project> result = null;
 		
