@@ -53,11 +53,11 @@ public class ExpenseService {
 		return result;
 	}
 	
-	public List<Expense> findById(Long id){
-		List<Expense> result = null;
+	public Expense findById(Long id){
+		Expense result = null;
 		
 		try {
-			result = expenseRepository.getExpenses(id);
+			result = expenseRepository.getExpenseByDependencyId(id);
 		} catch (Exception e){
 			e.getMessage();
 		}
