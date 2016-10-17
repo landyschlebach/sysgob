@@ -13,7 +13,7 @@ public class Budget {
 	private Long budgetId;
 	
 	@Column(name = "amount", nullable = false)
-	private int amount;
+	private Long amount;
 	
 	@Column(name = "expiration_date")
 	private String expirationDate;
@@ -29,11 +29,11 @@ public class Budget {
 		this.budgetId = budgetId;
 	}
 
-	public int getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
 

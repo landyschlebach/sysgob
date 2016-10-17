@@ -20,12 +20,6 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
-	@Column(name = "seed", nullable = false)
-	private String seed;
-	
-	@Column(name = "encryption")
-	private String encryption;
-	
 	@Column(name = "role_id", nullable = false)
 	private Long roleId;
 	
@@ -63,22 +57,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getSeed() {
-		return seed;
-	}
-
-	public void setSeed(String seed) {
-		this.seed = seed;
-	}
-	
-	public String getEncryption() {
-		return encryption;
-	}
-
-	public void setEncryption(String encryption) {
-		this.encryption= encryption;
 	}
 	
 	public Long getRoleId() {
