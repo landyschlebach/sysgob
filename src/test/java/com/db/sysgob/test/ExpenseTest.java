@@ -1,5 +1,6 @@
 package com.db.sysgob.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -15,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.db.sysgob.entity.Expense;
+import com.db.sysgob.entity.Project;
 import com.db.sysgob.repository.ExpenseRepository;
 
 public class ExpenseTest extends BaseTest {
@@ -77,4 +79,38 @@ public class ExpenseTest extends BaseTest {
 	    verify(entityManagerMock).persist(expense);
 	    log.info("Succesfully added user to the DB");
 	  }
+	  
+	  @Test
+	  public void testDatosCompletos() {
+		  boolean res = false;
+		  
+		 Expense expenseTest = new Expense();
+		  expense.setName("gasto prueba");
+		  expense.setTotalAmount(2000L);
+		
+	    res = testDatos(expenseTest);
+	                           
+	    assertEquals(true, res);
+	  }
+	  
+	  @Test
+	  public void testDatosIncompletos() {
+		  boolean res = false;
+		  
+		 Expense expenseTest = new Expense();
+		  expense.setName("gasto prueba");
+		
+	    res = testDatos(expenseTest);
+	                           
+	    assertEquals(false, res);
+	  }
+
+	  public boolean testDatos(Expense expense){
+			
+			if(expense.getName() != null && expense.getTotalAmount() != null ){
+				return true;
+			}
+			return false;
+	   }
+	  
 }

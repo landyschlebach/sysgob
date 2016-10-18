@@ -96,7 +96,13 @@ public class ProjectController {
 			budgetRS = true;
 		}
 		
-		projectRS = projectWS.create(project);
+		if(project.getName() != null && project.getAmount() != null && project.getCategoryId()!= null){
+			projectRS = projectWS.create(project);
+		}
+		else {
+			projectRS = false;
+		}
+		
 		
 		if(projectRS && budgetRS) {
 			view = "redirect:/proyectos/clasificar";
