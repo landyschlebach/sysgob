@@ -20,7 +20,7 @@ public class DashboardController {
 	@Autowired
 	private List<Budget> budgets;
 	
-	@RequestMapping(value = "publico", method = RequestMethod.GET)
+	@RequestMapping(value = "/publico", method = RequestMethod.GET)
 	public String loadBudgetsView(ModelMap model) {
 		budgets = budgetWS.search();
 		

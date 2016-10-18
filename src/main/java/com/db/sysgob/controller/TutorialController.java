@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("tutorial")
 public class TutorialController {
 	
+	@RequestMapping("/tutorial")
 	public String loadTutorial(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,

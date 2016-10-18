@@ -3,16 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <title>Gobierno de México</title>
-    
-    <link href="../../resources/css/bootstrap.css" rel="stylesheet" />
-    <link href="../../resources/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="../../resources/css/login.css" rel="stylesheet" />
+
+    <link href="../../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.css}" rel="stylesheet"/>
+    <link href="../../resources/css/font-awesome.min.css" th:href="@{/resources/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+    <link href="../../resources/css/login.css" rel="stylesheet" th:href="@{/resources/css/login.css}" />
 </head>
 
 <body>
-<img alt="background image" src="../../resources/img/bg_login.jpg" id="full-screen-background-image"/>
+<img alt="background image" src="../../resources/img/bg_login.jpg" th:scr="@{/resources/img/bg_login.jpg}" id="full-screen-background-image"/>
 
-<div class="logo_login"><img alt="" src="../../resources/img/logo_login.png"/></div>
+<div class="logo_login"><img alt="" src="../../resources/img/logo_login.png" th:scr="@{/resources/img/logo_login.png}"/></div>
 <div id="wrapper">
     <div class="col-xs-12">
         <form method="POST" action="/login/acceso" th:action="@{/login/acceso}" th:object="${userInfo}">
@@ -20,7 +20,7 @@
                 <legend class="legend_login">Acceso al Sistema</legend>
                 <div class="form-group">
                     <div class="col-xs-3">
-                        <img src="../../resources/img/ic_user.png"/>
+                        <img src="../../resources/img/ic_user.png" th:scr="@{/resources/img/ic_user.png}"/>
                     </div>
                     <div class="col-xs-9">
                         <input type="text" class="input_login" name="user" th:value="*{user}" placeholder="Usuario"/>
@@ -29,7 +29,7 @@
                 <div class="clearfix padding_login"></div>
                 <div class="form-group">
                     <div class="col-xs-3">
-                        <img src="../../resources/img/ic_password.png"/>
+                        <img src="../../resources/img/ic_password.png" th:scr="@{/resources/img/ic_password.png}"/>
                     </div>
                     <div class="col-xs-9">
                         <input type="password" class="input_login" name="password" th:value="*{password}" placeholder="Contrase&ntilde;a"/>
@@ -50,6 +50,6 @@
 </div>
 
 <script src="/ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="../../resources/js/bootstrap.js"></script>
+<script src="../../resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
 </body>
 </html>

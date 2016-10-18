@@ -13,8 +13,8 @@ import com.db.sysgob.entity.UserBasicInfo;
 import com.db.sysgob.service.UserService;
 
 @Controller
+@RequestMapping("/login")
 @SessionAttributes("user")
-@RequestMapping(value="login")
 public class LoginController {
 
 	@Autowired
@@ -26,12 +26,12 @@ public class LoginController {
 	@Autowired
 	private User userEntered;
 	
-	@RequestMapping(value="acceso")
+	@RequestMapping(value="/acceso")
 	public String systemAccess(ModelMap model) {
 		return "login";
 	}
 	
-	@RequestMapping(value="acceso", method = RequestMethod.POST, params={"user"})
+	@RequestMapping(value="/acceso", method = RequestMethod.POST, params={"user"})
 	public String validateUser(ModelMap model, @ModelAttribute("userInfo") User username) {
 	    String view = "";
 	    

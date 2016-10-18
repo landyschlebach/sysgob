@@ -17,7 +17,7 @@ import com.db.sysgob.service.BudgetService;
 import com.db.sysgob.service.ExpenseService;
 
 @Controller
-@RequestMapping("gastos")
+@RequestMapping("/gastos")
 public class ExpenseController {
 	private final String NEW = "new";
 	private final String EDIT = "edit";
@@ -31,7 +31,7 @@ public class ExpenseController {
 	@Autowired
 	private BudgetService budgetWS;
 	
-	@RequestMapping("consulta")
+	@RequestMapping("/consulta")
 	public String viewExpenses(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -49,7 +49,7 @@ public class ExpenseController {
 		return "gastos";
 	}
 	
-	@RequestMapping("nuevo")
+	@RequestMapping("/nuevo")
 	public String form(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -63,7 +63,7 @@ public class ExpenseController {
 		return "formulario_gastos";
 	}
 
-	@RequestMapping(value = "nuevo", method = RequestMethod.POST, params={"expense"})
+	@RequestMapping(value = "/nuevo", method = RequestMethod.POST, params={"expense"})
 	public String newExpense(ModelMap model, @ModelAttribute("expense") Expense expense, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -110,7 +110,7 @@ public class ExpenseController {
 		return "formulario_gastos";
 	}	
 
-	@RequestMapping("modificar")
+	@RequestMapping("/modificar")
 	public String edit(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -127,7 +127,7 @@ public class ExpenseController {
 		return "editar_gastos";
 	}
 
-	@RequestMapping(value = "modificar", method = RequestMethod.POST, params={"expense"})
+	@RequestMapping(value = "/modificar", method = RequestMethod.POST, params={"expense"})
 	public String editExpense(ModelMap model, @ModelAttribute("expense") Expense expense, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,

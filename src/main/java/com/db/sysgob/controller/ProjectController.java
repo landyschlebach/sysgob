@@ -26,7 +26,7 @@ import com.db.sysgob.service.ProjectService;
 import com.db.sysgob.service.UserService;
 
 @Controller
-@RequestMapping("proyectos")
+@RequestMapping("/proyectos")
 public class ProjectController {
 
 	@Autowired
@@ -41,7 +41,7 @@ public class ProjectController {
 	@Autowired
 	private BudgetService budgetWS;
 
-	@RequestMapping("consulta")
+	@RequestMapping("/consulta")
 	public String viewProjects(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -59,7 +59,7 @@ public class ProjectController {
 		return "proyectos";
 	}
 	
-	@RequestMapping("nuevo")
+	@RequestMapping("/nuevo")
 	public String showForm(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -73,10 +73,9 @@ public class ProjectController {
 		return "formulario_proyectos";
 	}
 
-	@RequestMapping(value = "nuevo", method = RequestMethod.POST, params={"project"})
+	@RequestMapping(value = "/nuevo", method = RequestMethod.POST, params={"project"})
 	public String newProject(ModelMap model, 
-			@ModelAttribute("project") Project project, 
-			@ModelAttribute("classification") Classification classification, 
+			@ModelAttribute("project") Project project,  
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
 			@ModelAttribute("dependencyId") Long dependencyId) throws ParseException {
@@ -95,7 +94,7 @@ public class ProjectController {
 		} else {
 			budgetRS = true;
 		}
-		
+
 		projectRS = projectWS.create(project);
 		
 		if(projectRS && budgetRS) {
@@ -116,7 +115,7 @@ public class ProjectController {
 		return view;
 	}	
 	
-	@RequestMapping(value = "clasificar", method = RequestMethod.GET)
+	@RequestMapping(value = "/clasificar", method = RequestMethod.GET)
 	public String classifyProject(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -145,7 +144,7 @@ public class ProjectController {
 		return "categorias";
 	}
 	
-	@RequestMapping(value = "clasificar", method = RequestMethod.POST, params={"classification"})
+	@RequestMapping(value = "/clasificar", method = RequestMethod.POST, params={"classification"})
 	public String classifyProject(ModelMap model, 
 			@ModelAttribute("classification") Classification classification, 
 			@ModelAttribute("user") String user, 
@@ -179,7 +178,7 @@ public class ProjectController {
 		return "categorias";
 	}
 	
-	@RequestMapping("modificar/{projectId}")
+	@RequestMapping("/modificar/{projectId}")
 	public String edit(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -205,7 +204,7 @@ public class ProjectController {
 		return "editar_proyectos";
 	}
 
-	@RequestMapping(value = "modificar/{projectId}", method = RequestMethod.POST, params={"expense"})
+	@RequestMapping(value = "/modificar/{projectId}", method = RequestMethod.POST, params={"expense"})
 	public String editProject(ModelMap model, @ModelAttribute("project") Project project, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -245,7 +244,7 @@ public class ProjectController {
 	
 	
 	/* Test: Health check of nemonicoDB */
-	@RequestMapping("probar_conexion")
+	@RequestMapping("/probar_conexion")
 	public String checkConnection() {
 		ProjectRepository projectRepository = new ProjectRepository();
 		return projectRepository.healthcheck();

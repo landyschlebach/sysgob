@@ -28,7 +28,7 @@ public class HomeController {
 	@Autowired
 	private ExpenseService expenseWS;
 	
-	@RequestMapping(value = "index", method = RequestMethod.GET)
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String showDashboard(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
