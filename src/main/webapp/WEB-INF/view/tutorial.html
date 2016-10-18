@@ -53,7 +53,7 @@
                                 <a class="a_gray" href="formulario_proyectos.html" th:href="@{/proyectos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Creación</a>
                             </li>
                             <li>
-                                <a class="a_gray" href="editar_proyectos.html" th:href="@{/proyectos/modificar}"><i class="fa fa-edit fa-fw"></i>  Edición</a>
+                                <a class="a_gray" href="editar_proyectos.html" th:href="@{/proyectos/modificar/1}"><i class="fa fa-edit fa-fw"></i>  Edición</a>
                             </li>                            
                             <li>
                                 <a class="a_gray" href="proyectos.html" th:href="@{/proyectos/consulta}"><i class="fa fa-search fa-fw"></i>  Búsqueda</a>
@@ -133,7 +133,10 @@
 	        </div>
 	        </div>
         </div>
-        <!-- /#page-wrapper -->
+        <!-- /#page-wrapper -->		
+        
+        <span style="visibility: hidden" th:text="${roleId}"></span>
+		<span style="visibility: hidden" th:text="${dependencyId}"></span>	
     </div>
     <!-- /#wrapper -->
 

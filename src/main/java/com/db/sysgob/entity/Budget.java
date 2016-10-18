@@ -1,5 +1,7 @@
 package com.db.sysgob.entity;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,10 +15,10 @@ public class Budget {
 	private Long budgetId;
 	
 	@Column(name = "amount", nullable = false)
-	private int amount;
+	private Long amount;
 	
 	@Column(name = "expiration_date")
-	private String expirationDate;
+	private Date expirationDate;
 	
 	@Column(name = "dependency_id")
 	private Long dependencyId;
@@ -29,19 +31,19 @@ public class Budget {
 		this.budgetId = budgetId;
 	}
 
-	public int getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
 
-	public String getExpirationDate() {
+	public Date getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(String expirationDate) {
+	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 

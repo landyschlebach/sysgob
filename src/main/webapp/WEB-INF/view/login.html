@@ -15,7 +15,7 @@
 <div class="logo_login"><img alt="" src="../../resources/img/logo_login.png"/></div>
 <div id="wrapper">
     <div class="col-xs-12">
-        <form method="POST" action="/login/acceso" th:action="@{/login/acceso}" th:object="${user}">
+        <form method="POST" action="/login/acceso" th:action="@{/login/acceso}" th:object="${userInfo}">
             <fieldset>
                 <legend class="legend_login">Acceso al Sistema</legend>
                 <div class="form-group">
@@ -39,10 +39,13 @@
                 <button type="submit" class="btn_login">Entrar</button>
        
                 <p th:if="${failure}" class="message_login" role="alert">Credenciales incorrectas</p>    		
-                <p th:if="${blocked}" class="message_login" role="alert">Acceso denegado</p>       	
+                <p th:if="${blocked}" class="message_login" role="alert">Acceso denegado</p>       
     			
             </fieldset>
-        </form>
+        </form>		
+        
+        <span style="visibility: hidden" th:text="${roleId}"></span>
+		<span style="visibility: hidden" th:text="${dependencyId}"></span>		
     </div>
 </div>
 

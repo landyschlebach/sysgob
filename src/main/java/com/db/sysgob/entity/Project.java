@@ -40,7 +40,7 @@ public class Project {
 	private Long userId;
 	
 	@Column(name = "amount")
-	private int amount;
+	private Long amount;
 	
 	public Long getProjectId() {
 		return projectId;
@@ -106,11 +106,11 @@ public class Project {
 		this.userId = userId;
 	}
 
-	public int getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
 }

@@ -2,11 +2,20 @@ package com.db.sysgob.entity;
 
 public class UserBasicInfo {
 
+	private Long userId;
 	private String name;	
 	private Long roleId;	
 	private String roleName;	
 	private Long dependencyId;	
 	private String dependencyName;
+	
+	public Long getUserId() {
+		return userId;
+	}
+	
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 	
 	public String getName() {
 		return name;

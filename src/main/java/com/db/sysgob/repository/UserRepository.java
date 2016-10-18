@@ -30,11 +30,17 @@ public class UserRepository {
 		em.getTransaction().commit();		
 	}
 
+	public void deleteUser(User user) {
+		em.getTransaction().begin();
+		em.remove(user);
+		em.getTransaction().commit();		
+	}
+	
 	@Transactional(value = "transactionManager", readOnly = true)
 	public UserBasicInfo getUserByName(String username) {
 		
 		  Query qry = em.createNativeQuery("SELECT"
-		      		+ " u.user, u.role_id, r.name, r.dependency_id, d.name"
+		      		+ " u.userId, u.user, u.role_id, r.name, r.dependency_id, d.name"
 		      		+ " FROM users u"
 		      		+ " INNER JOIN roles r"
 		      		+ " ON u.role_id = r.role_id"

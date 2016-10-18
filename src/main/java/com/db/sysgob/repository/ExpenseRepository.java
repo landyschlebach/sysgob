@@ -41,14 +41,14 @@ public class ExpenseRepository {
 	}
 
 	@Transactional(value = "transactionManager", readOnly = true)
-	public List<Expense> getExpenses(Long dependencyId) {
+	public Expense getExpenseByDependencyId(Long dependencyId) {
 	
 	  TypedQuery<Expense> qry =
 	      em.createQuery(
 	          "from Expense as c where c.dependencyId=:dependencyId",
 	          Expense.class);
 	  qry.setParameter("dependencyId", dependencyId);
-	  List<Expense> result = qry.getResultList();
+	  Expense result = qry.getResultList().get(0);
 	
 	  return result;
 	}

@@ -15,7 +15,7 @@ public class Expense {
 	@Id
 	@Column(name = "expense_id", columnDefinition="serial")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long expenseId;
 	
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -32,12 +32,12 @@ public class Expense {
 	@Column(name = "dependency_id", nullable = false)
 	private Long dependencyId;
 
-	public Long getId() {
-		return id;
+	public Long getExpenseId() {
+		return expenseId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setExpenseId(Long id) {
+		this.expenseId = id;
 	}
 
 	public String getName() {
