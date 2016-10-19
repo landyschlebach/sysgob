@@ -3,6 +3,8 @@ package com.db.sysgob.controller;
 import java.util.Calendar;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,8 +19,11 @@ import com.db.sysgob.service.BudgetService;
 import com.db.sysgob.service.ExpenseService;
 
 @Controller
-@RequestMapping("gastos")
+@RequestMapping("/gastos")
 public class ExpenseController {
+	private final String TAG = ExpenseController.class.getSimpleName();
+	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	
 	private final String NEW = "new";
 	private final String EDIT = "edit";
 	
@@ -31,13 +36,14 @@ public class ExpenseController {
 	@Autowired
 	private BudgetService budgetWS;
 	
-	@RequestMapping("consulta")
+	@RequestMapping("/consulta")
 	public String viewExpenses(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
 			@ModelAttribute("dependencyId") Long dependencyId) {
 		
 		Expense expense = expenseWS.findById(dependencyId);
+		log.debug(TAG, "Loading: Expense [" + expense + "]");
 		
 		/* Basic User Info */	    
 		model.addAttribute("user", user);
@@ -49,7 +55,7 @@ public class ExpenseController {
 		return "gastos";
 	}
 	
-	@RequestMapping("nuevo")
+	@RequestMapping("/nuevo")
 	public String form(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -63,12 +69,13 @@ public class ExpenseController {
 		return "formulario_gastos";
 	}
 
-	@RequestMapping(value = "nuevo", method = RequestMethod.POST, params={"expense"})
+	@RequestMapping(value = "/nuevo", method = RequestMethod.POST, params={"expense"})
 	public String newExpense(ModelMap model, @ModelAttribute("expense") Expense expense, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
 			@ModelAttribute("dependencyId") Long dependencyId) {
 		
+		log.debug(TAG, "Creating new expense [" + expense + "]");
 		Budget budget = null;
 		boolean expenseRS = false;
 		boolean budgetRS = false; 
@@ -77,6 +84,7 @@ public class ExpenseController {
 			/* Only if budget already exists do the following: 
 			 */
 			if(expenseWS.findById(dependencyId) != null) { 
+				log.debug(TAG, "Expense for dependency [" + dependencyId + "] already existed. Will modify it.");
 				
 				expense = expenseBO.calculateTotal(expense, dependencyId);
 				expense.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
@@ -84,6 +92,7 @@ public class ExpenseController {
 				expenseRS = expenseWS.modify(expense);
 				
 			} else {
+				log.debug(TAG, "Expense for dependency [" + dependencyId + "] didn't exist. Creating it.");
 				expense = expenseBO.calculateTotal(expense, dependencyId);
 				expense.setCreateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 				expense.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
@@ -92,6 +101,7 @@ public class ExpenseController {
 				expenseRS = expenseWS.create(expense);
 			}
 			
+			log.debug(TAG, "Reflecting total expense amount in budget amount");
 			budget = expenseBO.getBudgetReduced(dependencyId, expense.getTotalAmount(), NEW);
 			budgetRS = budgetWS.modify(budget);
 			
@@ -103,8 +113,10 @@ public class ExpenseController {
 		}
 		
 		if(expenseRS && budgetRS) {
+			log.debug(TAG, "Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!expenseRS || !budgetRS) {
+			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		
@@ -116,7 +128,7 @@ public class ExpenseController {
 		return "formulario_gastos";
 	}	
 
-	@RequestMapping("modificar")
+	@RequestMapping("/modificar")
 	public String edit(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -133,7 +145,7 @@ public class ExpenseController {
 		return "editar_gastos";
 	}
 
-	@RequestMapping(value = "modificar", method = RequestMethod.POST, params={"expense"})
+	@RequestMapping(value = "/modificar", method = RequestMethod.POST, params={"expense"})
 	public String editExpense(ModelMap model, @ModelAttribute("expense") Expense expense, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -143,6 +155,7 @@ public class ExpenseController {
 		boolean expenseRS = false;
 		boolean budgetRS = false; 
 
+		log.debug(TAG, "Expense for dependency [" + dependencyId + "] has been modified");
 		expense.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		expenseRS = expenseWS.modify(expense);
 		
@@ -152,10 +165,12 @@ public class ExpenseController {
 		} else {
 			budgetRS = true;
 		}
-		
+
 		if(expenseRS && budgetRS) {
+			log.debug(TAG, "Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!expenseRS || !budgetRS) {
+			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		

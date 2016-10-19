@@ -1,10 +1,14 @@
 package com.db.sysgob.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "roles")
 public class Role {
 
 	@Id
@@ -52,5 +56,13 @@ public class Role {
 	public void setDependencyId(Long dependencyId) {
 		this.dependencyId = dependencyId;
 	}
+	
+    @Override
+    public String toString() {
+    	return "Role [roleId=" + roleId + 
+			", name=" + name + 
+			", description=" + description + 
+			", dependencyId=" + dependencyId + "]";
+    }
 	
 }

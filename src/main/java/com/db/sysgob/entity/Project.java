@@ -113,4 +113,17 @@ public class Project {
 	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
+	
+    @Override
+    public String toString() {
+    	return "Project [projectId=" + projectId + 
+			", name=" + name + 
+			", description=" + description + 
+			", createDate=" + createDate + 
+			", updateDate=" + updateDate +
+			", categoryId=" + categoryId +
+			", budgetId=" + budgetId + 
+			", userId=" + userId + 
+			", amount=" + amount + "]";
+    }
 }

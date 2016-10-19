@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,8 +28,10 @@ import com.db.sysgob.service.ProjectService;
 import com.db.sysgob.service.UserService;
 
 @Controller
-@RequestMapping("proyectos")
+@RequestMapping("/proyectos")
 public class ProjectController {
+	private final String TAG = ProjectController.class.getSimpleName();
+	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
 
 	@Autowired
 	private ProjectBO projectBO;
@@ -41,13 +45,14 @@ public class ProjectController {
 	@Autowired
 	private BudgetService budgetWS;
 
-	@RequestMapping("consulta")
+	@RequestMapping("/consulta")
 	public String viewProjects(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
 			@ModelAttribute("dependencyId") Long dependencyId) {
 		
 		List<Project> projects = projectWS.findById(dependencyId);
+		log.debug(TAG, "Loading: Projects [" + projects +"]");
 		
 		/* Basic User Info */	    
 		model.addAttribute("user", user);
@@ -59,7 +64,7 @@ public class ProjectController {
 		return "proyectos";
 	}
 	
-	@RequestMapping("nuevo")
+	@RequestMapping("/nuevo")
 	public String showForm(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -73,10 +78,9 @@ public class ProjectController {
 		return "formulario_proyectos";
 	}
 
-	@RequestMapping(value = "nuevo", method = RequestMethod.POST, params={"project"})
+	@RequestMapping(value = "/nuevo", method = RequestMethod.POST, params={"project"})
 	public String newProject(ModelMap model, 
-			@ModelAttribute("project") Project project, 
-			@ModelAttribute("classification") Classification classification, 
+			@ModelAttribute("project") Project project,  
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
 			@ModelAttribute("dependencyId") Long dependencyId) throws ParseException {
@@ -85,16 +89,20 @@ public class ProjectController {
 		boolean projectRS = false;
 		boolean budgetRS = false;
 		
+		log.debug(TAG, "Creating new Project [" + project + "]");
 		project.setCreateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		project.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		project.setUserId(userWS.findByUsername(user).getUserId());
 		
 		if(projectBO.verifyBudget(dependencyId) == null) {
+			log.debug(TAG, "First project created for dependency[" + dependencyId + "]. Will create budget.");
+			
 			Budget budget = projectBO.initiateDefaultBudget(dependencyId);
 			budgetRS = budgetWS.create(budget);
 		} else {
 			budgetRS = true;
 		}
+<<<<<<< HEAD
 		
 		if(project.getName() != null && project.getAmount() != null && project.getCategoryId()!= null){
 			projectRS = projectWS.create(project);
@@ -103,10 +111,16 @@ public class ProjectController {
 			projectRS = false;
 		}
 		
+=======
+
+		projectRS = projectWS.create(project);
+>>>>>>> master
 		
 		if(projectRS && budgetRS) {
+			log.debug(TAG, "Showing success alert");
 			view = "redirect:/proyectos/clasificar";
 		} else if (!projectRS || !budgetRS) {
+			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		
@@ -122,7 +136,7 @@ public class ProjectController {
 		return view;
 	}	
 	
-	@RequestMapping(value = "clasificar", method = RequestMethod.GET)
+	@RequestMapping(value = "/clasificar", method = RequestMethod.GET)
 	public String classifyProject(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -131,6 +145,7 @@ public class ProjectController {
 			@ModelAttribute("projectName") String projectName,
 			@ModelAttribute("projectDescription") String projectDescription) {
 		
+		log.debug(TAG, "SYSGOB Classification form for project [" + project + "]");
 		CategoryRepository categoryRepository = new CategoryRepository();
 		List<Category> categories = categoryRepository.getCategories();
 		
@@ -151,7 +166,7 @@ public class ProjectController {
 		return "categorias";
 	}
 	
-	@RequestMapping(value = "clasificar", method = RequestMethod.POST, params={"classification"})
+	@RequestMapping(value = "/clasificar", method = RequestMethod.POST, params={"classification"})
 	public String classifyProject(ModelMap model, 
 			@ModelAttribute("classification") Classification classification, 
 			@ModelAttribute("user") String user, 
@@ -172,8 +187,10 @@ public class ProjectController {
 		budgetRS = budgetWS.modify(budget);
 		
 		if(projectRS && budgetRS) {
+			log.debug(TAG, "Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!projectRS || !budgetRS) {
+			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		
@@ -185,7 +202,7 @@ public class ProjectController {
 		return "categorias";
 	}
 	
-	@RequestMapping("modificar/{projectId}")
+	@RequestMapping("/modificar/{projectId}")
 	public String edit(ModelMap model, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -211,7 +228,7 @@ public class ProjectController {
 		return "editar_proyectos";
 	}
 
-	@RequestMapping(value = "modificar/{projectId}", method = RequestMethod.POST, params={"expense"})
+	@RequestMapping(value = "/modificar/{projectId}", method = RequestMethod.POST, params={"expense"})
 	public String editProject(ModelMap model, @ModelAttribute("project") Project project, 
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
@@ -221,7 +238,8 @@ public class ProjectController {
 		Budget budget = null;
 		boolean projectRS = false;
 		boolean budgetRS = false; 
-		
+
+		log.debug(TAG, "Project [" + project + "] has been modified");
 		project.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		project.setUserId(userWS.findByUsername(user).getUserId());
 		projectRS = projectWS.modify(project);
@@ -234,8 +252,10 @@ public class ProjectController {
 		}
 		
 		if(projectRS && budgetRS) {
+			log.debug(TAG, "Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!projectRS || !budgetRS) {
+			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		
@@ -251,7 +271,7 @@ public class ProjectController {
 	
 	
 	/* Test: Health check of nemonicoDB */
-	@RequestMapping("probar_conexion")
+	@RequestMapping("/probar_conexion")
 	public String checkConnection() {
 		ProjectRepository projectRepository = new ProjectRepository();
 		return projectRepository.healthcheck();

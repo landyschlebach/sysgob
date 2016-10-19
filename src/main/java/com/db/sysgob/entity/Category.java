@@ -3,10 +3,14 @@ package com.db.sysgob.entity;
 import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "categories")
 public class Category {
 
 	@Id
@@ -66,6 +70,12 @@ public class Category {
 	public void setMaxScore(Long maxScore) {
 		this.maxScore = maxScore;
 	}
-
-
+	 @Override
+	    public String toString() {
+	    	return "Category [categoryId=" + categoryId + 
+				", name=" + name + 
+				", description=" + description + 
+				", minScore=" + minScore + 
+				", maxScore=" + maxScore + "]";
+	    }
 }

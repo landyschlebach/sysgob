@@ -2,6 +2,8 @@ package com.db.sysgob.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,44 +12,55 @@ import com.db.sysgob.repository.ProjectRepository;
 
 @Service
 public class ProjectService {
+	private final String TAG = ProjectService.class.getSimpleName();
+	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
 
 	@Autowired
 	private ProjectRepository projectRepository;
 	
 	public boolean create(Project project){
+		log.debug(TAG, "WebService [CREATE]");
 		boolean result = false;
 		
 		try {
 			projectRepository.createProject(project);
 			result = true;
+
+			log.debug(TAG, "Successfully created Project [" + project +"]");
 		} catch (Exception e) {
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
 	}
 	
 	public boolean modify(Project project){
+		log.debug(TAG, "WebService [UPDATE]");
 		boolean result = false;
 		
 		try {
 			projectRepository.updateProject(project);
 			result = true;
+
+			log.debug(TAG, "Successfully updated Project [" + project +"]");
 		} catch (Exception e) {
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
 	}
 	
 	public boolean remove(Project project){
+		log.debug(TAG, "WebService [DELETE]");
 		boolean result = false;
 		
 		try {
 			projectRepository.deleteProject(project);
 			result = true;
+
+			log.debug(TAG, "Successfully deleted Project [" + project +"]");
 		} catch (Exception e) {
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
@@ -59,7 +72,7 @@ public class ProjectService {
 		try {
 			result = projectRepository.getProjects(id);
 		} catch (Exception e){
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
@@ -71,7 +84,7 @@ public class ProjectService {
 		try {
 			result = projectRepository.getById(id);
 		} catch (Exception e){
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
@@ -83,7 +96,7 @@ public class ProjectService {
 		try {
 			result = projectRepository.getProjects();
 		} catch (Exception e){
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
