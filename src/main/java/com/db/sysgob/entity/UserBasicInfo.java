@@ -1,5 +1,8 @@
 package com.db.sysgob.entity;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UserBasicInfo {
 
 	private Long userId;
