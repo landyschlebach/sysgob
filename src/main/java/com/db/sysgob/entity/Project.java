@@ -36,10 +36,10 @@ public class Project {
 	@Column(name = "budget_id")
 	private Long budgetId;
 
-	@Column(name = "user_id")
+	@Column(name = "user_id", nullable = false)
 	private Long userId;
 	
-	@Column(name = "amount")
+	@Column(name = "amount", nullable = false)
 	private Long amount;
 	
 	public Long getProjectId() {

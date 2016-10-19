@@ -20,7 +20,7 @@ public class Budget {
 	@Column(name = "expiration_date")
 	private Date expirationDate;
 	
-	@Column(name = "dependency_id")
+	@Column(name = "dependency_id", nullable = false)
 	private Long dependencyId;
 
 	public Long getBudgetId() {
