@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,6 +30,8 @@ import com.db.sysgob.service.UserService;
 @Controller
 @RequestMapping("/proyectos")
 public class ProjectController {
+	private final String TAG = ProjectController.class.getSimpleName();
+	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
 
 	@Autowired
 	private ProjectBO projectBO;
@@ -48,6 +52,7 @@ public class ProjectController {
 			@ModelAttribute("dependencyId") Long dependencyId) {
 		
 		List<Project> projects = projectWS.findById(dependencyId);
+		log.debug(TAG, "Loading: Projects [" + projects +"]");
 		
 		/* Basic User Info */	    
 		model.addAttribute("user", user);
@@ -84,11 +89,14 @@ public class ProjectController {
 		boolean projectRS = false;
 		boolean budgetRS = false;
 		
+		log.debug(TAG, "Creating new Project [" + project + "]");
 		project.setCreateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		project.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		project.setUserId(userWS.findByUsername(user).getUserId());
 		
 		if(projectBO.verifyBudget(dependencyId) == null) {
+			log.debug(TAG, "First project created for dependency[" + dependencyId + "]. Will create budget.");
+			
 			Budget budget = projectBO.initiateDefaultBudget(dependencyId);
 			budgetRS = budgetWS.create(budget);
 		} else {
@@ -98,8 +106,10 @@ public class ProjectController {
 		projectRS = projectWS.create(project);
 		
 		if(projectRS && budgetRS) {
+			log.debug(TAG, "Showing success alert");
 			view = "redirect:/proyectos/clasificar";
 		} else if (!projectRS || !budgetRS) {
+			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		
@@ -124,6 +134,7 @@ public class ProjectController {
 			@ModelAttribute("projectName") String projectName,
 			@ModelAttribute("projectDescription") String projectDescription) {
 		
+		log.debug(TAG, "SYSGOB Classification form for project [" + project + "]");
 		CategoryRepository categoryRepository = new CategoryRepository();
 		List<Category> categories = categoryRepository.getCategories();
 		
@@ -165,8 +176,10 @@ public class ProjectController {
 		budgetRS = budgetWS.modify(budget);
 		
 		if(projectRS && budgetRS) {
+			log.debug(TAG, "Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!projectRS || !budgetRS) {
+			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		
@@ -214,7 +227,8 @@ public class ProjectController {
 		Budget budget = null;
 		boolean projectRS = false;
 		boolean budgetRS = false; 
-		
+
+		log.debug(TAG, "Project [" + project + "] has been modified");
 		project.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		project.setUserId(userWS.findByUsername(user).getUserId());
 		projectRS = projectWS.modify(project);
@@ -227,8 +241,10 @@ public class ProjectController {
 		}
 		
 		if(projectRS && budgetRS) {
+			log.debug(TAG, "Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!projectRS || !budgetRS) {
+			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		

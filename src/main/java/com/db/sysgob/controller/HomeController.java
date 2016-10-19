@@ -2,6 +2,8 @@ package com.db.sysgob.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +20,8 @@ import com.db.sysgob.service.ProjectService;
 
 @Controller
 public class HomeController {
+	private final String TAG = HomeController.class.getSimpleName();
+	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
 
 	@Autowired
 	private BudgetService budgetWS;
@@ -33,6 +37,9 @@ public class HomeController {
 			@ModelAttribute("user") String user, 
 			@ModelAttribute("roleId") Long roleId,
 			@ModelAttribute("dependencyId") Long dependencyId) {
+		
+		log.debug(TAG, "Loading dashboard for User[" + user + 
+				"] DependencyId: [" + dependencyId + "] RoleId: [" + roleId + "]");
 		
 		Budget budget = budgetWS.findById(dependencyId);
 		Expense expense = expenseWS.findById(dependencyId);

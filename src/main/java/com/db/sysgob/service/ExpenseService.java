@@ -2,6 +2,8 @@ package com.db.sysgob.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,44 +12,55 @@ import com.db.sysgob.repository.ExpenseRepository;
 
 @Service
 public class ExpenseService {
+	private final String TAG = ExpenseService.class.getSimpleName();
+	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
 
 	@Autowired
 	private ExpenseRepository expenseRepository;
 	
 	public boolean create(Expense expense){
+		log.debug(TAG, "WebService [CREATE]");
 		boolean result = false;
 		
 		try {
 			expenseRepository.createExpense(expense);
 			result = true;
+			
+			log.debug(TAG, "Successfully created Expense [" + expense +"]");
 		} catch (Exception e) {
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
 	}
 	
 	public boolean modify(Expense expense){
+		log.debug(TAG, "WebService [UPDATE]");
 		boolean result = false;
 		
 		try {
 			expenseRepository.updateExpense(expense);
 			result = true;
+			
+			log.debug(TAG, "Successfully updated Expense [" + expense +"]");
 		} catch (Exception e) {
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
 	}
 	
 	public boolean remove(Expense expense){
+		log.debug(TAG, "WebService [DELETE]");
 		boolean result = false;
 		
 		try {
 			expenseRepository.deleteExpense(expense);
 			result = true;
+			
+			log.debug(TAG, "Successfully remove Expense [" + expense +"]");
 		} catch (Exception e) {
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
@@ -58,8 +71,9 @@ public class ExpenseService {
 		
 		try {
 			result = expenseRepository.getExpenseByDependencyId(id);
+			log.debug(TAG, "Retrieving Expense [" + result + "]");
 		} catch (Exception e){
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
@@ -71,7 +85,7 @@ public class ExpenseService {
 		try {
 			result = expenseRepository.getExpenses();
 		} catch (Exception e){
-			e.getMessage();
+			log.debug(TAG, e.getMessage());
 		}
 		
 		return result;
