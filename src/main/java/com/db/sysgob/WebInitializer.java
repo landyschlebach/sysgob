@@ -1,4 +1,4 @@
-package com.db.sysgob.context;
+package com.db.sysgob;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

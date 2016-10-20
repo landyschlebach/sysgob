@@ -9,17 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.db.sysgob.bo.ProjectBO;
-import com.db.sysgob.bo.UserBO;
 import com.db.sysgob.entity.Budget;
 import com.db.sysgob.entity.Category;
-import com.db.sysgob.entity.Classification;
-import com.db.sysgob.entity.Expense;
 import com.db.sysgob.entity.Project;
 import com.db.sysgob.repository.CategoryRepository;
 import com.db.sysgob.repository.ProjectRepository;
@@ -46,53 +43,43 @@ public class ProjectController {
 	private BudgetService budgetWS;
 
 	@RequestMapping("/consulta")
-	public String viewProjects(ModelMap model, 
-			@ModelAttribute("user") String user, 
-			@ModelAttribute("roleId") Long roleId,
-			@ModelAttribute("dependencyId") Long dependencyId) {
+	public String viewProjects(ModelMap model) {
+		Long dependencyId = (Long) model.get("dependencyId");
 		
 		List<Project> projects = projectWS.findById(dependencyId);
 		log.debug(TAG, "Loading: Projects [" + projects +"]");
-		
-		/* Basic User Info */	    
-		model.addAttribute("user", user);
-	    model.addAttribute("roleId", roleId);
-	    model.addAttribute("dependencyId", dependencyId);
 	    
-	    model.addAttribute("projects", projects);
-	    
+	    model.addAttribute("projects", projects);	    
 		return "proyectos";
 	}
 	
 	@RequestMapping("/nuevo")
-	public String showForm(ModelMap model, 
-			@ModelAttribute("user") String user, 
-			@ModelAttribute("roleId") Long roleId,
-			@ModelAttribute("dependencyId") Long dependencyId) {
-		
-		/* Basic User Info */	    
-		model.addAttribute("user", user);
-	    model.addAttribute("roleId", roleId);
-	    model.addAttribute("dependencyId", dependencyId);
-	    
+	public String showForm(ModelMap model) {	    
 		return "formulario_proyectos";
 	}
 
-	@RequestMapping(value = "/nuevo", method = RequestMethod.POST, params={"project"})
+	@RequestMapping(value = "/nuevo", method = RequestMethod.POST)
 	public String newProject(ModelMap model, 
-			@ModelAttribute("project") Project project,  
-			@ModelAttribute("user") String user, 
-			@ModelAttribute("roleId") Long roleId,
-			@ModelAttribute("dependencyId") Long dependencyId) throws ParseException {
+			String name, String description, 
+			Long amount, Long categoryId) throws ParseException {		
 		
-		String view = "formulario_proyectos";
 		boolean projectRS = false;
 		boolean budgetRS = false;
 		
-		log.debug(TAG, "Creating new Project [" + project + "]");
+		String view = "formulario_proyectos";
+		Long dependencyId = (Long) model.get("dependencyId");
+		Long userId = (Long) model.get("userId");
+		
+		Project project = new Project();
+		project.setName(name);
+		project.setDescription(description);
+		project.setAmount(amount);
+		project.setCategoryId(categoryId);
 		project.setCreateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		project.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-		project.setUserId(userWS.findByUsername(user).getUserId());
+		project.setUserId(userId);
+
+		log.debug(TAG, "Creating new Project [" + project + "]");
 		
 		if(projectBO.verifyBudget(dependencyId) == null) {
 			log.debug(TAG, "First project created for dependency[" + dependencyId + "]. Will create budget.");
@@ -112,11 +99,6 @@ public class ProjectController {
 			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
 		}
-		
-		/* Basic User Info */	    
-		model.addAttribute("user", user);
-	    model.addAttribute("roleId", roleId);
-	    model.addAttribute("dependencyId", dependencyId);
 
 		model.addAttribute("project", project);
 		model.addAttribute("projectName", project.getName());
@@ -126,15 +108,8 @@ public class ProjectController {
 	}	
 	
 	@RequestMapping(value = "/clasificar", method = RequestMethod.GET)
-	public String classifyProject(ModelMap model, 
-			@ModelAttribute("user") String user, 
-			@ModelAttribute("roleId") Long roleId,
-			@ModelAttribute("dependencyId") Long dependencyId, 
-			@ModelAttribute("project") Project project, 
-			@ModelAttribute("projectName") String projectName,
-			@ModelAttribute("projectDescription") String projectDescription) {
+	public String classifyProject(ModelMap model) {
 		
-		log.debug(TAG, "SYSGOB Classification form for project [" + project + "]");
 		CategoryRepository categoryRepository = new CategoryRepository();
 		List<Category> categories = categoryRepository.getCategories();
 		
@@ -143,32 +118,24 @@ public class ProjectController {
 		model.addAttribute("categoryMediumLow", categories.get(2).getMinScore());
 		model.addAttribute("categoryLow", categories.get(3).getMinScore());
 		
-		/* Basic User Info */	    
-		model.addAttribute("user", user);
-	    model.addAttribute("roleId", roleId);
-	    model.addAttribute("dependencyId", dependencyId);
-	    
-		model.addAttribute("project", project);
-		model.addAttribute("projectName", project.getName());
-		model.addAttribute("projectDescription", project.getDescription());
-		
 		return "categorias";
 	}
 	
-	@RequestMapping(value = "/clasificar", method = RequestMethod.POST, params={"classification"})
-	public String classifyProject(ModelMap model, 
-			@ModelAttribute("classification") Classification classification, 
-			@ModelAttribute("user") String user, 
-			@ModelAttribute("roleId") Long roleId,
-			@ModelAttribute("dependencyId") Long dependencyId, 
-			@ModelAttribute("project") Project project, 
-			@ModelAttribute("projectName") String projectName,
-			@ModelAttribute("projectDescription") String projectDescription) throws ParseException {
+	@RequestMapping(value = "/clasificar", method = RequestMethod.POST)
+	public String classifyProject(ModelMap model,
+			Long riskClassification, Long othersClassification,
+			Long otherImplications, Long financeClassification,
+			Long strategicClassification) throws ParseException {
 		
 		boolean projectRS = false;
 		boolean budgetRS = false;
 		
-		Long points = projectBO.calculateCategory(classification);
+		Long dependencyId = (Long) model.get("dependencyId");
+		
+		Long points = projectBO.calculateCategory(riskClassification, othersClassification,
+				otherImplications, financeClassification, strategicClassification);
+		
+		Project project = (Project) model.get("project");
 		project = projectBO.defineCategory(project, points);
 		Budget budget = projectBO.calculateBudget(project, dependencyId);
 		
@@ -183,28 +150,14 @@ public class ProjectController {
 			model.addAttribute("failure", true);
 		}
 		
-		/* Basic User Info */	    
-		model.addAttribute("user", user);
-	    model.addAttribute("roleId", roleId);
-	    model.addAttribute("dependencyId", dependencyId);
-		
 		return "categorias";
 	}
 	
 	@RequestMapping("/modificar/{projectId}")
 	public String edit(ModelMap model, 
-			@ModelAttribute("user") String user, 
-			@ModelAttribute("roleId") Long roleId,
-			@ModelAttribute("dependencyId") Long dependencyId,
-			@PathVariable @ModelAttribute("projectId") Long projectId) {
+			@PathVariable @RequestParam("projectId") Long projectId) {
 		
 		Project project = projectWS.search(projectId);
-		
-		/* Basic User Info */	    
-		model.addAttribute("user", user);
-	    model.addAttribute("roleId", roleId);
-	    model.addAttribute("dependencyId", dependencyId);
-	    model.addAttribute("project", project);
 	    
 	    if(project.getProjectId() != 1) {
 	    	model.addAttribute("prevId", project.getProjectId() - 1);
@@ -214,23 +167,33 @@ public class ProjectController {
 	    	model.addAttribute("nextId", project.getProjectId() + 1);
 	    }
 	    
+	    model.addAttribute("project", project);
 		return "editar_proyectos";
 	}
 
-	@RequestMapping(value = "/modificar/{projectId}", method = RequestMethod.POST, params={"expense"})
-	public String editProject(ModelMap model, @ModelAttribute("project") Project project, 
-			@ModelAttribute("user") String user, 
-			@ModelAttribute("roleId") Long roleId,
-			@ModelAttribute("dependencyId") Long dependencyId,
-			@PathVariable @ModelAttribute("projectId") Long projectId) throws ParseException {
+	@RequestMapping(value = "/modificar/{projectId}", method = RequestMethod.POST)
+	public String editProject(ModelMap model,
+			@PathVariable @RequestParam("projectId") Long projectId, 
+			String name, String description, 
+			Long amount, Long categoryId) throws ParseException {
 		
 		Budget budget = null;
 		boolean projectRS = false;
 		boolean budgetRS = false; 
+		
+		Long dependencyId = (Long) model.get("dependencyId");
+		String user = (String) model.get("user");
 
+		Project project = (Project) model.get("project");
 		log.debug(TAG, "Project [" + project + "] has been modified");
+		
+		project.setName(name);
+		project.setDescription(description);
+		project.setAmount(amount);
+		project.setCategoryId(categoryId);
 		project.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		project.setUserId(userWS.findByUsername(user).getUserId());
+		
 		projectRS = projectWS.modify(project);
 		
 		if(projectBO.verifyAmountChanged(project)) {
@@ -248,10 +211,6 @@ public class ProjectController {
 			model.addAttribute("failure", true);
 		}
 		
-		/* Basic User Info */	    
-		model.addAttribute("user", user);
-	    model.addAttribute("roleId", roleId);
-	    model.addAttribute("dependencyId", dependencyId);
 	    model.addAttribute("projectId", project.getProjectId());
 	    model.addAttribute("project", project);
 	    

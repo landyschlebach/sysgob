@@ -9,18 +9,16 @@ import java.net.URL;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
-
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.db.sysgob.entity.Expense;
 import com.db.sysgob.repository.ExpenseRepository;
 
 public class ExpenseTest extends BaseTest {
-	
-	private static Logger log = Logger.getLogger("test");
-	  
+	  private static final Logger log = LoggerFactory.getLogger("sysgob_log");
 	  private ExpenseRepository expenseRepository;
 	  private Expense expense;
 	  

@@ -2,7 +2,6 @@ package com.db.sysgob.test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,19 +9,17 @@ import java.net.URL;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.db.sysgob.entity.Project;
 import com.db.sysgob.repository.ProjectRepository;
 import com.db.sysgob.test.BaseTest;
 
 public class ProjectTest extends BaseTest {
-	
-	private static Logger log = Logger.getLogger("test");
+	  private static Logger log = LoggerFactory.getLogger("sysgob_log");
 	  
 	  private ProjectRepository projectRepository;
 	  private Project project;

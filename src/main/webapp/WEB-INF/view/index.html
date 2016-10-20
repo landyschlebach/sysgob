@@ -108,7 +108,7 @@
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left" th:value="${budgetAmount}">$100,000,000.00</span>
+                                <span class="pull-left" th:if="${budgetAmount}" th:unless="No hay presupuesto">$100,000,000.00</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
@@ -129,7 +129,7 @@
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left" th:value="${expenseAmount}">$20,000.00</span>
+                                <span class="pull-left" th:if="${expenseAmount}" th:unless="No hay gastos">$20,000.00</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
@@ -146,7 +146,7 @@
                             <i class="fa fa-folder fa-fw"></i> Proyectos
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
+                        <div class="panel-body" th:if="${projects}">
                             <div class="list-group">
                                 <a href="#" class="list-group-item" th:each="project : ${projects}">
                                     <i th:value="${project.name}"></i> New Comment

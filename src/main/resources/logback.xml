@@ -1,45 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration debug="true" scan="true">
+	<property name="DEFAULT_PATTERN"
+		value="%highlight([%-5level]) %magenta([%date{ISO8601}]) %yellow([%X{stamp}]) %magenta([%class->%method:%line]) | %msg%n" />
+	<property name="DEFAULT_MAX_FILE_SIZE" value="128MB" />
+	<property name="DEFAULT_MAX_HISTORY" value="8" />
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<Pattern>
-				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
-			</Pattern>
-		</layout>
-	</appender>
+	<!--appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender-->
 
-	<logger name="com.db.sysgob" level="debug"
-		additivity="false">
-		<appender-ref ref="STDOUT" />
-	</logger>
-
-	<root level="error">
-		<appender-ref ref="STDOUT" />
-	</root>
-	
-	<appender name="FILE" class="ch.qos.logback.core.FileAppender"> 
-		<file>logfile.log</file> 
-		<append>true</append> 
-		<encoder> 
-			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern> 
-		</encoder> 
-	</appender> 
-	
-	<appender name="SYSGOB-FILE" class="ch.qos.logback.core.FileAppender"> 
-		<file>analytics.log</file> 
-		<append>true</append> 
-		<encoder> 
-			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern> 
+	<appender name="sysgob"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/usr/local/apache-tomcat-7.0.72/logs/sysgob.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>system.log.k3m-%d{yyyy-MM-dd}.gz</fileNamePattern>
+			<maxHistory>${DEFAULT_MAX_HISTORY}</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${DEFAULT_PATTERN}</pattern>
 		</encoder>
 	</appender>
 	
-	<logger name="sysgob_log" level="DEBUG" additivity="false"> 
-		<appender-ref ref="SYSGOB-FILE"/> 
-	</logger> 
-	
-	<root> 
-		<appender-ref ref="FILE"/> 
-	</root>
 
+	<logger name="sysgob_log" level="DEBUG" additivity="false">
+		<appender-ref ref="sysgob" />
+	</logger>
+
+	<root level="DEBUG">
+		<appender-ref ref="sysgob" />
+	</root>
 </configuration>

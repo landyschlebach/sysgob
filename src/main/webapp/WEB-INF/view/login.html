@@ -10,12 +10,12 @@
 </head>
 
 <body>
-<img alt="background image" src="../../resources/img/bg_login.jpg" th:scr="@{/resources/img/bg_login.jpg}" id="full-screen-background-image"/>
+<img th:scr="@{/resources/images/bg_login.jpg}" alt="background image" src="../../resources/img/bg_login.jpg" id="full-screen-background-image"/>
 
 <div class="logo_login"><img alt="" src="../../resources/img/logo_login.png" th:scr="@{/resources/img/logo_login.png}"/></div>
 <div id="wrapper">
     <div class="col-xs-12">
-        <form method="POST" action="/login/acceso" th:action="@{/login/acceso}" th:object="${userInfo}">
+        <form method="POST" action="/login/acceso" th:action="@{/login/acceso}">
             <fieldset>
                 <legend class="legend_login">Acceso al Sistema</legend>
                 <div class="form-group">
@@ -23,7 +23,7 @@
                         <img src="../../resources/img/ic_user.png" th:scr="@{/resources/img/ic_user.png}"/>
                     </div>
                     <div class="col-xs-9">
-                        <input type="text" class="input_login" name="user" th:value="*{user}" placeholder="Usuario"/>
+                        <input type="text" class="input_login" name="username" placeholder="Usuario"/>
                     </div>
                 </div>
                 <div class="clearfix padding_login"></div>
@@ -32,7 +32,7 @@
                         <img src="../../resources/img/ic_password.png" th:scr="@{/resources/img/ic_password.png}"/>
                     </div>
                     <div class="col-xs-9">
-                        <input type="password" class="input_login" name="password" th:value="*{password}" placeholder="Contrase&ntilde;a"/>
+                        <input type="password" class="input_login" name="password" placeholder="Contrase&ntilde;a"/>
                     </div>
                 </div>
                 <div class="clearfix padding_login"></div>
@@ -44,8 +44,6 @@
             </fieldset>
         </form>		
         
-        <span style="visibility: hidden" th:text="${roleId}"></span>
-		<span style="visibility: hidden" th:text="${dependencyId}"></span>		
     </div>
 </div>
 

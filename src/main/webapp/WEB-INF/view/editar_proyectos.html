@@ -123,27 +123,27 @@
 	        
         	<div class="row content_margin">
               <div class="col-lg-12">
-                  <form method="POST" action="/proyectos/modificar" th:action="@{/proyectos/modificar}" th:object="${project}">
+                  <form method="POST" action="/proyectos/modificar" th:action="@{/proyectos/modificar}">
                   
                       <div class="form-group">
                           <label>Nombre del proyecto:</label>
-                          <input type="text" class="form-control" name="name" th:value="${name}"/>
+                          <input type="text" class="form-control" name="name"/>
                       </div>
 
                       <div class="form-group">
                           <label>Descripción:</label>
-                          <textarea class="form-control" rows="6" type="text" name="description" th:value="${description}"></textarea>
+                          <textarea class="form-control" rows="6" type="text" name="description"></textarea>
                           <p class="help-block">250 caracteres</p>
                       </div>
                       
                       <div class="form-group">
                           <label>Monto:</label>
-                          <input type="text" class="form-control" name="amount" th:value="${amount}"/>
+                          <input type="number" class="form-control" name="amount"/>
                       </div>
                       
                       <div class="form-group">
                           <label>Categoría</label>
-                          <select class="form-control" name="categoryId" th:field="${categoryId}">
+                          <select class="form-control" name="categoryId">
                               <option value="1">De Alto Impacto</option>
                               <option value="2">Impacto Moderado Alto</option>
                               <option value="3">Impacto Moderado Bajo</option>

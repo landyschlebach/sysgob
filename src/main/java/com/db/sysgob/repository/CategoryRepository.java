@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.db.sysgob.entity.Category;
-import com.db.sysgob.entity.Project;
 
 @Repository
 public class CategoryRepository {

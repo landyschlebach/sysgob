@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,22 +32,17 @@ public class HomeController {
 	private ExpenseService expenseWS;
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String showDashboard(ModelMap model, 
-			@ModelAttribute("user") String user, 
-			@ModelAttribute("roleId") Long roleId,
-			@ModelAttribute("dependencyId") Long dependencyId) {
+	public String showDashboard(ModelMap model) {
+		Long dependencyId = (Long) model.get("dependencyId");
+		String role = (String) model.get("role");
+		String user = (String) model.get("user");
 		
 		log.debug(TAG, "Loading dashboard for User[" + user + 
-				"] DependencyId: [" + dependencyId + "] RoleId: [" + roleId + "]");
+				"] DependencyId: [" + dependencyId + "] Role: [" + role + "]");
 		
 		Budget budget = budgetWS.findById(dependencyId);
 		Expense expense = expenseWS.findById(dependencyId);
 		List<Project> projects = projectWS.findById(dependencyId);
-		
-		/* Basic User Info */
-		model.addAttribute("user", user);
-	    model.addAttribute("roleId", roleId);
-	    model.addAttribute("dependencyId", dependencyId);
 		
 		model.addAttribute("budgetAmount", budget.getAmount());
 		model.addAttribute("expenseAmount", expense.getTotalAmount());

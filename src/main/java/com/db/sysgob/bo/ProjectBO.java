@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.db.sysgob.entity.Budget;
 import com.db.sysgob.entity.Category;
-import com.db.sysgob.entity.Classification;
-import com.db.sysgob.entity.Expense;
 import com.db.sysgob.entity.Project;
 import com.db.sysgob.repository.CategoryRepository;
 import com.db.sysgob.service.BudgetService;
@@ -34,13 +32,16 @@ public class ProjectBO {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	public Long calculateCategory(Classification classification) {
+	public Long calculateCategory(Long riskClassification, 
+			Long othersClassification, Long otherImplications, 
+			Long financeClassification, Long strategicClassification) {
+		
 		log.debug(TAG, "Calculating System SYSGOB Category");
-		Long total = classification.getRiskClassification() + 
-				classification.getOthersClassification() + 
-				classification.getFinanceClassification() + 
-				classification.getOtherImplications() + 
-				classification.getStrategicClassification();
+		Long total = riskClassification + 
+					othersClassification + 
+					financeClassification + 
+					otherImplications + 
+					strategicClassification;
 		
 		log.debug(TAG, "Total category points: " + total);
 		return total;

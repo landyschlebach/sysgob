@@ -50,13 +50,16 @@
                         <a class="a_gray" href="#" th:href="@{#}"><i class="fa fa-folder fa-fw"></i>  Proyectos<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="a_gray" href="formulario_proyectos.html" th:href="@{/proyectos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Creación</a>
+                                <a class="a_gray" id="project" 
+	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="formulario_proyectos.html" th:href="@{/proyectos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Creación</a>
                             </li>
                             <li>
-                                <a class="a_gray" href="editar_proyectos.html" th:href="@{/proyectos/modificar/1}"><i class="fa fa-edit fa-fw"></i>  Edición</a>
+                                <a class="a_gray" id="project" 
+	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="editar_proyectos.html" th:href="@{/proyectos/modificar/1}"><i class="fa fa-edit fa-fw"></i>  Edición</a>
                             </li>                            
                             <li>
-                                <a class="a_gray" href="proyectos.html" th:href="@{/proyectos/consulta}"><i class="fa fa-search fa-fw"></i>  Búsqueda</a>
+                                <a class="a_gray" id="project" 
+	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="proyectos.html" th:href="@{/proyectos/consulta}"><i class="fa fa-search fa-fw"></i>  Búsqueda</a>
                             </li>                            
                         </ul>
                         <!-- /.nav-second-level -->
@@ -65,13 +68,16 @@
                         <a class="a_gray" href="#" th:href="@{#}"><i class="fa fa-money"></i>  Gastos<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="a_gray" href="formulario_gastos.html" th:href="@{/gastos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Creación</a>
+                                <a class="a_gray" id="expense" 
+	th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="formulario_gastos.html" th:href="@{/gastos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Creación</a>
                             </li>
                             <li>
-                                <a class="a_gray" href="editar_gastos.html" th:href="@{/gastos/modificar}"><i class="fa fa-edit fa-fw"></i>  Edición</a>
+                                <a class="a_gray" id="expense" 
+    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="editar_gastos.html" th:href="@{/gastos/modificar}"><i class="fa fa-edit fa-fw"></i>  Edición</a>
                             </li>                               
                             <li>
-                                <a class="a_gray" href="gastos.html" th:href="@{/gastos/consulta}"><i class="fa fa-search fa-fw"></i>  Visualización</a>
+                                <a class="a_gray" id="expense" 
+    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="gastos.html" th:href="@{/gastos/consulta}"><i class="fa fa-search fa-fw"></i>  Visualización</a>
                             </li>                            
                         </ul>
                         <!-- /.nav-second-level -->
@@ -108,7 +114,7 @@
             
         	<div class="row content_margin">
               <div class="col-lg-12">
-                  <form method="POST" action="/proyectos/clasificacion" th:action="@{/proyectos/clasificacion}" th:object="${classification}">
+                  <form method="POST" action="/proyectos/clasificacion" th:action="@{/proyectos/clasificacion}">
                   
                       <div class="form-group">
                           <label>Nombre del proyecto:</label>
@@ -126,7 +132,7 @@
                       
                       <div class="form-group">
                           <label>La estabilidad del contexto general del proyecto (considerar los riesgos implícitos en el desarrollo del proyecto) es:</label>
-                          <select class="form-control" name="riskClassification" th:field="*{riskClassification}">
+                          <select class="form-control" name="riskClassification">
                               <option value="10" th:value="${categoryHigh}">Muy Alta</option>
                               <option value="6" th:value="${categoryMediumHigh}">Alta</option>
                               <option value="4" th:value="${categoryMediumLow}">Moderada</option>
@@ -136,7 +142,7 @@
 
                       <div class="form-group">
                           <label>El número y variedad de relaciones del proyecto con otras entidades son:</label>
-                          <select class="form-control" name="othersClassification" th:field="*{othersClassification}">
+                          <select class="form-control" name="othersClassification">
                               <option value="10" th:value="${categoryHigh}">Muy Alta</option>
                               <option value="6" th:value="${categoryMediumHigh}">Alta</option>
                               <option value="4" th:value="${categoryMediumLow}">Moderada</option>
@@ -146,7 +152,7 @@
 
                       <div class="form-group">
                           <label>La magnitud de las implicaciones jurídicas, sociales o ambientales es:</label>
-                          <select class="form-control" name="implicaciones" th:field="*{otherImplications}">
+                          <select class="form-control" name="otherImplications">
                               <option value="10" th:value="${categoryHigh}">Muy Alta</option>
                               <option value="6" th:value="${categoryMediumHigh}">Alta</option>
                               <option value="4" th:value="${categoryMediumLow}">Moderada</option>
@@ -156,7 +162,7 @@
 
                       <div class="form-group">
                           <label>El impacto financiero esperado (positivo o negativo) sobre las partes interesadas en el proyecto es:</label>
-                          <select class="form-control" name="financeClassification" th:field="*{financeClassification}">
+                          <select class="form-control" name="financeClassification">
                               <option value="10" th:value="${categoryHigh}">Muy Alta</option>
                               <option value="6" th:value="${categoryMediumHigh}">Alta</option>
                               <option value="4" th:value="${categoryMediumLow}">Moderada</option>
@@ -166,7 +172,7 @@
  
                        <div class="form-group">
                           <label>La importancia estratégica del proyecto a nivel nacional o para las entidades relacionadas es:</label>
-                          <select class="form-control" name="strategicClassification" th:field="*{strategicClassification}">
+                          <select class="form-control" name="strategicClassification">
                               <option value="10" th:value="${categoryHigh}">Muy Alta</option>
                               <option value="6" th:value="${categoryMediumHigh}">Alta</option>
                               <option value="4" th:value="${categoryMediumLow}">Moderada</option>
@@ -202,5 +208,23 @@
     <script src="../../resources/js/bootstrap.min.js" th:scr="@{/resources/js/bootstrap.min.js}"></script>
     <script src="../../resources/js/metisMenu.min.js" th:scr="@{/resources/js/metisMenu.min.js}"></script>
     <script src="../../resources/js/sb-admin-2.js" th:scr="@{/resources/js/sb-admin-2.js}"></script>
+
+	<script>
+		function checkProjectLink(role) {
+		  proyecto = document.getElementById("project");
+		  
+		  if(role == 'DEPENDENCY_ACCOUNTANT_USER' || role == 'DEPENDENCY_MANAGER_USER'){
+			  event.preventDefault();
+		  }
+		}
+		
+		function checkExpenseLink(role) {
+		  gasto = document.getElementById("expense");
+		  
+		  if(role == 'DEPENDENCY_PM_USER' || role == 'DEPENDENCY_MANAGER_USER'){
+			  event.preventDefault();
+		  }
+		}
+	</script>
 </body>
 </html>
