@@ -88,8 +88,19 @@ public class ProjectController {
 		} else {
 			budgetRS = true;
 		}
+<<<<<<< HEAD
+		
+		if(project.getName() != null && project.getAmount() != null && project.getCategoryId()!= null){
+			projectRS = projectWS.create(project);
+		}
+		else {
+			projectRS = false;
+		}
+		
+=======
 
 		projectRS = projectWS.create(project);
+>>>>>>> master
 		
 		if(projectRS && budgetRS) {
 			log.debug(TAG, "Showing success alert");

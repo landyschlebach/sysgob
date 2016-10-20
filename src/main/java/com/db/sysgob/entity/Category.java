@@ -68,6 +68,12 @@ public class Category {
 	public void setMaxScore(Long maxScore) {
 		this.maxScore = maxScore;
 	}
-
-
+	 @Override
+	    public String toString() {
+	    	return "Category [categoryId=" + categoryId + 
+				", name=" + name + 
+				", description=" + description + 
+				", minScore=" + minScore + 
+				", maxScore=" + maxScore + "]";
+	    }
 }

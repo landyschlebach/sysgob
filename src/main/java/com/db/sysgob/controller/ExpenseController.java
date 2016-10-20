@@ -90,6 +90,12 @@ public class ExpenseController {
 			log.debug(TAG, "Reflecting total expense amount in budget amount");
 			budget = expenseBO.getBudgetReduced(dependencyId, expense.getTotalAmount(), NEW);
 			budgetRS = budgetWS.modify(budget);
+			
+			if(expense.getName() != null && expense.getTotalAmount() != null){
+				expenseRS = expenseWS.create(expense);
+			}
+			else {
+				expenseRS = false;
 		}
 		
 		if(expenseRS && budgetRS) {

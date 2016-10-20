@@ -80,4 +80,13 @@ public class Expense {
 		this.dependencyId = dependencyId;
 	}
 
+	 @Override
+	    public String toString() {
+	    	return "Expense [expenseId=" + expenseId + 
+				", name=" + name + 
+				", totalAmount=" + totalAmount + 
+				", createDate=" + createDate + 
+				", updateDate=" + updateDate +
+				", dependencyId=" + dependencyId + "]";
+	    }
 }
