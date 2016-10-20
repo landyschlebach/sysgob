@@ -57,4 +57,12 @@ public class Role {
 		this.dependencyId = dependencyId;
 	}
 	
+    @Override
+    public String toString() {
+    	return "Role [roleId=" + roleId + 
+			", name=" + name + 
+			", description=" + description + 
+			", dependencyId=" + dependencyId + "]";
+    }
+	
 }

@@ -68,4 +68,12 @@ public class Dependency {
 		this.responsible = responsible;
 	}
 	
+	 @Override
+	    public String toString() {
+	    	return "Dependency [dependencyId=" + dependencyId + 
+				", name=" + name + 
+				", acronym=" + acronym + 
+				", description=" + description + 
+				", responsible=" + responsible + "]";
+	    }
 }

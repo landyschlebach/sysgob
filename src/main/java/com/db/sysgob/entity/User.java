@@ -21,14 +21,11 @@ public class User {
 	@Column(name = "user", nullable = false)
 	private String user;
 	
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
 	
 	@Column(name = "role_id", nullable = false)
 	private Long roleId;
-	
-	@Column(name = "email")
-	private String email;
 	
 	@Column(name = "create_date", nullable = false)
 	private Date createDate;
