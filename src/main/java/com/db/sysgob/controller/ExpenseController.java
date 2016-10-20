@@ -69,33 +69,32 @@ public class ExpenseController {
 				expense = expenseWS.findById(dependencyId);
 				expense.setName(name);
 				expense.setTotalAmount(totalAmount);
-				expense.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+				expense.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
 				
 				expense = expenseBO.calculateTotal(expense, dependencyId);
 				expenseRS = expenseWS.modify(expense);
 				
 			} else {
-				log.debug(TAG, "Expense for dependency [" + dependencyId + "] didn't exist. Creating it.");
-
-				expense = new Expense();
-				expense.setName(name);
-				expense.setTotalAmount(totalAmount);
-				expense.setCreateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-				expense.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-				expense.setDependencyId(dependencyId);
 				
-				expenseRS = expenseWS.create(expense);
+				if(name != null && totalAmount != null){
+					log.debug(TAG, "Expense for dependency [" + dependencyId + "] didn't exist. Creating it.");
+					
+					expense = new Expense();
+					expense.setName(name);
+					expense.setTotalAmount(totalAmount);
+					expense.setCreateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
+					expense.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
+					expense.setDependencyId(dependencyId);
+					
+					expenseRS = expenseWS.create(expense);
+				} else {
+					expenseRS = false;
+				}
 			}
 			
 			log.debug(TAG, "Reflecting total expense amount in budget amount");
 			budget = expenseBO.getBudgetReduced(dependencyId, expense.getTotalAmount(), NEW);
 			budgetRS = budgetWS.modify(budget);
-			
-			if(expense.getName() != null && expense.getTotalAmount() != null){
-				expenseRS = expenseWS.create(expense);
-			}
-			else {
-				expenseRS = false;
 		}
 		
 		if(expenseRS && budgetRS) {
@@ -131,7 +130,7 @@ public class ExpenseController {
 		
 		expense.setName(name);
 		expense.setTotalAmount(totalAmount);
-		expense.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+		expense.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
 		expenseRS = expenseWS.modify(expense);
 		
 		if(expenseBO.verifyAmountChanged(expense)) {

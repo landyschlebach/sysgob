@@ -19,20 +19,20 @@ import com.db.sysgob.entity.Expense;
 import com.db.sysgob.entity.Project;
 import com.db.sysgob.repository.ExpenseRepository;
 
-public class ExpenseTest extends BaseTest {
+public class ExpenseTest {
 	  private static final Logger log = LoggerFactory.getLogger("sysgob_log");
 	  private ExpenseRepository expenseRepository;
 	  private Expense expense;
 	  
 	  @Before
 	  public void setup() {
-		expenseRepository = (ExpenseRepository) applicationContext.getBean("expenseRepository");
+		expenseRepository = new ExpenseRepository();
 		expense = new Expense();
 	    
 	    // Parameters for tests
 	    expense.setName("Gasto de Prueba");
 	    expense.setTotalAmount(100L);
-	    expense.setCreateDate((java.sql.Date) new Date());
+	    expense.setCreateDate((java.sql.Timestamp) new Date());
 	  }
 	  
 	  /* 

@@ -29,13 +29,13 @@ public class ProjectTest extends BaseTest {
 	  
 	  @Before
 	  public void setup() {
-		projectRepository = (ProjectRepository) applicationContext.getBean("projectRepository");
+		projectRepository = new ProjectRepository();
 	    project = new Project();
 	    
 	    // Parameters for tests
 	    project.setName("Proyecto de Prueba");
 	    project.setDescription("Prueba 1");
-	    project.setCreateDate((java.sql.Date) new Date());
+	    project.setCreateDate((java.sql.Timestamp) new Date());
 	    project.setCategoryId(2L);
 	    project.setBudgetId(1L);
 	  }

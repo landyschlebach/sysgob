@@ -79,7 +79,7 @@ public class ProjectBO {
 		
 		budget.setAmount(0L);
 		budget.setDependencyId(dependencyId);
-		budget.setExpirationDate(new java.sql.Date(format.parse(date).getTime()));
+		budget.setExpirationDate(new java.sql.Timestamp(format.parse(date).getTime()));
 		
 		return budget;
 	}

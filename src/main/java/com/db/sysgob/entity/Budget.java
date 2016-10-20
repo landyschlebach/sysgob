@@ -1,6 +1,6 @@
 package com.db.sysgob.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ public class Budget {
 	private Long amount;
 	
 	@Column(name = "expiration_date")
-	private Date expirationDate;
+	private Timestamp expirationDate;
 	
 	@Column(name = "dependency_id", nullable = false)
 	private Long dependencyId;
@@ -43,11 +43,11 @@ public class Budget {
 		this.amount = amount;
 	}
 
-	public Date getExpirationDate() {
+	public Timestamp getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(Date expirationDate) {
+	public void setExpirationDate(Timestamp expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 

@@ -69,16 +69,26 @@ public class ProjectController {
 		Long dependencyId = (Long) model.get("dependencyId");
 		Long userId = (Long) model.get("userId");
 		
-		Project project = new Project();
-		project.setName(name);
-		project.setDescription(description);
-		project.setAmount(amount);
-		project.setCategoryId(categoryId);
-		project.setCreateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-		project.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-		project.setUserId(userId);
-
-		log.debug(TAG, "Creating new Project [" + project + "]");
+		if(name != null && amount != null && categoryId != null){
+			Project project = new Project();
+			project.setName(name);
+			project.setDescription(description);
+			project.setAmount(amount);
+			project.setCategoryId(categoryId);
+			project.setCreateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
+			project.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
+			project.setUserId(userId);
+			
+			log.debug(TAG, "Creating new Project [" + project + "]");
+			projectRS = projectWS.create(project);
+			
+			model.addAttribute("project", project);
+			model.addAttribute("projectName", project.getName());
+			model.addAttribute("projectDescription", project.getDescription());
+		}
+		else {
+			projectRS = false;
+		}
 		
 		if(projectBO.verifyBudget(dependencyId) == null) {
 			log.debug(TAG, "First project created for dependency[" + dependencyId + "]. Will create budget.");
@@ -88,19 +98,6 @@ public class ProjectController {
 		} else {
 			budgetRS = true;
 		}
-<<<<<<< HEAD
-		
-		if(project.getName() != null && project.getAmount() != null && project.getCategoryId()!= null){
-			projectRS = projectWS.create(project);
-		}
-		else {
-			projectRS = false;
-		}
-		
-=======
-
-		projectRS = projectWS.create(project);
->>>>>>> master
 		
 		if(projectRS && budgetRS) {
 			log.debug(TAG, "Showing success alert");
@@ -109,10 +106,6 @@ public class ProjectController {
 			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
 		}
-
-		model.addAttribute("project", project);
-		model.addAttribute("projectName", project.getName());
-		model.addAttribute("projectDescription", project.getDescription());
 
 		return view;
 	}	
@@ -201,7 +194,7 @@ public class ProjectController {
 		project.setDescription(description);
 		project.setAmount(amount);
 		project.setCategoryId(categoryId);
-		project.setUpdateDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+		project.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
 		project.setUserId(userWS.findByUsername(user).getUserId());
 		
 		projectRS = projectWS.modify(project);

@@ -1,6 +1,6 @@
 package com.db.sysgob.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,10 +24,10 @@ public class Expense {
 	private Long totalAmount;
 	
 	@Column(name = "create_date", nullable = false)
-	private Date createDate;
+	private Timestamp createDate;
 	
 	@Column(name = "update_date")
-	private Date updateDate;
+	private Timestamp updateDate;
 	
 	@Column(name = "dependency_id", nullable = false)
 	private Long dependencyId;
@@ -56,19 +56,19 @@ public class Expense {
 		this.totalAmount = totalAmount;
 	}
 
-	public Date getCreateDate() {
+	public Timestamp getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(Timestamp createDate) {
 		this.createDate = createDate;
 	}
 
-	public Date getUpdateDate() {
+	public Timestamp getUpdateDate() {
 		return updateDate;
 	}
 
-	public void setUpdateDate(Date updateDate) {
+	public void setUpdateDate(Timestamp updateDate) {
 		this.updateDate = updateDate;
 	}
 
