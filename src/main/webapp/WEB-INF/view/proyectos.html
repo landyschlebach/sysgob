@@ -50,13 +50,20 @@
                         <a class="a_gray" href="#" th:href="@{#}"><i class="fa fa-folder fa-fw"></i>  Proyectos<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="a_gray" href="formulario_proyectos.html" th:href="@{/proyectos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Creación</a>
+                                <a class="a_gray" id="project" 
+	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="formulario_proyectos.html" th:href="@{/proyectos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Crear</a>
                             </li>
                             <li>
-                                <a class="a_gray" href="editar_proyectos.html" th:href="@{/proyectos/modificar/1}"><i class="fa fa-edit fa-fw"></i>  Edición</a>
-                            </li>                            
+                                <a class="a_gray" id="project" 
+	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="editar_proyectos.html" th:href="@{/proyectos/modificar/1}"><i class="fa fa-edit fa-fw"></i>  Editar</a>
+                            </li>
                             <li>
-                                <a class="a_gray" href="proyectos.html" th:href="@{/proyectos/consulta}"><i class="fa fa-search fa-fw"></i>  Búsqueda</a>
+                                <a class="a_gray" id="project" 
+	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="eliminar_proyectos.html" th:href="@{/proyectos/eliminar/1}"><i class="fa fa-ban fa-fw"></i>  Remover</a>
+                            </li>                                 
+                            <li>
+                                <a class="a_gray" id="project" 
+	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="proyectos.html" th:href="@{/proyectos/consulta}"><i class="fa fa-search fa-fw"></i>  Buscar</a>
                             </li>                            
                         </ul>
                         <!-- /.nav-second-level -->
@@ -65,13 +72,20 @@
                         <a class="a_gray" href="#" th:href="@{#}"><i class="fa fa-money"></i>  Gastos<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="a_gray" href="formulario_gastos.html" th:href="@{/gastos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Creación</a>
+                                <a class="a_gray" id="expense" 
+	th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="formulario_gastos.html" th:href="@{/gastos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Crear</a>
                             </li>
                             <li>
-                                <a class="a_gray" href="editar_gastos.html" th:href="@{/gastos/modificar}"><i class="fa fa-edit fa-fw"></i>  Edición</a>
-                            </li>                               
+                                <a class="a_gray" id="expense" 
+    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="editar_gastos.html" th:href="@{/gastos/modificar}"><i class="fa fa-edit fa-fw"></i>  Editar</a>
+                            </li> 
                             <li>
-                                <a class="a_gray" href="gastos.html" th:href="@{/gastos/consulta}"><i class="fa fa-search fa-fw"></i>  Visualización</a>
+                                <a class="a_gray" id="expense" 
+    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="eliminar_gastos.html" th:href="@{/gastos/eliminar}"><i class="fa fa-ban fa-fw"></i>  Remover</a>
+                            </li>                                                             
+                            <li>
+                                <a class="a_gray" id="expense" 
+    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="gastos.html" th:href="@{/gastos/consulta}"><i class="fa fa-search fa-fw"></i>  Buscar</a>
                             </li>                            
                         </ul>
                         <!-- /.nav-second-level -->
@@ -184,5 +198,24 @@
     <script src="../../resources/js/bootstrap.min.js" th:scr="@{/resources/js/bootstrap.min.js}"></script>
     <script src="../../resources/js/metisMenu.min.js" th:scr="@{/resources/js/metisMenu.min.js}"></script>
     <script src="../../resources/js/sb-admin-2.js" th:scr="@{/resources/js/sb-admin-2.js}"></script>
+
+	<script>
+		function checkProjectLink(role) {
+		  proyecto = document.getElementById("project");
+		  
+		  if(role == 'DEPENDENCY_ACCOUNTANT_USER' || role == 'DEPENDENCY_MANAGER_USER'){
+			  event.preventDefault();
+		  }
+		}
+		
+		function checkExpenseLink(role) {
+		  gasto = document.getElementById("expense");
+		  
+		  if(role == 'DEPENDENCY_PM_USER' || role == 'DEPENDENCY_MANAGER_USER'){
+			  event.preventDefault();
+		  }
+		}
+	</script>
+
 </body>
 </html>
