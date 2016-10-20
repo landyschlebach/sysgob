@@ -145,4 +145,39 @@ public class ExpenseController {
 	    
 		return "editar_gastos";
 	}	
+	
+	@RequestMapping("/eliminar")
+	public String remove(ModelMap model) {
+		Long dependencyId = (Long) model.get("dependencyId");		
+		Expense expense = expenseWS.findById(dependencyId);
+
+	    model.addAttribute("expense", expense);	    
+		return "eliminar_gastos";
+	}
+
+	@RequestMapping(value = "/eliminar", method = RequestMethod.POST)
+	public String removeExpense(ModelMap model, Long expenseId) {
+		Long dependencyId = (Long) model.get("dependencyId");
+		
+		Budget budget = null;
+		boolean expenseRS = false;
+		boolean budgetRS = false; 
+
+		log.debug(TAG, "Expense for dependency [" + dependencyId + "] will be removed");
+		Expense expense = expenseWS.findById(dependencyId);
+		budget = expenseBO.getBudgetReduced(dependencyId, expense.getTotalAmount(), EDIT);
+
+		expenseRS = expenseWS.remove(expense);
+		budgetRS = budgetWS.modify(budget);
+
+		if(expenseRS && budgetRS) {
+			log.debug(TAG, "Showing success alert");
+			model.addAttribute("success", true);
+		} else if (!expenseRS || !budgetRS) {
+			log.debug(TAG, "Showing error alert");
+			model.addAttribute("failure", true);
+		}
+	    
+		return "eliminar_gastos";
+	}	
 }

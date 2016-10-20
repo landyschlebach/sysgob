@@ -29,6 +29,12 @@ public class BudgetRepository {
 		em.getTransaction().commit();
 	}
 	
+	public void deleteBudget(Budget budget) {
+		em.getTransaction().begin();
+		em.remove(budget);
+		em.getTransaction().commit();
+	}
+	
 	@Transactional(value = "transactionManager", readOnly = true)
 	public Budget getById(Long id) {
 		return em.find(Budget.class, id);

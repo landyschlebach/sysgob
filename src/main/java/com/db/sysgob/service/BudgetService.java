@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.db.sysgob.entity.Budget;
+import com.db.sysgob.entity.Expense;
 import com.db.sysgob.repository.BudgetRepository;
 
 @Service
@@ -44,6 +45,22 @@ public class BudgetService {
 			
 			log.debug(TAG, "Successfully updated Budget [" + budget +"]");
 		} catch (Exception e){
+			log.debug(TAG, e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	public boolean remove(Budget budget){
+		log.debug(TAG, "WebService [DELETE]");
+		boolean result = false;
+		
+		try {
+			budgetRepository.deleteBudget(budget);
+			result = true;
+			
+			log.debug(TAG, "Successfully remove Budget [" + budget +"]");
+		} catch (Exception e) {
 			log.debug(TAG, e.getMessage());
 		}
 		

@@ -19,7 +19,6 @@ import com.db.sysgob.entity.Budget;
 import com.db.sysgob.entity.Category;
 import com.db.sysgob.entity.Project;
 import com.db.sysgob.repository.CategoryRepository;
-import com.db.sysgob.repository.ProjectRepository;
 import com.db.sysgob.service.BudgetService;
 import com.db.sysgob.service.ProjectService;
 import com.db.sysgob.service.UserService;
@@ -217,11 +216,56 @@ public class ProjectController {
 		return "proyectos";
 	}	
 	
-	
-	/* Test: Health check of nemonicoDB */
-	@RequestMapping("/probar_conexion")
-	public String checkConnection() {
-		ProjectRepository projectRepository = new ProjectRepository();
-		return projectRepository.healthcheck();
+	@RequestMapping("/eliminar/{projectId}")
+	public String remove(ModelMap model, 
+			@PathVariable @RequestParam("projectId") Long projectId) {
+		
+		Project project = projectWS.search(projectId);
+	    
+	    if(project.getProjectId() != 1) {
+	    	model.addAttribute("prevId", project.getProjectId() - 1);
+	    }
+	    
+	    if(project.getProjectId() < (projectWS.search().size() + 1)) {
+	    	model.addAttribute("nextId", project.getProjectId() + 1);
+	    }
+	    
+	    model.addAttribute("project", project);
+		return "eliminar_proyectos";
 	}
+
+	@RequestMapping(value = "/eliminar/{projectId}", method = RequestMethod.POST)
+	public String removeProject(ModelMap model,
+			@PathVariable @RequestParam("projectId") Long projectId) throws ParseException {
+		
+		Budget budget = null;
+		boolean projectRS = false;
+		boolean budgetRS = false; 
+		
+		Long dependencyId = (Long) model.get("dependencyId");
+
+		Project project = projectWS.search(projectId);
+		log.debug(TAG, "Project [" + project + "] will be removed");
+
+		budget = projectBO.removeProjectAmountFromBudget(project, dependencyId);		
+		projectRS = projectWS.remove(project);
+
+		if(budget.getAmount() > 0){
+			budgetRS = budgetWS.modify(budget);
+		} else {
+			budgetRS = budgetWS.remove(budget);
+		}
+		
+		if(projectRS && budgetRS) {
+			log.debug(TAG, "Showing success alert");
+			model.addAttribute("success", true);
+		} else if (!projectRS || !budgetRS) {
+			log.debug(TAG, "Showing error alert");
+			model.addAttribute("failure", true);
+		}
+		
+	    model.addAttribute("projectId", project.getProjectId() + 1);
+	    
+		return "eliminar_proyectos";
+	}	
 }

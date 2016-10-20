@@ -166,6 +166,21 @@ public class ProjectBO {
 		return budget;
 	}
 	
+	public Budget removeProjectAmountFromBudget(Project project, Long dependencyId) throws ParseException {
+		log.debug(TAG, "Project amount will be removed from Budget");
+		Budget budget = null;
+		/*
+		 * Update entity of budget table
+		 */
+		if(budgetWS.findById(dependencyId) != null) {
+			budget = budgetWS.findById(dependencyId);
+			budget.setAmount(budget.getAmount() - project.getAmount());
+			log.debug(TAG, "Budget for dependencyId[" + dependencyId + "] - $" + budget.getAmount());
+		}
+		
+		return budget;
+	}
+	
 	public boolean verifyAmountChanged(Project project) {
 		log.debug(TAG, "Verifying project amount was modified [ProjecId=" + project.getProjectId() + "]");
 		
