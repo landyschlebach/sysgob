@@ -19,8 +19,7 @@ import com.db.sysgob.service.ExpenseService;
 @Controller
 @RequestMapping("/gastos")
 public class ExpenseController {
-	private final String TAG = ExpenseController.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(ExpenseController.class);
 	
 	private final String NEW = "new";
 	private final String EDIT = "edit";
@@ -39,7 +38,7 @@ public class ExpenseController {
 		Long dependencyId = (Long) model.get("dependencyId");
 		
 		Expense expense = expenseWS.findById(dependencyId);
-		log.debug(TAG, "Loading: Expense [" + expense + "]");
+		log.debug("Loading: Expense [" + expense + "]");
 	    
 	    model.addAttribute("expense", expense);	    
 		return "gastos";
@@ -64,7 +63,7 @@ public class ExpenseController {
 			/* Only if budget already exists do the following: 
 			 */
 			if(expenseWS.findById(dependencyId) != null) { 
-				log.debug(TAG, "Expense for dependency [" + dependencyId + "] already existed. Will modify it.");
+				log.debug("Expense for dependency [" + dependencyId + "] already existed. Will modify it.");
 				
 				expense = expenseWS.findById(dependencyId);
 				expense.setName(name);
@@ -77,7 +76,7 @@ public class ExpenseController {
 			} else {
 				
 				if(name != null && totalAmount != null){
-					log.debug(TAG, "Expense for dependency [" + dependencyId + "] didn't exist. Creating it.");
+					log.debug("Expense for dependency [" + dependencyId + "] didn't exist. Creating it.");
 					
 					expense = new Expense();
 					expense.setName(name);
@@ -92,19 +91,19 @@ public class ExpenseController {
 				}
 			}
 			
-			log.debug(TAG, "Reflecting total expense amount in budget amount");
+			log.debug("Reflecting total expense amount in budget amount");
 			budget = expenseBO.getBudgetReduced(dependencyId, expense.getTotalAmount(), NEW);
 			budgetRS = budgetWS.modify(budget);
 		}
 		
 		if(expenseRS && budgetRS) {
-			log.debug(TAG, "Showing success alert");
+			log.debug("Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!expenseRS || !budgetRS) {
-			log.debug(TAG, "Showing error alert");
+			log.debug("Showing error alert");
 			model.addAttribute("failure", true);
 		} else if (budgetRS && !expenseRS) {
-			log.debug(TAG, "Showing warning alert");
+			log.debug("Showing warning alert");
 			model.addAttribute("dataMissing", true);
 		}
 	    
@@ -128,7 +127,7 @@ public class ExpenseController {
 		boolean expenseRS = false;
 		boolean budgetRS = false; 
 
-		log.debug(TAG, "Expense for dependency [" + dependencyId + "] has been modified");
+		log.debug("Expense for dependency [" + dependencyId + "] has been modified");
 		Expense expense = expenseWS.findById(dependencyId);
 		
 		expense.setName(name);
@@ -144,10 +143,10 @@ public class ExpenseController {
 		}
 
 		if(expenseRS && budgetRS) {
-			log.debug(TAG, "Showing success alert");
+			log.debug("Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!expenseRS || !budgetRS) {
-			log.debug(TAG, "Showing error alert");
+			log.debug("Showing error alert");
 			model.addAttribute("failure", true);
 		}
 	    
@@ -171,7 +170,7 @@ public class ExpenseController {
 		boolean expenseRS = false;
 		boolean budgetRS = false; 
 
-		log.debug(TAG, "Expense for dependency [" + dependencyId + "] will be removed");
+		log.debug("Expense for dependency [" + dependencyId + "] will be removed");
 		Expense expense = expenseWS.findById(dependencyId);
 		budget = expenseBO.getBudgetReduced(dependencyId, expense.getTotalAmount(), EDIT);
 
@@ -179,10 +178,10 @@ public class ExpenseController {
 		budgetRS = budgetWS.modify(budget);
 
 		if(expenseRS && budgetRS) {
-			log.debug(TAG, "Showing success alert");
+			log.debug("Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!expenseRS || !budgetRS) {
-			log.debug(TAG, "Showing error alert");
+			log.debug("Showing error alert");
 			model.addAttribute("failure", true);
 		}
 	    

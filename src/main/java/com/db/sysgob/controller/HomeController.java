@@ -19,8 +19,7 @@ import com.db.sysgob.service.ProjectService;
 
 @Controller
 public class HomeController {
-	private final String TAG = HomeController.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
 	private BudgetService budgetWS;
@@ -37,7 +36,7 @@ public class HomeController {
 		String role = (String) model.get("role");
 		String user = (String) model.get("user");
 		
-		log.debug(TAG, "Loading dashboard for User[" + user + 
+		log.debug("Loading dashboard for User[" + user + 
 				"] DependencyId: [" + dependencyId + "] Role: [" + role + "]");
 		
 		Budget budget = budgetWS.findById(dependencyId);

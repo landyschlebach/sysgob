@@ -40,14 +40,14 @@ public class UserRepository {
 	public UserBasicInfo getUserByName(String username) {
 		
 		  Query qry = em.createNativeQuery("SELECT"
-		      		+ " u.userId, u.user, u.role_id, r.name, r.dependency_id, d.name"
+		      		+ " u.user_id, u.name, u.role_id, r.name, r.dependency_id, d.name"
 		      		+ " FROM users u"
 		      		+ " INNER JOIN roles r"
 		      		+ " ON u.role_id = r.role_id"
 		      		+ " INNER JOIN dependencies d"
 		      		+ " ON r.dependency_id = d.dependency_id"
-		      		+ " WHERE u.user = :user");
-		  qry.setParameter("user", username);
+		      		+ " WHERE u.name = :username");
+		  qry.setParameter("username", username);
 		  UserBasicInfo result = (UserBasicInfo) qry.getResultList().get(0);
 		
 		  return result;

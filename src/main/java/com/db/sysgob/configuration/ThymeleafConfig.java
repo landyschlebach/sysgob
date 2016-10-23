@@ -14,12 +14,11 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @Configuration
 @PropertySource("classpath:thymeleaf.properties")
 public class ThymeleafConfig {
-	private final String TAG = ThymeleafConfig.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(ThymeleafConfig.class);
 
     @Bean
     public TemplateResolver templateResolver(){
-    	log.debug(TAG, "Initializing ThymeleafConfig: Template Resolver");
+    	log.debug("Initializing ThymeleafConfig: Template Resolver");
     	
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
         templateResolver.setPrefix("/WEB-INF/view/");
@@ -31,7 +30,7 @@ public class ThymeleafConfig {
 
     @Bean
     public SpringTemplateEngine templateEngine(){
-    	log.debug(TAG, "Initializing ThymeleafConfig: Template Engine");
+    	log.debug("Initializing ThymeleafConfig: Template Engine");
     	
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
@@ -40,7 +39,7 @@ public class ThymeleafConfig {
 
     @Bean
     public ViewResolver viewResolver(){
-    	log.debug(TAG, "Thymeleaf: Setting View Resolver");
+    	log.debug("Thymeleaf: Setting View Resolver");
     	
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver() ;
         viewResolver.setTemplateEngine(templateEngine());

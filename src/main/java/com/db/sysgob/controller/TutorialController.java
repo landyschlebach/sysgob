@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class TutorialController {
-	private final String TAG = TutorialController.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(TutorialController.class);
 	
 	@RequestMapping("/tutorial")
 	public String loadTutorial(ModelMap model) {
-		log.debug(TAG, "Loading tutorial view");
+		log.debug("Loading tutorial view");
 		return "tutorial";
 	}
 }

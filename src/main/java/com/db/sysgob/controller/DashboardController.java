@@ -15,8 +15,7 @@ import com.db.sysgob.service.BudgetService;
 
 @Controller
 public class DashboardController {
-	private final String TAG = DashboardController.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(DashboardController.class);
 
 	@Autowired
 	private BudgetService budgetWS;
@@ -24,7 +23,7 @@ public class DashboardController {
 	@RequestMapping(value = "/publico", method = RequestMethod.GET)
 	public String loadBudgetsView(ModelMap model) {
 		
-		log.debug(TAG, "[Public user] Loading all dependencies' budgets");
+		log.debug("[Public user] Loading all budgets");
 		List<Budget> budgets = budgetWS.search();
 		model.addAttribute("budgets", budgets != null ? budgets : "");
 		

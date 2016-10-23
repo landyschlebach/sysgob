@@ -12,55 +12,54 @@ import com.db.sysgob.repository.ExpenseRepository;
 
 @Service
 public class ExpenseService {
-	private final String TAG = ExpenseService.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(ExpenseService.class);
 
 	@Autowired
 	private ExpenseRepository expenseRepository;
 	
 	public boolean create(Expense expense){
-		log.debug(TAG, "WebService [CREATE]");
+		log.debug("WebService [CREATE]");
 		boolean result = false;
 		
 		try {
 			expenseRepository.createExpense(expense);
 			result = true;
 			
-			log.debug(TAG, "Successfully created Expense [" + expense +"]");
+			log.debug("Successfully created Expense [" + expense +"]");
 		} catch (Exception e) {
-			log.debug(TAG, e.getMessage());
+			log.debug(e.getMessage());
 		}
 		
 		return result;
 	}
 	
 	public boolean modify(Expense expense){
-		log.debug(TAG, "WebService [UPDATE]");
+		log.debug("WebService [UPDATE]");
 		boolean result = false;
 		
 		try {
 			expenseRepository.updateExpense(expense);
 			result = true;
 			
-			log.debug(TAG, "Successfully updated Expense [" + expense +"]");
+			log.debug("Successfully updated Expense [" + expense +"]");
 		} catch (Exception e) {
-			log.debug(TAG, e.getMessage());
+			log.debug(e.getMessage());
 		}
 		
 		return result;
 	}
 	
 	public boolean remove(Expense expense){
-		log.debug(TAG, "WebService [DELETE]");
+		log.debug("WebService [DELETE]");
 		boolean result = false;
 		
 		try {
 			expenseRepository.deleteExpense(expense);
 			result = true;
 			
-			log.debug(TAG, "Successfully remove Expense [" + expense +"]");
+			log.debug("Successfully remove Expense [" + expense +"]");
 		} catch (Exception e) {
-			log.debug(TAG, e.getMessage());
+			log.debug(e.getMessage());
 		}
 		
 		return result;
@@ -71,9 +70,9 @@ public class ExpenseService {
 		
 		try {
 			result = expenseRepository.getExpenseByDependencyId(id);
-			log.debug(TAG, "Retrieving Expense [" + result + "]");
+			log.debug("Retrieving Expense [" + result + "]");
 		} catch (Exception e){
-			log.debug(TAG, e.getMessage());
+			log.debug(e.getMessage());
 		}
 		
 		return result;
@@ -85,7 +84,7 @@ public class ExpenseService {
 		try {
 			result = expenseRepository.getExpenses();
 		} catch (Exception e){
-			log.debug(TAG, e.getMessage());
+			log.debug(e.getMessage());
 		}
 		
 		return result;

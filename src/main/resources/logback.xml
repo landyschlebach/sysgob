@@ -5,16 +5,15 @@
 	<property name="DEFAULT_MAX_FILE_SIZE" value="128MB" />
 	<property name="DEFAULT_MAX_HISTORY" value="8" />
 
-	<!--appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<appender name="sysgob" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-			</pattern>
+			<pattern>${DEFAULT_PATTERN}</pattern>
 		</encoder>
-	</appender-->
+	</appender>
 
 	<appender name="sysgob"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/usr/local/apache-tomcat-7.0.72/logs/sysgob.log</file>
+		<file>${log.path}sysgob.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>system.log.k3m-%d{yyyy-MM-dd}.gz</fileNamePattern>
 			<maxHistory>${DEFAULT_MAX_HISTORY}</maxHistory>

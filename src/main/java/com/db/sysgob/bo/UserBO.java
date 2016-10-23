@@ -11,8 +11,7 @@ import com.db.sysgob.repository.RoleRepository;
 import com.db.sysgob.repository.UserRepository;
 
 public class UserBO {
-	private final String TAG = UserBO.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(UserBO.class);
 
 	private final String ADVANCED_USER = "ADVANCED_USER";
 	private final String PM_USER = "PM_USER";
@@ -32,25 +31,25 @@ public class UserBO {
 	}
 	
 	public void blockUser(User user) {
-		log.debug(TAG, "Blocking UserId[" + user.getUserId() + "]");
+		log.debug("Blocking " + user);
 		
 		try {
-			user.blocked(true);
+			//user.blocked(1);
 			userRepository.updateUser(user);
-			log.debug(TAG, "Succesfully blocked UserId[" + user.getUserId() + "]");
+			log.debug("Succesfully blocked " + user);
 		
 		} catch(Exception e) {
-			log.debug(TAG, "An error has ocurring while trying to block"
-			+ " UserId[" + user.getUserId() + "] " + e.getMessage());
+			log.debug("An error has ocurring while trying to block"
+			+ user + " " + e.getMessage());
 		}
 	}
 	
 	public Long getDependencyOfUser(Long userId) {
-		log.debug(TAG, "Finding dependencyId for User[" + userId + "]");
+		log.debug("Finding dependencyId for User[" + userId + "]");
 		User user = userRepository.getUserById(userId);
 		Role role = roleRepository.getById(user.getRoleId());
 
-		log.debug(TAG, "DependencyId=" + role.getDependencyId() + "for User[" + userId + "]");
+		log.debug("DependencyId=" + role.getDependencyId() + "for User[" + userId + "]");
 		return role.getDependencyId();
 	}
 }

@@ -26,8 +26,7 @@ import com.db.sysgob.service.UserService;
 @Controller
 @RequestMapping("/proyectos")
 public class ProjectController {
-	private final String TAG = ProjectController.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(ProjectController.class);
 
 	@Autowired
 	private ProjectBO projectBO;
@@ -46,7 +45,7 @@ public class ProjectController {
 		Long dependencyId = (Long) model.get("dependencyId");
 		
 		List<Project> projects = projectWS.findById(dependencyId);
-		log.debug(TAG, "Loading: Projects [" + projects +"]");
+		log.debug("Loading: Projects [" + projects +"]");
 	    
 	    model.addAttribute("projects", projects);	    
 		return "proyectos";
@@ -79,7 +78,7 @@ public class ProjectController {
 			project.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
 			project.setUserId(userId);
 			
-			log.debug(TAG, "Creating new Project [" + project + "]");
+			log.debug("Creating new Project [" + project + "]");
 			projectRS = projectWS.create(project);
 			
 			model.addAttribute("project", project);
@@ -91,7 +90,7 @@ public class ProjectController {
 		}
 		
 		if(projectBO.verifyBudget(dependencyId) == null) {
-			log.debug(TAG, "First project created for dependency[" + dependencyId + "]. Will create budget.");
+			log.debug("First project created for dependency[" + dependencyId + "]. Will create budget.");
 			
 			Budget budget = projectBO.initiateDefaultBudget(dependencyId);
 			budgetRS = budgetWS.create(budget);
@@ -100,13 +99,13 @@ public class ProjectController {
 		}
 		
 		if(projectRS && budgetRS) {
-			log.debug(TAG, "Showing success alert");
+			log.debug("Showing success alert");
 			view = "redirect:/proyectos/clasificar";
 		} else if (!projectRS || !budgetRS) {
-			log.debug(TAG, "Showing error alert");
+			log.debug("Showing error alert");
 			model.addAttribute("failure", true);
 		} else if (budgetRS && !projectRS) {
-			log.debug(TAG, "Showing warning alert");
+			log.debug("Showing warning alert");
 			model.addAttribute("dataMissing", true);
 		}
 
@@ -149,10 +148,10 @@ public class ProjectController {
 		budgetRS = budgetWS.modify(budget);
 		
 		if(projectRS && budgetRS) {
-			log.debug(TAG, "Showing success alert");
+			log.debug("Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!projectRS || !budgetRS) {
-			log.debug(TAG, "Showing error alert");
+			log.debug("Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		
@@ -191,7 +190,7 @@ public class ProjectController {
 		String user = (String) model.get("user");
 
 		Project project = (Project) model.get("project");
-		log.debug(TAG, "Project [" + project + "] has been modified");
+		log.debug("Project [" + project + "] has been modified");
 		
 		project.setName(name);
 		project.setDescription(description);
@@ -210,10 +209,10 @@ public class ProjectController {
 		}
 		
 		if(projectRS && budgetRS) {
-			log.debug(TAG, "Showing success alert");
+			log.debug("Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!projectRS || !budgetRS) {
-			log.debug(TAG, "Showing error alert");
+			log.debug("Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		
@@ -252,7 +251,7 @@ public class ProjectController {
 		Long dependencyId = (Long) model.get("dependencyId");
 
 		Project project = projectWS.search(projectId);
-		log.debug(TAG, "Project [" + project + "] will be removed");
+		log.debug("Project [" + project + "] will be removed");
 
 		budget = projectBO.removeProjectAmountFromBudget(project, dependencyId);		
 		projectRS = projectWS.remove(project);
@@ -264,10 +263,10 @@ public class ProjectController {
 		}
 		
 		if(projectRS && budgetRS) {
-			log.debug(TAG, "Showing success alert");
+			log.debug("Showing success alert");
 			model.addAttribute("success", true);
 		} else if (!projectRS || !budgetRS) {
-			log.debug(TAG, "Showing error alert");
+			log.debug("Showing error alert");
 			model.addAttribute("failure", true);
 		}
 		

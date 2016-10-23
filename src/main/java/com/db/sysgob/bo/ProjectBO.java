@@ -17,8 +17,7 @@ import com.db.sysgob.service.ProjectService;
 
 @Component
 public class ProjectBO {	
-	private final String TAG = ProjectBO.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(ProjectBO.class);
 	
 	private final String date = "31/12/2017";              
     private final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");   
@@ -36,19 +35,19 @@ public class ProjectBO {
 			Long othersClassification, Long otherImplications, 
 			Long financeClassification, Long strategicClassification) {
 		
-		log.debug(TAG, "Calculating System SYSGOB Category");
+		log.debug("Calculating System SYSGOB Category");
 		Long total = riskClassification + 
 					othersClassification + 
 					financeClassification + 
 					otherImplications + 
 					strategicClassification;
 		
-		log.debug(TAG, "Total category points: " + total);
+		log.debug("Total category points: " + total);
 		return total;
 	}
 	
 	public Project defineCategory(Project project, Long points) {
-		log.debug(TAG, "Defining Project[" + project.getProjectId() + "] category");
+		log.debug("Defining " + project + " category");
 		Long systemCategoryId = 0L;
 		Category category = categoryRepository.getById(project.getCategoryId());
 		/* 
@@ -62,18 +61,18 @@ public class ProjectBO {
 		 */
 		systemCategoryId = categoryRepository.getCategoryByPoints(averageCategory);
 		project.setCategoryId(systemCategoryId);
-		log.debug(TAG, "Project[" + project.getProjectId() + "] final category: " + project.getCategoryId());
+		log.debug(project + " final category: " + project.getCategoryId());
 		
 		return project;
 	}
 	
 	public Budget verifyBudget(Long dependencyId) {
-		log.debug(TAG, "Verifying budget [" + dependencyId + "]");
+		log.debug("Verifying budget [" + dependencyId + "]");
 		return budgetWS.findById(dependencyId);
 	}
 	
 	public Budget initiateDefaultBudget(Long dependencyId) throws ParseException {
-		log.debug(TAG, "Making default budget");
+		log.debug("Making default budget");
 		
 		Budget budget = new Budget();
 		
@@ -85,7 +84,7 @@ public class ProjectBO {
 	}
 	
 	public Budget calculateBudget(Project project, Long dependencyId) throws ParseException {
-		log.debug(TAG, "[Initial] Calculating budget");
+		log.debug("[Initial] Calculating budget");
 		
 		Budget budget = null;
 		Long amount = project.getAmount();
@@ -95,22 +94,22 @@ public class ProjectBO {
 		 *  	of budget the project will get.
 		 */
 
-		log.debug(TAG, "Project Category=[" + project.getCategoryId() + "]");
+		log.debug("Project Category=[" + project.getCategoryId() + "]");
 		if (project.getCategoryId() == 2) {
-			log.debug(TAG, "Project [" + project.getProjectId() + "] is assign 75% of $" + project.getAmount());
+			log.debug("Project [" + project.getProjectId() + "] is assign 75% of $" + project.getAmount());
 			amount = (long) (amount * 0.75);
 			
-			log.debug(TAG, "Project [" + project.getProjectId() + "] total budget amount: $" + amount);
+			log.debug("Project [" + project.getProjectId() + "] total budget amount: $" + amount);
 		} else if (project.getCategoryId() == 3) {
-			log.debug(TAG, "Project [" + project.getProjectId() + "] is assign 50% of $" + project.getAmount());
+			log.debug("Project [" + project.getProjectId() + "] is assign 50% of $" + project.getAmount());
 			amount = (long) (amount * 0.50);
 			
-			log.debug(TAG, "Project [" + project.getProjectId() + "] total budget amount: $" + amount);
+			log.debug("Project [" + project.getProjectId() + "] total budget amount: $" + amount);
 		} else {
-			log.debug(TAG, "Project [" + project.getProjectId() + "] is assign 25% of $" + project.getAmount());
+			log.debug("Project [" + project.getProjectId() + "] is assign 25% of $" + project.getAmount());
 			amount = (long) (amount * 0.25);
 			
-			log.debug(TAG, "Project [" + project.getProjectId() + "] total budget amount: $" + amount);
+			log.debug("Project [" + project.getProjectId() + "] total budget amount: $" + amount);
 		}
 		/*
 		 * Update entity of budget table
@@ -119,14 +118,14 @@ public class ProjectBO {
 			
 			budget = budgetWS.findById(dependencyId);
 			budget.setAmount(budget.getAmount() + amount);
-			log.debug(TAG, "Budget for dependencyId[" + dependencyId + "] - $" + budget.getAmount());
+			log.debug("Budget for dependencyId[" + dependencyId + "] - $" + budget.getAmount());
 		}
 		
 		return budget;
 	}
 	
 	public Budget recalculateBudget(Project project, Long dependencyId) throws ParseException {
-		log.debug(TAG, "Project amount or category is being modified: [Recalculating Budget]");
+		log.debug("Project amount or category is being modified: [Recalculating Budget]");
 		
 		Budget budget = null;
 		Project prevProject = projectWS.search(project.getProjectId());
@@ -136,22 +135,22 @@ public class ProjectBO {
 		 * Based on the category, define the percentage
 		 *  	of budget the project will get.
 		 */
-		log.debug(TAG, "Project Category=[" + project.getCategoryId() + "]");
+		log.debug("Project Category=[" + project.getCategoryId() + "]");
 		if (project.getCategoryId() == 2) {
-			log.debug(TAG, "Project [" + project.getProjectId() + "] is assign 75% of $" + project.getAmount());
+			log.debug("Project [" + project.getProjectId() + "] is assign 75% of $" + project.getAmount());
 			amount = (long) (amount * 0.75);
 			
-			log.debug(TAG, "Project [" + project.getProjectId() + "] total budget amount: $" + amount);
+			log.debug("Project [" + project.getProjectId() + "] total budget amount: $" + amount);
 		} else if (project.getCategoryId() == 3) {
-			log.debug(TAG, "Project [" + project.getProjectId() + "] is assign 50% of $" + project.getAmount());
+			log.debug("Project [" + project.getProjectId() + "] is assign 50% of $" + project.getAmount());
 			amount = (long) (amount * 0.50);
 			
-			log.debug(TAG, "Project [" + project.getProjectId() + "] total budget amount: $" + amount);
+			log.debug("Project [" + project.getProjectId() + "] total budget amount: $" + amount);
 		} else {
-			log.debug(TAG, "Project [" + project.getProjectId() + "] is assign 25% of $" + project.getAmount());
+			log.debug("Project [" + project.getProjectId() + "] is assign 25% of $" + project.getAmount());
 			amount = (long) (amount * 0.25);
 			
-			log.debug(TAG, "Project [" + project.getProjectId() + "] total budget amount: $" + amount);
+			log.debug("Project [" + project.getProjectId() + "] total budget amount: $" + amount);
 		}
 		/*
 		 * Update entity of budget table
@@ -160,14 +159,14 @@ public class ProjectBO {
 			
 			budget = budgetWS.findById(dependencyId);
 			budget.setAmount((budget.getAmount() - prevProject.getAmount()) + amount);
-			log.debug(TAG, "Budget for dependencyId[" + dependencyId + "] - $" + budget.getAmount());
+			log.debug("Budget for dependencyId[" + dependencyId + "] - $" + budget.getAmount());
 		}
 		
 		return budget;
 	}
 	
 	public Budget removeProjectAmountFromBudget(Project project, Long dependencyId) throws ParseException {
-		log.debug(TAG, "Project amount will be removed from Budget");
+		log.debug("Project amount will be removed from Budget");
 		Budget budget = null;
 		/*
 		 * Update entity of budget table
@@ -175,23 +174,23 @@ public class ProjectBO {
 		if(budgetWS.findById(dependencyId) != null) {
 			budget = budgetWS.findById(dependencyId);
 			budget.setAmount(budget.getAmount() - project.getAmount());
-			log.debug(TAG, "Budget for dependencyId[" + dependencyId + "] - $" + budget.getAmount());
+			log.debug("Budget for dependencyId[" + dependencyId + "] - $" + budget.getAmount());
 		}
 		
 		return budget;
 	}
 	
 	public boolean verifyAmountChanged(Project project) {
-		log.debug(TAG, "Verifying project amount was modified [ProjecId=" + project.getProjectId() + "]");
+		log.debug("Verifying project amount was modified [ProjecId=" + project.getProjectId() + "]");
 		
 		boolean result = false;
 		Project prevProjectInfo = projectWS.search(project.getProjectId());
 		
 		if(!prevProjectInfo.getAmount().equals(prevProjectInfo.getAmount())) {
-			log.debug(TAG, "Project " + project.getProjectId() + " changed");
+			log.debug("[CHANGE ] " + project);
 			return true;
 		} else{
-			log.debug(TAG, "Project " + project.getProjectId() + " NOT changed");
+			log.debug("[NO CHANGE] " + project);
 		}
 		
 		return result;

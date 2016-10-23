@@ -16,27 +16,26 @@ import javax.servlet.ServletRegistration;
 
 @Configuration
 public class WebInitializer implements WebApplicationInitializer {
-	private final String TAG = WebInitializer.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(WebInitializer.class);
 	
     @Override
     public void onStartup(ServletContext container) throws ServletException {
-    	log.debug(TAG, "Initializing SYSGOB");
+    	log.debug("Initializing SYSGOB");
     	
-    	log.debug(TAG, "Creating the 'root' Spring application context");
+    	log.debug("Creating the 'root' Spring application context");
         AnnotationConfigWebApplicationContext rootContext =
                 new AnnotationConfigWebApplicationContext();
         rootContext.register(AppConfiguration.class);
 
-    	log.debug(TAG, "Manage the lifecycle of the root application context");
+    	log.debug("Manage the lifecycle of the root application context");
         container.addListener(new ContextLoaderListener(rootContext));
 
-    	log.debug(TAG, "Create the dispatcher servlet's Spring application context");
+    	log.debug("Create the dispatcher servlet's Spring application context");
         AnnotationConfigWebApplicationContext dispatcherContext =
                 new AnnotationConfigWebApplicationContext();
         dispatcherContext.register(DispatcherConfig.class);
 
-    	log.debug(TAG, "Register and map the dispatcher servlet");
+    	log.debug("Register and map the dispatcher servlet");
         ServletRegistration.Dynamic dispatcher =
                 container.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
         dispatcher.setLoadOnStartup(1);

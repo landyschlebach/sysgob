@@ -17,7 +17,6 @@ import com.db.sysgob.service.UserService;
 @RequestMapping("/login")
 @SessionAttributes("user")
 public class LoginController {
-	private final String TAG = LoginController.class.getSimpleName();
 	private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
