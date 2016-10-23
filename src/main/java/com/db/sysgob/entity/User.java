@@ -18,8 +18,8 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
 	
-	@Column(name = "user", nullable = false)
-	private String user;
+	@Column(name = "name", nullable = false)
+	private String name;
 	
 	@Column(name = "password", nullable = false)
 	private String password;
@@ -34,7 +34,7 @@ public class User {
 	private Timestamp updateDate;
 	
 	@Column(name = "blocked")
-	private boolean blocked;
+	private short blocked;
 
 	public Long getUserId() {
 		return userId;
@@ -45,11 +45,11 @@ public class User {
 	}
 
 	public String getUser() {
-		return user;
+		return name;
 	}
 
 	public void setUser(String user) {
-		this.user = user;
+		this.name = user;
 	}
 
 	public String getPassword() {
@@ -84,18 +84,18 @@ public class User {
 		this.updateDate = updateDate;
 	}
 	
-	public boolean getBlocked() {
+	public short getBlocked() {
 		return blocked;
 	}
 
-	public void blocked(boolean blocked) {
+	public void blocked(short blocked) {
 		this.blocked = blocked;
 	}
 	
     @Override
     public String toString() {
     	return "User [userId=" + userId + 
-			", user=" + user + 
+			", user=" + name + 
 			", password=" + password + 
 			", roleId=" + roleId + 
 			", createDate=" + createDate +
