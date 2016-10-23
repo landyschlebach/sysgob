@@ -26,7 +26,7 @@ public class DashboardController {
 		
 		log.debug(TAG, "[Public user] Loading all dependencies' budgets");
 		List<Budget> budgets = budgetWS.search();
-		model.addAttribute("budgets", budgets);
+		model.addAttribute("budgets", budgets != null ? budgets : "");
 		
 		return "dashboard";
 	}

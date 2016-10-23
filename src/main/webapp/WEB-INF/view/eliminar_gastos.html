@@ -111,6 +111,16 @@
                	    	<p><b>Ha ocurrido un error</b></p>  
              		</div>     		
 
+             		<div th:if="${dataMissing}" class="alert alert-warning" role="alert">
+               		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               	    	<p><b>Favor de llenar todos los campos</b></p>  
+             		</div>     	
+
+             		<div th:if="${connectivity}" class="alert alert-info" role="alert">
+               		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               	    	<p><b>Debido a un problema de conectividad, la información se actualizará más tarde.</b></p>  
+             		</div>     	
+
          			<div th:if="${success}" class="alert alert-success" role="alert">
                		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                	    	<p><b>Gasto eliminado exitosamente</b></p>

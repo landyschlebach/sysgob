@@ -18,7 +18,7 @@ import com.db.sysgob.service.UserService;
 @SessionAttributes("user")
 public class LoginController {
 	private final String TAG = LoginController.class.getSimpleName();
-	private static final Logger log = LoggerFactory.getLogger("sysgob_log");
+	private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
 	private UserService userWS;
@@ -33,31 +33,31 @@ public class LoginController {
 		String view = "";
 
 		try {
-			log.debug(TAG, "Validating user credentials");
+			log.debug("Validating user credentials");
 
-			UserBasicInfo user = userWS.findByUsername(username);
-			User userEntered = userWS.findById(user.getUserId());
+			UserBasicInfo userEntered = userWS.findByUsername(username);
+			User user = userWS.findById(userEntered.getUserId());
 
 			/* Validate password */
-			if (user != null && userEntered.getPassword().equals(password)) {
+			if (user.getPassword().equals(password)) {
 
-				log.debug(TAG, "User credentials: CORRECT [" + userEntered + "]");
+				log.debug("User credentials: CORRECT [" + user + "]");
 
 				/* Add basic user info */
 				model.addAttribute("user", username);
-				model.addAttribute("roleId", user.getRoleId());
-				model.addAttribute("role", user.getRoleName());
-				model.addAttribute("dependencyId", user.getDependencyId());
-				model.addAttribute("dependency", user.getDependencyName());
+				model.addAttribute("roleId", userEntered.getRoleId());
+				model.addAttribute("role", userEntered.getRoleName());
+				model.addAttribute("dependencyId", userEntered.getDependencyId());
+				model.addAttribute("dependency", userEntered.getDependencyName());
 				view = "index";
 			} else {
-				log.debug(TAG, "User credentials: WRONG [" + userEntered + "]");
+				log.debug("User credentials: WRONG [" + user + "]");
 				model.addAttribute("failure", true);
 				view = "login";
 			}
 
 		} catch (Exception e) {
-			log.debug(TAG, e.getMessage());
+			log.debug(e.getMessage());
 			model.addAttribute("blocked", true);
 			view = "login";
 		}

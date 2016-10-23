@@ -103,6 +103,9 @@ public class ExpenseController {
 		} else if (!expenseRS || !budgetRS) {
 			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
+		} else if (budgetRS && !expenseRS) {
+			log.debug(TAG, "Showing warning alert");
+			model.addAttribute("dataMissing", true);
 		}
 	    
 		return "formulario_gastos";

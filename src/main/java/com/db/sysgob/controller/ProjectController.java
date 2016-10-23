@@ -105,6 +105,9 @@ public class ProjectController {
 		} else if (!projectRS || !budgetRS) {
 			log.debug(TAG, "Showing error alert");
 			model.addAttribute("failure", true);
+		} else if (budgetRS && !projectRS) {
+			log.debug(TAG, "Showing warning alert");
+			model.addAttribute("dataMissing", true);
 		}
 
 		return view;

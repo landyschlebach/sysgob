@@ -44,9 +44,9 @@ public class HomeController {
 		Expense expense = expenseWS.findById(dependencyId);
 		List<Project> projects = projectWS.findById(dependencyId);
 		
-		model.addAttribute("budgetAmount", budget.getAmount());
-		model.addAttribute("expenseAmount", expense.getTotalAmount());
-		model.addAttribute("projects", projects);
+		model.addAttribute("budgetAmount", budget != null ? budget.getAmount() : "0");
+		model.addAttribute("expenseAmount", expense != null ? expense.getTotalAmount() : "0");
+		model.addAttribute("projects", projects != null ? projects : null);
 			
 		return "index";
 	}
