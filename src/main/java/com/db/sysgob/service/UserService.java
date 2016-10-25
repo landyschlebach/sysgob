@@ -5,8 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.db.sysgob.entity.Dependency;
+import com.db.sysgob.entity.Role;
 import com.db.sysgob.entity.User;
-import com.db.sysgob.entity.UserBasicInfo;
+import com.db.sysgob.repository.DependencyRepository;
+import com.db.sysgob.repository.RoleRepository;
 import com.db.sysgob.repository.UserRepository;
 
 @Service
@@ -15,6 +18,12 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private DependencyRepository dependencyRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	public boolean create(User user){
 		log.debug("WebService [CREATE]");
@@ -60,8 +69,8 @@ public class UserService {
 		return result;
 	}
 	
-	public UserBasicInfo findByUsername(String username){
-		UserBasicInfo result = null;
+	public User findByUsername(String username){
+		User result = null;
 		
 		try {
 			result = userRepository.getUserByName(username);
@@ -71,4 +80,28 @@ public class UserService {
 		
 		return result;
 	}
+	
+	public Dependency findUserDependency(Long id){
+		Dependency result = null;
+		
+		try {
+			result = dependencyRepository.getById(id);
+		} catch (Exception e){
+			log.debug(e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	public Role findUserRole(Long id){
+		Role result = null;
+		
+		try {
+			result = roleRepository.getById(id);
+		} catch (Exception e){
+			log.debug(e.getMessage());
+		}
+		
+		return result;
+	}	
 }

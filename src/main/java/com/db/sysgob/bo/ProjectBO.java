@@ -2,6 +2,7 @@ package com.db.sysgob.bo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 import com.db.sysgob.entity.Budget;
 import com.db.sysgob.entity.Category;
 import com.db.sysgob.entity.Project;
+import com.db.sysgob.entity.ProjectDetail;
+import com.db.sysgob.entity.ProjectSummary;
 import com.db.sysgob.repository.CategoryRepository;
 import com.db.sysgob.service.BudgetService;
 import com.db.sysgob.service.ProjectService;
@@ -59,7 +62,7 @@ public class ProjectBO {
 		 * Consult the DB to know
 		 * the final category assigned
 		 */
-		systemCategoryId = categoryRepository.getCategoryByPoints(averageCategory);
+		systemCategoryId = categoryRepository.getCategoryByPoints(averageCategory).getCategoryId();
 		project.setCategoryId(systemCategoryId);
 		log.debug(project + " final category: " + project.getCategoryId());
 		
@@ -67,8 +70,8 @@ public class ProjectBO {
 	}
 	
 	public Budget verifyBudget(Long dependencyId) {
-		log.debug("Verifying budget [" + dependencyId + "]");
-		return budgetWS.findById(dependencyId);
+		log.debug("Verifying budget for [DependencyId=" + dependencyId + "]");
+		return budgetWS.findByDependencyId(dependencyId);
 	}
 	
 	public Budget initiateDefaultBudget(Long dependencyId) throws ParseException {
@@ -114,9 +117,9 @@ public class ProjectBO {
 		/*
 		 * Update entity of budget table
 		 */
-		if(budgetWS.findById(dependencyId) != null) {
+		if(budgetWS.findByDependencyId(dependencyId) != null) {
 			
-			budget = budgetWS.findById(dependencyId);
+			budget = budgetWS.findByDependencyId(dependencyId);
 			budget.setAmount(budget.getAmount() + amount);
 			log.debug("Budget for dependencyId[" + dependencyId + "] - $" + budget.getAmount());
 		}
@@ -128,7 +131,7 @@ public class ProjectBO {
 		log.debug("Project amount or category is being modified: [Recalculating Budget]");
 		
 		Budget budget = null;
-		Project prevProject = projectWS.search(project.getProjectId());
+		Project prevProject = projectWS.findById(project.getProjectId());
 		Long amount = project.getAmount();
 		
 		/*
@@ -155,9 +158,9 @@ public class ProjectBO {
 		/*
 		 * Update entity of budget table
 		 */
-		if(budgetWS.findById(dependencyId) != null) {
+		if(budgetWS.findByDependencyId(dependencyId) != null) {
 			
-			budget = budgetWS.findById(dependencyId);
+			budget = budgetWS.findByDependencyId(dependencyId);
 			budget.setAmount((budget.getAmount() - prevProject.getAmount()) + amount);
 			log.debug("Budget for dependencyId[" + dependencyId + "] - $" + budget.getAmount());
 		}
@@ -171,8 +174,8 @@ public class ProjectBO {
 		/*
 		 * Update entity of budget table
 		 */
-		if(budgetWS.findById(dependencyId) != null) {
-			budget = budgetWS.findById(dependencyId);
+		if(budgetWS.findByDependencyId(dependencyId) != null) {
+			budget = budgetWS.findByDependencyId(dependencyId);
 			budget.setAmount(budget.getAmount() - project.getAmount());
 			log.debug("Budget for dependencyId[" + dependencyId + "] - $" + budget.getAmount());
 		}
@@ -184,7 +187,7 @@ public class ProjectBO {
 		log.debug("Verifying project amount was modified [ProjecId=" + project.getProjectId() + "]");
 		
 		boolean result = false;
-		Project prevProjectInfo = projectWS.search(project.getProjectId());
+		Project prevProjectInfo = projectWS.findById(project.getProjectId());
 		
 		if(!prevProjectInfo.getAmount().equals(prevProjectInfo.getAmount())) {
 			log.debug("[CHANGE ] " + project);
@@ -194,5 +197,104 @@ public class ProjectBO {
 		}
 		
 		return result;
+	}
+	
+	public ProjectDetail getCurrentProject(Long projectId, Long dependencyId) {
+		log.debug("Checking ProjectId[" + projectId + "], DependencyId [" + dependencyId + "]");
+		List<ProjectDetail> projects = projectWS.findProjectDetailsByDependencyId(dependencyId);
+	    int position = 0;
+	    
+		if(projectId == 1) {
+			log.debug("Return first project in list.");
+			return projects.get(0);
+		} else {
+			log.debug("ProjectId[" + projectId + "]");
+			
+			for(int i=0; i <= projects.size(); i++) {
+				
+				if(projectId == projects.get(i).getProjectId()) {
+					position = i;
+				}
+			}
+			return projects.get(position);
+		}
+	}
+	
+	public Long getPreviousProject(Long projectId, Long dependencyId) {
+		log.debug("Checking ProjectId[" + projectId + "], DependencyId [" + dependencyId + "]");
+		List<ProjectSummary> projects = projectWS.findByDependencyId(dependencyId);
+		log.debug(projects.toString());
+	    int position = 0;
+	    
+		if(projectId != 1) {
+
+			log.debug("ProjectId[" + projectId + "] not the first in list.");
+			for(int i=0; i <= projects.size(); i++) {
+			
+				if(projectId == projects.get(i).getProjectId()) {
+					position = i--;
+				}
+			}
+			return projects.get(position).getProjectId();
+		} else {
+			log.debug("ProjectId[" + projectId + "] first in list.");
+			return null;
+		}
+	}
+	
+	public Long getNextProject(Long projectId, Long dependencyId) {
+		log.debug("Checking ProjectId[" + projectId + "], DependencyId [" + dependencyId + "]");
+		List<ProjectSummary> projects = projectWS.findByDependencyId(dependencyId);
+		log.debug(projects.toString());
+		ProjectSummary lastProject = projects.get(projects.size() - 1);
+		log.debug(lastProject.toString());
+		
+		if(projectId == 1 && projects.size() > 1) {
+			return projects.get(1).getProjectId();
+			
+		} else if(projectId != lastProject.getProjectId() && projects.size() > 1) {
+				log.debug("ProjectId[" + projectId + "] not last in list.");
+				
+			    int position = 0;
+				for(int i=0; i <= projects.size(); i++) {
+					
+					if(projectId == projects.get(i).getProjectId()) {
+						position = i++;
+					}
+				}
+				return projects.get(position).getProjectId();
+		} else {
+			log.debug("ProjectId[" + projectId + "] last in list.");
+			return null;
+		}
+	}
+	
+	public Project getProjectAfterRemoval(Long projectId, Long dependencyId) {
+		log.debug("Checking ProjectId[" + projectId + "], DependencyId [" + dependencyId + "]");
+		List<ProjectSummary> projects = projectWS.findByDependencyId(dependencyId);
+		log.debug(projects.toString());
+		
+		ProjectSummary lastProject = projects.get(projects.size() - 1);
+		if(projectId == lastProject.getProjectId()) {
+			
+			ProjectSummary project = projects.get(projects.size() - 2);
+			return projectWS.findById(project.getProjectId());
+			
+		} else if (projectId == projects.get(0).getProjectId()) {
+			ProjectSummary project = projects.get(1);
+			return projectWS.findById(project.getProjectId());
+		} else {
+			
+		    int position = 0;
+			for(int i = 0; i <= projects.size(); i++) {
+			
+				if(projectId == projects.get(i).getProjectId()) {
+					position = i++;
+				}
+			}
+			ProjectSummary project = projects.get(position);
+			return projectWS.findById(project.getProjectId());		
+		}
+
 	}
 }

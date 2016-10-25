@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -14,35 +15,35 @@ import com.db.sysgob.entity.Expense;
 @Repository
 public class ExpenseRepository {
 	
-	@PersistenceContext
+	@PersistenceContext(unitName = "persistenceUnit")
 	private EntityManager em;
-	
+
+	@Transactional(value = "transactionManager")
 	public void createExpense(Expense expense) {
-		em.getTransaction().begin();
 		em.persist(expense);
-		em.getTransaction().commit();
-	}
-	
-	public void updateExpense(Expense expense) {
-		em.getTransaction().begin();
-		em.merge(expense);
-		em.getTransaction().commit();
-	}
-	
-	public void deleteExpense(Expense expense) {
-		em.getTransaction().begin();
-		em.remove(expense);
-		em.getTransaction().commit();
+		em.flush();
 	}
 
-	@Transactional(value = "transactionManager", readOnly = true)
+	@Transactional(value = "transactionManager")
+	public void updateExpense(Expense expense) {
+		em.merge(expense);
+		em.flush();
+	}
+
+	@Transactional(value = "transactionManager")
+	public void deleteExpense(Expense expense) {
+		 Query qry = em.createQuery("DELETE from Expense AS e"
+		 		+ " WHERE e.expenseId=:expenseId").setParameter(
+		 				"expenseId", expense.getExpenseId());
+		 qry.executeUpdate();
+		 em.flush();
+	}
+
 	public Expense getById(Long id) {
 		return em.find(Expense.class, id);
 	}
 
-	@Transactional(value = "transactionManager", readOnly = true)
 	public Expense getExpenseByDependencyId(Long dependencyId) {
-	
 	  TypedQuery<Expense> qry =
 	      em.createQuery(
 	          "from Expense as c where c.dependencyId=:dependencyId",
@@ -53,11 +54,12 @@ public class ExpenseRepository {
 	  return result;
 	}
 	
-	@Transactional(value = "transactionManager", readOnly = true)
 	public List<Expense> getExpenses() {
-	      return em.createQuery(
+		TypedQuery<Expense> query =em.createQuery(
 	          "from Expense as e",
-	          Expense.class).getResultList();
+	          Expense.class);
+		
+		return query.getResultList();
 	}
 	
 	/* For JUnit Testing */

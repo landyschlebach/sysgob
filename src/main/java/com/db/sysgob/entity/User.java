@@ -8,14 +8,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 @Table(name = "users")
+@PersistenceUnit(name = "persistenceUnit")
 public class User {
 
 	@Id
-	@Column(name = "user_id", columnDefinition="serial")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="users_seq")
+    @SequenceGenerator(name="users_seq", sequenceName="users_seq", allocationSize=1)
+	@Column(name = "user_id", columnDefinition="serial", nullable = false)
 	private Long userId;
 	
 	@Column(name = "name", nullable = false)
@@ -44,11 +48,11 @@ public class User {
 		this.userId = userId;
 	}
 
-	public String getUser() {
+	public String getName() {
 		return name;
 	}
 
-	public void setUser(String user) {
+	public void setName(String user) {
 		this.name = user;
 	}
 

@@ -7,15 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "budgets")
+@PersistenceUnit(name = "persistenceUnit")
 public class Budget {
 
 	@Id
-	@Column(name = "budget_id", columnDefinition="serial")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="budgets_seq")
+    @SequenceGenerator(name="budgets_seq", sequenceName="budgets_seq", allocationSize=1)
+	@Column(name = "budget_id", columnDefinition="serial", nullable = false)
 	private Long budgetId;
 	
 	@Column(name = "amount", nullable = false)

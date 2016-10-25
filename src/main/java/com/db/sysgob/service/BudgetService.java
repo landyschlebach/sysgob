@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.db.sysgob.entity.Budget;
+import com.db.sysgob.entity.DashboardChart;
 import com.db.sysgob.repository.BudgetRepository;
 
 @Service
@@ -65,11 +66,11 @@ public class BudgetService {
 		return result;
 	}
 	
-	public Budget findById(Long id){
+	public Budget findByDependencyId(Long dependencyId){
 		Budget result = null;
 		
 		try {
-			result = budgetRepository.getBudgetByDependencyId(id);
+			result = budgetRepository.getBudgetByDependencyId(dependencyId);
 			log.debug("Retrieving Budget [" + result + "]");
 		} catch (Exception e){
 			log.debug(e.getMessage());
@@ -78,7 +79,7 @@ public class BudgetService {
 		return result;
 	}
 	
-	public List<Budget> search(){
+	public List<Budget> findAll(){
 		List<Budget> result = null;
 		
 		try {
@@ -88,5 +89,9 @@ public class BudgetService {
 		}
 		
 		return result;
+	}
+	
+	public List<DashboardChart> getDashboardData() {
+		return budgetRepository.getDashboardChartData();
 	}
 }

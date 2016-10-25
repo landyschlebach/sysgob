@@ -7,7 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.db.sysgob.entity.Category;
 import com.db.sysgob.entity.Project;
+import com.db.sysgob.entity.ProjectDetail;
+import com.db.sysgob.entity.ProjectSummary;
+import com.db.sysgob.repository.CategoryRepository;
 import com.db.sysgob.repository.ProjectRepository;
 
 @Service
@@ -16,6 +20,9 @@ public class ProjectService {
 
 	@Autowired
 	private ProjectRepository projectRepository;
+	
+	@Autowired
+	CategoryRepository categoryRepository;
 	
 	public boolean create(Project project){
 		log.debug("WebService [CREATE]");
@@ -65,11 +72,12 @@ public class ProjectService {
 		return result;
 	}
 	
-	public List<Project> findById(Long id){
-		List<Project> result = null;
+	public List<ProjectSummary> findByDependencyId(Long dependencyId){
+		List<ProjectSummary> result = null;
 		
 		try {
-			result = projectRepository.getProjects(id);
+			result = projectRepository.getProjectSummariesByDependency(dependencyId);
+			log.debug("Result of " + result);
 		} catch (Exception e){
 			log.debug(e.getMessage());
 		}
@@ -77,7 +85,20 @@ public class ProjectService {
 		return result;
 	}
 	
-	public Project search(Long id){
+	public List<ProjectDetail> findProjectDetailsByDependencyId(Long dependencyId){
+		List<ProjectDetail> result = null;
+		
+		try {
+			result = projectRepository.getProjectsDetailByDependency(dependencyId);
+			log.debug("Result of " + result);
+		} catch (Exception e){
+			log.debug(e.getMessage());
+		}
+		
+		return result;
+	}	
+	
+	public Project findById(Long id){
 		Project result = null;
 		
 		try {
@@ -89,11 +110,23 @@ public class ProjectService {
 		return result;
 	}
 	
-	public List<Project> search(){
+	public List<Project> findAll(){
 		List<Project> result = null;
 		
 		try {
 			result = projectRepository.getProjects();
+		} catch (Exception e){
+			log.debug(e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	public List<Category> getProjectCategories(){
+		List<Category> result = null;
+		
+		try {
+			result = categoryRepository.getCategories();
 		} catch (Exception e){
 			log.debug(e.getMessage());
 		}

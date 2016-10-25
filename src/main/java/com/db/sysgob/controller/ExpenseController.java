@@ -2,16 +2,21 @@ package com.db.sysgob.controller;
 
 import java.util.Calendar;
 
+import javax.persistence.Id;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.db.sysgob.bo.ExpenseBO;
 import com.db.sysgob.entity.Budget;
+import com.db.sysgob.entity.Dependency;
 import com.db.sysgob.entity.Expense;
 import com.db.sysgob.service.BudgetService;
 import com.db.sysgob.service.ExpenseService;
@@ -34,10 +39,10 @@ public class ExpenseController {
 	private BudgetService budgetWS;
 	
 	@RequestMapping("/consulta")
-	public String viewExpenses(ModelMap model) {
-		Long dependencyId = (Long) model.get("dependencyId");
+	public String viewExpenses(ModelMap model, HttpSession session) {
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
 		
-		Expense expense = expenseWS.findById(dependencyId);
+		Expense expense = expenseWS.findById(dependency.getDependencyId());
 		log.debug("Loading: Expense [" + expense + "]");
 	    
 	    model.addAttribute("expense", expense);	    
@@ -45,13 +50,13 @@ public class ExpenseController {
 	}
 	
 	@RequestMapping("/nuevo")
-	public String form(ModelMap model) {
+	public String form(ModelMap model, HttpSession session) {
 		return "formulario_gastos";
 	}
 
 	@RequestMapping(value = "/nuevo", method = RequestMethod.POST)
-	public String newExpense(ModelMap model, String name, Long totalAmount) {
-		Long dependencyId = (Long) model.get("dependencyId");
+	public String newExpense(ModelMap model, String name, Long totalAmount, HttpSession session) {
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
 		
 		Expense expense = null;
 		Budget budget = null;
@@ -59,31 +64,31 @@ public class ExpenseController {
 		boolean budgetRS = false; 
 		
 		
-		if(expenseBO.verifyBudget(dependencyId) != null) {
+		if(expenseBO.verifyBudget(dependency.getDependencyId()) != null) {
 			/* Only if budget already exists do the following: 
 			 */
-			if(expenseWS.findById(dependencyId) != null) { 
-				log.debug("Expense for dependency [" + dependencyId + "] already existed. Will modify it.");
+			if(expenseWS.findById(dependency.getDependencyId()) != null) { 
+				log.debug("Expense for " + dependency + " already existed. Will modify it.");
 				
-				expense = expenseWS.findById(dependencyId);
+				expense = expenseWS.findById(dependency.getDependencyId());
 				expense.setName(name);
 				expense.setTotalAmount(totalAmount);
 				expense.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
 				
-				expense = expenseBO.calculateTotal(expense, dependencyId);
+				expense = expenseBO.calculateTotal(expense, dependency.getDependencyId());
 				expenseRS = expenseWS.modify(expense);
 				
 			} else {
 				
 				if(name != null && totalAmount != null){
-					log.debug("Expense for dependency [" + dependencyId + "] didn't exist. Creating it.");
+					log.debug("Expense for " + dependency + " didn't exist. Creating it.");
 					
 					expense = new Expense();
 					expense.setName(name);
 					expense.setTotalAmount(totalAmount);
 					expense.setCreateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
 					expense.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
-					expense.setDependencyId(dependencyId);
+					expense.setDependencyId(dependency.getDependencyId());
 					
 					expenseRS = expenseWS.create(expense);
 				} else {
@@ -92,7 +97,7 @@ public class ExpenseController {
 			}
 			
 			log.debug("Reflecting total expense amount in budget amount");
-			budget = expenseBO.getBudgetReduced(dependencyId, expense.getTotalAmount(), NEW);
+			budget = expenseBO.getBudgetReduced(dependency.getDependencyId(), expense.getTotalAmount(), NEW);
 			budgetRS = budgetWS.modify(budget);
 		}
 		
@@ -111,33 +116,31 @@ public class ExpenseController {
 	}	
 
 	@RequestMapping("/modificar")
-	public String edit(ModelMap model) {
-		Long dependencyId = (Long) model.get("dependencyId");		
-		Expense expense = expenseWS.findById(dependencyId);
-
-	    model.addAttribute("expense", expense);	    
+	public String edit(ModelMap model, HttpSession session) {
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
+		Expense expense = expenseWS.findById(dependency.getDependencyId());
+		log.debug("Loading: " + expense + " to edit.");
+	    
+	    model.addAttribute("expense", expense);	     
 		return "editar_gastos";
 	}
 
 	@RequestMapping(value = "/modificar", method = RequestMethod.POST)
-	public String editExpense(ModelMap model, String name, Long totalAmount) {
-		Long dependencyId = (Long) model.get("dependencyId");
-		
-		Budget budget = null;
+	public String editExpense(ModelMap model, Long totalAmount, HttpSession session) {
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
+
 		boolean expenseRS = false;
 		boolean budgetRS = false; 
 
-		log.debug("Expense for dependency [" + dependencyId + "] has been modified");
-		Expense expense = expenseWS.findById(dependencyId);
+		log.debug("Expense for " + dependency + " has been modified");
 		
-		expense.setName(name);
-		expense.setTotalAmount(totalAmount);
-		expense.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
-		expenseRS = expenseWS.modify(expense);
-		
-		if(expenseBO.verifyAmountChanged(expense)) {
-			budget = expenseBO.getBudgetReduced(dependencyId, expense.getTotalAmount(), EDIT);
+		if(expenseBO.verifyAmountChanged(totalAmount, dependency.getDependencyId())) {
+			Budget budget = expenseBO.getBudgetReduced(dependency.getDependencyId(), totalAmount, EDIT);
 			budgetRS = budgetWS.modify(budget);
+			
+			Expense expense = expenseBO.setupModifiedExpense(totalAmount, dependency.getDependencyId());
+			expenseRS = expenseWS.modify(expense);
+			model.addAttribute("expense", expense);	  
 		} else {
 			budgetRS = true;
 		}
@@ -154,26 +157,25 @@ public class ExpenseController {
 	}	
 	
 	@RequestMapping("/eliminar")
-	public String remove(ModelMap model) {
-		Long dependencyId = (Long) model.get("dependencyId");		
-		Expense expense = expenseWS.findById(dependencyId);
+	public String remove(ModelMap model, HttpSession session) {
+		Dependency dependency = (Dependency) session.getAttribute("dependency");	
+		Expense expense = expenseWS.findById(dependency.getDependencyId());
 
 	    model.addAttribute("expense", expense);	    
 		return "eliminar_gastos";
 	}
 
 	@RequestMapping(value = "/eliminar", method = RequestMethod.POST)
-	public String removeExpense(ModelMap model, Long expenseId) {
-		Long dependencyId = (Long) model.get("dependencyId");
+	public String removeExpense(ModelMap model, HttpSession session) {
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
 		
-		Budget budget = null;
 		boolean expenseRS = false;
 		boolean budgetRS = false; 
 
-		log.debug("Expense for dependency [" + dependencyId + "] will be removed");
-		Expense expense = expenseWS.findById(dependencyId);
-		budget = expenseBO.getBudgetReduced(dependencyId, expense.getTotalAmount(), EDIT);
-
+		log.debug("Expense for " + dependency + " will be removed");
+		Expense expense = expenseWS.findById(dependency.getDependencyId());
+		Budget budget = expenseBO.calculateBudgetWithoutExpenses(dependency.getDependencyId());
+		
 		expenseRS = expenseWS.remove(expense);
 		budgetRS = budgetWS.modify(budget);
 

@@ -5,15 +5,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "roles")
+@PersistenceUnit(name = "persistenceUnit")
 public class Role {
 
 	@Id
-	@Column(name = "role_id", columnDefinition="serial")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="roles_seq")
+    @SequenceGenerator(name="roles_seq", sequenceName="roles_seq", allocationSize=1)
+	@Column(name = "role_id", columnDefinition="serial", nullable = false)
 	private Long roleId;
 	
 	@Column(name = "name", nullable = false)

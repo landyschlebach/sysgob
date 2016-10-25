@@ -1,5 +1,7 @@
 package com.db.sysgob.bo;
 
+import java.util.Calendar;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,17 @@ public class ExpenseBO {
 	@Autowired
 	private BudgetService budgetWS;
 	
+	public Expense setupModifiedExpense(Long totalAmount, Long dependencyId) {
+		Expense expense = expenseWS.findById(dependencyId);
+		
+		if(totalAmount != null) {
+			expense.setTotalAmount(totalAmount);
+			expense.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
+		}
+		
+		return expense;
+	}
+	
 	public Expense calculateTotal(Expense expense, Long dependencyId) {
 		log.debug("Calculating final expense amount for secretaryId " + dependencyId);
 		Expense prevExpense = expenseWS.findById(dependencyId);
@@ -36,25 +49,25 @@ public class ExpenseBO {
 		return expense;
 	}
 	
-	public boolean verifyAmountChanged(Expense expense) {
+	public boolean verifyAmountChanged(Long totalAmount, Long dependencyId) {
 		boolean result = false;
 		
-		log.debug("Verifying expense amount was modified. " + expense);
-		Expense prevExpense = expenseWS.findById(expense.getDependencyId());
+		log.debug("Verifying expense amount was modified. ");
+		Expense prevExpense = expenseWS.findById(dependencyId);
 		
-		if(!prevExpense.getTotalAmount().equals(expense.getTotalAmount())) {
-			log.debug("[CHANGE] " + expense);
+		if(!prevExpense.getTotalAmount().equals(dependencyId)) {
+			log.debug("[CHANGE] in: " + prevExpense + ", Modified Total Amount $" + totalAmount);
 			return true;
 		} else {
-			log.debug( "[NO CHANGE]" + expense);
+			log.debug( "[NO CHANGE]" + prevExpense);
 		}
 		
 		return result;
 	}
 	
 	public Budget verifyBudget(Long dependencyId) {
-		log.debug("Verifying budget [" + dependencyId + "]");
-		return budgetWS.findById(dependencyId);
+		log.debug("Verifying budget for [DependencyId=" + dependencyId + "]");
+		return budgetWS.findByDependencyId(dependencyId);
 	}
 	
 	public Budget getBudgetReduced(Long dependencyId, Long expenseAmount, String value) {
@@ -67,6 +80,7 @@ public class ExpenseBO {
 
 			log.debug("New expense added to system");
 			budgetReduction = budget.getAmount() - expenseAmount;
+			log.debug(budget + " to be modified");
 
 		} else if (value.equals(EDIT)) {
 			log.debug("Previous expense amount is being modified");
@@ -75,13 +89,30 @@ public class ExpenseBO {
 
 			log.debug("Expense [" + expense.getExpenseId() + "] "
 					+ "Previous amount: $" + lastExpense + " "
-					+ "Modified expense amount: $" + expense.getTotalAmount());
+					+ "Modified expense amount: $" + expenseAmount);
 			
 			budgetReduction = (budget.getAmount() + lastExpense) - expenseAmount;
 		}
 
 		log.debug("After calculations: Total budget $" + budgetReduction);
 		budget.setAmount(budgetReduction);
+		return budget;
+	}
+	
+	public Budget calculateBudgetWithoutExpenses(Long dependencyId) {
+		log.debug("Removing expenses. Calculating budget.");
+		
+		Budget budget = verifyBudget(dependencyId);
+		Expense expense = expenseWS.findById(dependencyId);
+		Long budgetAmount = 0L;
+
+		log.debug(expense.toString());
+		log.debug("Calculating " + budget);
+		
+		budgetAmount = budget.getAmount() + expense.getTotalAmount();
+
+		log.debug("After calculations: Total budget $" + budgetAmount);
+		budget.setAmount(budgetAmount);
 		return budget;
 	}
 }

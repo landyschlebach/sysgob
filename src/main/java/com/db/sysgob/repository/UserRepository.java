@@ -5,63 +5,58 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.db.sysgob.entity.User;
-import com.db.sysgob.entity.UserBasicInfo;
 
 @Repository
 public class UserRepository {
 	
-	@PersistenceContext
+	@PersistenceContext(unitName = "persistenceUnit")
 	private EntityManager em;
-	
+
+	@Transactional(value = "transactionManager")
 	public void newUser(User user) {
-		em.getTransaction().begin();
 		em.persist(user);
-		em.getTransaction().commit();
-	}
-	
-	public void updateUser(User user) {
-		em.getTransaction().begin();
-		em.merge(user);
-		em.getTransaction().commit();		
+		em.flush();
 	}
 
+	@Transactional(value = "transactionManager")
+	public void updateUser(User user) {
+		em.merge(user);
+		em.flush();
+	}
+
+	@Transactional(value = "transactionManager")
 	public void deleteUser(User user) {
-		em.getTransaction().begin();
-		em.remove(user);
-		em.getTransaction().commit();		
+		 Query qry = em.createQuery("DELETE from User AS u"
+			 		+ " WHERE u.userId=:userId").setParameter(
+			 				"userId", user.getUserId());
+			 qry.executeUpdate();
+			 em.flush();
 	}
-	
-	@Transactional(value = "transactionManager", readOnly = true)
-	public UserBasicInfo getUserByName(String username) {
+
+	public User getUserByName(String username) {
 		
-		  Query qry = em.createNativeQuery("SELECT"
-		      		+ " u.user_id, u.name, u.role_id, r.name, r.dependency_id, d.name"
-		      		+ " FROM users u"
-		      		+ " INNER JOIN roles r"
-		      		+ " ON u.role_id = r.role_id"
-		      		+ " INNER JOIN dependencies d"
-		      		+ " ON r.dependency_id = d.dependency_id"
-		      		+ " WHERE u.name = :username");
-		  qry.setParameter("username", username);
-		  UserBasicInfo result = (UserBasicInfo) qry.getResultList().get(0);
-		
-		  return result;
+		TypedQuery<User> query = em.createQuery("from User u"
+				+ " WHERE u.name=:username", User.class);
+		query.setParameter("username", username);
+
+	    return query.getResultList().get(0);
 	}
-	
-	@Transactional(value = "transactionManager", readOnly = true)
+
 	public User getUserById(Long id) {
 		return em.find(User.class, id);
 	}
-	
-	@Transactional(value = "transactionManager", readOnly = true)
+
 	public List<User> getUsers() {
-	      return em.createQuery(
+	      TypedQuery<User> query = em.createQuery(
 	          "from User as u",
-	          User.class).getResultList();
+	          User.class);
+	      
+	      return query.getResultList();
 	}
 }

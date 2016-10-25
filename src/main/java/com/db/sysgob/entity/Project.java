@@ -7,15 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "projects")
+@PersistenceUnit(name = "persistenceUnit")
 public class Project {
 	
 	@Id
-	@Column(name = "project_id", columnDefinition="serial")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="projects_seq")
+    @SequenceGenerator(name="projects_seq", sequenceName="projects_seq", allocationSize=1)
+	@Column(name = "project_id", columnDefinition="serial", nullable = false)
 	private Long projectId;
 	
 	@Column(name = "name", nullable = false)

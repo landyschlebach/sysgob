@@ -18,4 +18,5 @@ public class DispatcherConfig extends WebMvcConfigurerAdapter {
     	
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
+   
 }

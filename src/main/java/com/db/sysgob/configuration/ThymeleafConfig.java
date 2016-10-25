@@ -2,9 +2,11 @@ package com.db.sysgob.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.ViewResolver;
 import org.thymeleaf.spring3.SpringTemplateEngine;
 import org.thymeleaf.spring3.view.ThymeleafViewResolver;
@@ -46,6 +48,17 @@ public class ThymeleafConfig {
         viewResolver.setOrder(1);
 
         return viewResolver;
+    }
+    
+    @Bean
+    public MessageSource messageSource() {
+        final ResourceBundleMessageSource messageSource;
+
+        messageSource = new ResourceBundleMessageSource();
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setBasename("thymeleaf");
+
+        return messageSource;
     }
 
 }

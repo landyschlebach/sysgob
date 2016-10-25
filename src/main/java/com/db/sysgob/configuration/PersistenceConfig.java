@@ -1,6 +1,7 @@
 package com.db.sysgob.configuration;
 
 import org.postgresql.ds.PGSimpleDataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -9,6 +10,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -17,6 +19,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:db.properties")
+@EnableTransactionManagement
 @EnableJpaRepositories(
     entityManagerFactoryRef = "entityManager",
     transactionManagerRef = "transactionManager",
@@ -35,9 +38,22 @@ public class PersistenceConfig {
         datasource.setPassword("bovary18");
         return datasource;
     }
+    
+    @Bean(name = "remoteDS")
+    public DataSource remoteDS(){
+    	PGSimpleDataSource datasource = new PGSimpleDataSource();
+        datasource.setServerName("192.168.32.1");
+        datasource.setPortNumber(5432);
+    	datasource.setDatabaseName("postgres");
+    	datasource.setSsl(false);
+    	datasource.setSslfactory("org.postgresql.ssl.NonValidatingFactory");
+    	datasource.setUser("postgres");
+        datasource.setPassword("Macondo8");
+        return datasource;
+    }
 
     @Bean(name = "entityManager")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Qualifier("dataSource") DataSource dataSource){
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());

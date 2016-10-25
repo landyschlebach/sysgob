@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.db.sysgob.bo.ProjectBO;
 import com.db.sysgob.entity.Budget;
 import com.db.sysgob.entity.Category;
+import com.db.sysgob.entity.Dependency;
 import com.db.sysgob.entity.Project;
-import com.db.sysgob.repository.CategoryRepository;
+import com.db.sysgob.entity.ProjectSummary;
+import com.db.sysgob.entity.User;
 import com.db.sysgob.service.BudgetService;
 import com.db.sysgob.service.ProjectService;
-import com.db.sysgob.service.UserService;
 
 @Controller
 @RequestMapping("/proyectos")
@@ -32,19 +35,16 @@ public class ProjectController {
 	private ProjectBO projectBO;
 	
 	@Autowired
-	private UserService userWS;
-	
-	@Autowired
 	private ProjectService projectWS;
 	
 	@Autowired
 	private BudgetService budgetWS;
 
 	@RequestMapping("/consulta")
-	public String viewProjects(ModelMap model) {
-		Long dependencyId = (Long) model.get("dependencyId");
+	public String viewProjects(ModelMap model, HttpSession session) {
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
 		
-		List<Project> projects = projectWS.findById(dependencyId);
+		List<ProjectSummary> projects = projectWS.findByDependencyId(dependency.getDependencyId());
 		log.debug("Loading: Projects [" + projects +"]");
 	    
 	    model.addAttribute("projects", projects);	    
@@ -52,21 +52,21 @@ public class ProjectController {
 	}
 	
 	@RequestMapping("/nuevo")
-	public String showForm(ModelMap model) {	    
+	public String showForm(ModelMap model, HttpSession session) {	
 		return "formulario_proyectos";
 	}
 
 	@RequestMapping(value = "/nuevo", method = RequestMethod.POST)
 	public String newProject(ModelMap model, 
 			String name, String description, 
-			Long amount, Long categoryId) throws ParseException {		
+			Long amount, Long categoryId, HttpSession session) throws ParseException {		
 		
 		boolean projectRS = false;
 		boolean budgetRS = false;
 		
 		String view = "formulario_proyectos";
-		Long dependencyId = (Long) model.get("dependencyId");
-		Long userId = (Long) model.get("userId");
+		User user = (User) session.getAttribute("user");
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
 		
 		if(name != null && amount != null && categoryId != null){
 			Project project = new Project();
@@ -76,23 +76,20 @@ public class ProjectController {
 			project.setCategoryId(categoryId);
 			project.setCreateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
 			project.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
-			project.setUserId(userId);
+			project.setUserId(user.getUserId());
 			
 			log.debug("Creating new Project [" + project + "]");
 			projectRS = projectWS.create(project);
-			
-			model.addAttribute("project", project);
-			model.addAttribute("projectName", project.getName());
-			model.addAttribute("projectDescription", project.getDescription());
+			session.setAttribute("newProject", project);
 		}
 		else {
 			projectRS = false;
 		}
 		
-		if(projectBO.verifyBudget(dependencyId) == null) {
-			log.debug("First project created for dependency[" + dependencyId + "]. Will create budget.");
+		if(projectBO.verifyBudget(dependency.getDependencyId()) == null) {
+			log.debug("First project created for dependency[" + dependency.getName() + "]. Will create budget.");
 			
-			Budget budget = projectBO.initiateDefaultBudget(dependencyId);
+			Budget budget = projectBO.initiateDefaultBudget(dependency.getDependencyId());
 			budgetRS = budgetWS.create(budget);
 		} else {
 			budgetRS = true;
@@ -113,10 +110,8 @@ public class ProjectController {
 	}	
 	
 	@RequestMapping(value = "/clasificar", method = RequestMethod.GET)
-	public String classifyProject(ModelMap model) {
-		
-		CategoryRepository categoryRepository = new CategoryRepository();
-		List<Category> categories = categoryRepository.getCategories();
+	public String classifyProject(ModelMap model, HttpSession session) {
+		List<Category> categories = projectWS.getProjectCategories();
 		
 		model.addAttribute("categoryHigh", categories.get(0).getMinScore());
 		model.addAttribute("categoryMediumHigh", categories.get(1).getMinScore());
@@ -130,19 +125,19 @@ public class ProjectController {
 	public String classifyProject(ModelMap model,
 			Long riskClassification, Long othersClassification,
 			Long otherImplications, Long financeClassification,
-			Long strategicClassification) throws ParseException {
+			Long strategicClassification, HttpSession session) throws ParseException {
 		
 		boolean projectRS = false;
 		boolean budgetRS = false;
-		
-		Long dependencyId = (Long) model.get("dependencyId");
+
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
 		
 		Long points = projectBO.calculateCategory(riskClassification, othersClassification,
 				otherImplications, financeClassification, strategicClassification);
 		
-		Project project = (Project) model.get("project");
+		Project project = (Project) session.getAttribute("newProject");
 		project = projectBO.defineCategory(project, points);
-		Budget budget = projectBO.calculateBudget(project, dependencyId);
+		Budget budget = projectBO.calculateBudget(project, dependency.getDependencyId());
 		
 		projectRS = projectWS.modify(project);
 		budgetRS = budgetWS.modify(budget);
@@ -160,34 +155,27 @@ public class ProjectController {
 	
 	@RequestMapping("/modificar/{projectId}")
 	public String edit(ModelMap model, 
-			@PathVariable @RequestParam("projectId") Long projectId) {
+			@PathVariable Long projectId, HttpSession session) {
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
 		
-		Project project = projectWS.search(projectId);
-	    
-	    if(project.getProjectId() != 1) {
-	    	model.addAttribute("prevId", project.getProjectId() - 1);
-	    }
-	    
-	    if(project.getProjectId() < (projectWS.search().size() + 1)) {
-	    	model.addAttribute("nextId", project.getProjectId() + 1);
-	    }
-	    
-	    model.addAttribute("project", project);
+		model.addAttribute("prevId", projectBO.getPreviousProject(projectId, dependency.getDependencyId()));
+		model.addAttribute("nextId", projectBO.getNextProject(projectId, dependency.getDependencyId()));
+	    model.addAttribute("project", projectBO.getCurrentProject(projectId, dependency.getDependencyId()));
 		return "editar_proyectos";
 	}
 
 	@RequestMapping(value = "/modificar/{projectId}", method = RequestMethod.POST)
 	public String editProject(ModelMap model,
-			@PathVariable @RequestParam("projectId") Long projectId, 
+			@PathVariable Long projectId, 
 			String name, String description, 
-			Long amount, Long categoryId) throws ParseException {
+			Long amount, Long categoryId, HttpSession session) throws ParseException {
 		
 		Budget budget = null;
 		boolean projectRS = false;
 		boolean budgetRS = false; 
-		
-		Long dependencyId = (Long) model.get("dependencyId");
-		String user = (String) model.get("user");
+
+		User user = (User) session.getAttribute("user");
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
 
 		Project project = (Project) model.get("project");
 		log.debug("Project [" + project + "] has been modified");
@@ -197,12 +185,12 @@ public class ProjectController {
 		project.setAmount(amount);
 		project.setCategoryId(categoryId);
 		project.setUpdateDate(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
-		project.setUserId(userWS.findByUsername(user).getUserId());
+		project.setUserId(user.getUserId());
 		
 		projectRS = projectWS.modify(project);
 		
 		if(projectBO.verifyAmountChanged(project)) {
-			budget = projectBO.recalculateBudget(project, dependencyId);
+			budget = projectBO.recalculateBudget(project, dependency.getDependencyId());
 			budgetRS = budgetWS.modify(budget);
 		} else {
 			budgetRS = true;
@@ -216,44 +204,31 @@ public class ProjectController {
 			model.addAttribute("failure", true);
 		}
 		
-	    model.addAttribute("projectId", project.getProjectId());
 	    model.addAttribute("project", project);
-	    
 		return "proyectos";
 	}	
 	
-	@RequestMapping("/eliminar/{projectId}")
-	public String remove(ModelMap model, 
-			@PathVariable @RequestParam("projectId") Long projectId) {
+	@RequestMapping("/eliminar")
+	public String remove(ModelMap model, HttpSession session) {
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
 		
-		Project project = projectWS.search(projectId);
-	    
-	    if(project.getProjectId() != 1) {
-	    	model.addAttribute("prevId", project.getProjectId() - 1);
-	    }
-	    
-	    if(project.getProjectId() < (projectWS.search().size() + 1)) {
-	    	model.addAttribute("nextId", project.getProjectId() + 1);
-	    }
-	    
-	    model.addAttribute("project", project);
+	    model.addAttribute("projects", projectWS.findProjectDetailsByDependencyId(dependency.getDependencyId()));
 		return "eliminar_proyectos";
 	}
 
-	@RequestMapping(value = "/eliminar/{projectId}", method = RequestMethod.POST)
-	public String removeProject(ModelMap model,
-			@PathVariable @RequestParam("projectId") Long projectId) throws ParseException {
+	@RequestMapping(value = "/eliminar", method = RequestMethod.POST)
+	public String removeProject(ModelMap model, @RequestParam("projectId") Long projectId, HttpSession session) throws ParseException {
 		
 		Budget budget = null;
 		boolean projectRS = false;
 		boolean budgetRS = false; 
-		
-		Long dependencyId = (Long) model.get("dependencyId");
 
-		Project project = projectWS.search(projectId);
+		Dependency dependency = (Dependency) session.getAttribute("dependency");
+
+		Project project = projectWS.findById(projectId);
 		log.debug("Project [" + project + "] will be removed");
 
-		budget = projectBO.removeProjectAmountFromBudget(project, dependencyId);		
+		budget = projectBO.removeProjectAmountFromBudget(project, dependency.getDependencyId());		
 		projectRS = projectWS.remove(project);
 
 		if(budget.getAmount() > 0){
@@ -269,9 +244,8 @@ public class ProjectController {
 			log.debug("Showing error alert");
 			model.addAttribute("failure", true);
 		}
-		
-	    model.addAttribute("projectId", project.getProjectId() + 1);
-	    
+
+	    model.addAttribute("project", projectBO.getProjectAfterRemoval(projectId, dependency.getDependencyId()));
 		return "eliminar_proyectos";
 	}	
 }

@@ -7,41 +7,31 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.db.sysgob.entity.Category;
 
 @Repository
 public class CategoryRepository {
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "persistenceUnit")
 	private EntityManager em;
 
-	@Transactional(value = "transactionManager", readOnly = true)
 	public Category getById(Long id) {
 		return em.find(Category.class, id);
 	}
 	
-	@Transactional(value = "transactionManager", readOnly = true)
 	public List<Category> getCategories() {
-	      return em.createQuery(
-	          "from Category as c",
-	          Category.class).getResultList();
+		TypedQuery<Category> query = em.createQuery("from Category as c", Category.class);
+		return query.getResultList();
 	}
 
-	@Transactional(value = "transactionManager", readOnly = true)
-	public Long getCategoryByPoints(Long points) {
-	
-	  TypedQuery<Category> qry =
-	      em.createQuery(
-	          "SELECT c.category_id "
-	          + "FROM Category as c "
-	          + "WHERE c.min_score <=:points "
-	          + "AND c.max_score >=:points",
+	public Category getCategoryByPoints(Long points) {
+	  TypedQuery<Category> qry = em.createQuery("from Category as c "
+	          + "WHERE c.minScore <=:points "
+	          + "AND c.maxScore <=:points",
 	          Category.class);
 	  qry.setParameter("points", points);
-	  Long result = qry.getSingleResult().getCategoryId();
 	
-	  return result;
+	  return qry.getResultList().get(0);
 	}
 }
