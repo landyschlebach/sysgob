@@ -28,74 +28,71 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><img alt="Gobierno de México" src="../../resources/img/logo_2.png" th:src="@{/resources/img/logo_2.png}"/></a>
+                <a class="navbar-brand" href="#"><img alt="Gobierno de México" src="../../resources/images/logo_2.png" th:src="@{/resources/images/logo_2.png}"/></a>
             </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
             	<span>Usuario: </span>
-            	<span th:text="${user}" />
-            	<a href="login.html" th:href="@{/login/acceso}">| Cerrar Sesión</a>
+            	<span th:text="${session.user.name}" />
+            	<span> | </span>
+            	<a href="login.html" th:href="@{/login/acceso}">Cerrar Sesión</a>
             </ul>
             <!-- /.navbar-top-links -->
         </nav>
         
         <div class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                        <a class="a_gray" href="index.html" th:href="@{/home}"><i class="fa fa-home fa-fw"></i>  Inicio</a>
-                    </li>                        
-                    <li>
-                        <a class="a_gray" href="#" th:href="@{#}"><i class="fa fa-folder fa-fw"></i>  Proyectos<span class="fa arrow"></span></a>
+	        <div class="sidebar-nav navbar-collapse">
+	                <ul class="nav" id="side-menu">
+	                    <li>
+	                        <a class="a_gray" href="index.html" th:href="@{/home}"><i class="fa fa-home fa-fw"></i>  Inicio</a>
+	                    </li>                        
+	                    <li>
+	                        <a class="a_gray" href="#"><i class="fa fa-folder fa-fw"></i>  Proyectos<span class="fa arrow"></span></a>
+						<th:block th:if="${session.role.name == 'DEPENDENCY_PM_USER' or session.role.name == 'DEPENDENCY_ADVANCED_USER'}" th:removal="all">
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="a_gray" id="project" 
-	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="formulario_proyectos.html" th:href="@{/proyectos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Crear</a>
+                                <a class="a_gray" id="project" href="formulario_proyectos.html" th:href="@{/proyectos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Crear</a>
                             </li>
                             <li>
-                                <a class="a_gray" id="project" 
-	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="editar_proyectos.html" th:href="@{/proyectos/modificar/1}"><i class="fa fa-edit fa-fw"></i>  Editar</a>
+                                <a class="a_gray" id="project" href="editar_proyectos.html" th:href="@{/proyectos/modificar/1}"><i class="fa fa-edit fa-fw"></i>  Editar</a>
                             </li>
                             <li>
-                                <a class="a_gray" id="project" 
-	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="eliminar_proyectos.html" th:href="@{/proyectos/eliminar/1}"><i class="fa fa-ban fa-fw"></i>  Remover</a>
+                                <a class="a_gray" id="project" href="eliminar_proyectos.html" th:href="@{/proyectos/eliminar}"><i class="fa fa-ban fa-fw"></i>  Remover</a>
                             </li>                                 
                             <li>
-                                <a class="a_gray" id="project" 
-	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="proyectos.html" th:href="@{/proyectos/consulta}"><i class="fa fa-search fa-fw"></i>  Buscar</a>
+                                <a class="a_gray" id="project" href="proyectos.html" th:href="@{/proyectos/consulta}"><i class="fa fa-search fa-fw"></i>  Buscar</a>
                             </li>                            
                         </ul>
+                        </th:block>
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a class="a_gray" href="#" th:href="@{#}"><i class="fa fa-money"></i>  Gastos<span class="fa arrow"></span></a>
+                        <a class="a_gray" href="#"><i class="fa fa-money"></i>  Gastos<span class="fa arrow"></span></a>
+						<th:block th:if="${session.role.name == 'DEPENDENCY_ACCOUNTANT_USER' or session.role.name == 'DEPENDENCY_ADVANCED_USER'}" th:removal="all">
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="a_gray" id="expense" 
-	th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="formulario_gastos.html" th:href="@{/gastos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Crear</a>
+                                <a class="a_gray" id="expense" href="formulario_gastos.html" th:href="@{/gastos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Crear</a>
                             </li>
                             <li>
-                                <a class="a_gray" id="expense" 
-    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="editar_gastos.html" th:href="@{/gastos/modificar}"><i class="fa fa-edit fa-fw"></i>  Editar</a>
+                                <a class="a_gray" id="expense" href="editar_gastos.html" th:href="@{/gastos/modificar}"><i class="fa fa-edit fa-fw"></i>  Editar</a>
                             </li> 
                             <li>
-                                <a class="a_gray" id="expense" 
-    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="eliminar_gastos.html" th:href="@{/gastos/eliminar}"><i class="fa fa-ban fa-fw"></i>  Remover</a>
+                                <a class="a_gray" id="expense" href="eliminar_gastos.html" th:href="@{/gastos/eliminar}"><i class="fa fa-ban fa-fw"></i>  Remover</a>
                             </li>                                                             
                             <li>
-                                <a class="a_gray" id="expense" 
-    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="gastos.html" th:href="@{/gastos/consulta}"><i class="fa fa-search fa-fw"></i>  Buscar</a>
+                                <a class="a_gray" id="expense" href="gastos.html" th:href="@{/gastos/consulta}"><i class="fa fa-search fa-fw"></i>  Buscar</a>
                             </li>                            
                         </ul>
-                        <!-- /.nav-second-level -->
-                    </li>                    
-                    <li>
-                        <a class="a_gray" href="tutorial.html" th:href="@{/tutorial}"><i class="fa fa-info-circle fa-fw"></i>  Tutorial</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.sidebar-collapse -->
+                        </th:block>
+	                        <!-- /.nav-second-level -->
+	                    </li>                    
+	                    <li>
+	                        <a class="a_gray" href="tutorial.html" th:href="@{/tutorial}"><i class="fa fa-info-circle fa-fw"></i>  Tutorial</a>
+	                    </li>
+	                </ul>
+	        </div>
+	        <!-- /.sidebar-collapse -->
         </div>
         <!-- /.navbar-static-side -->
 
@@ -105,21 +102,21 @@
             <h1 class="page-header">Tutorial</h1>          
 	            <div class="panel-body">
 	                <div class="panel-group" id="accordion">
-	                    <div class="panel panel-default">
+	                    <div class="panel panel-default">            
 	                        <div class="panel-heading">
 	                            <div class="panel-title">
-	                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">Registrar Proyectos</a>
+	                                <a data-toggle="collapse" data-target="collapseOne" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">Registrar Proyectos</a>
 	                            </div>
 	                        </div>
 	                        <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 	                            <div class="panel-body">
-	                                Localice la barra del lado izquierdo de la pantalla.  Dentro de la sección “Proyectos”, entre en “Creación”.
-Ingrese el nombre, la descripción, el monto y seleccione la categoría que tendrá el nuevo proyecto. Asegúrese de que los datos ingresados sean correctos, y pulse el botón “Registrar”
-
-	                        </div>
-	                    </div>
-
-<div class="panel panel-default">
+	                                Localice la barra del lado izquierdo de la pantalla.  Dentro de la sección "Proyectos", entre en "Creación".
+Ingrese el nombre, la descripción, el monto y seleccione la categoría que tendrá el nuevo proyecto. Asegúrese de que los datos ingresados sean correctos, y pulse el botón "Registrar"
+							    </div>
+							</div>
+	                   </div>
+	                   
+	                   	<div class="panel panel-default">
 	                        <div class="panel-heading">
 	                            <h4 class="panel-title">
 	                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed" aria-expanded="false"> Modificar proyectos</a>
@@ -127,30 +124,40 @@ Ingrese el nombre, la descripción, el monto y seleccione la categoría que tend
 	                        </div>
 	                        <div id="collapseThree" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 	                            <div class="panel-body">
-	                      
-Dentro de la sección “Proyectos”, entre en “Edición”.
-Ingrese el nombre, la descripción, el monto y seleccione la categoría que tendrá el nuevo proyecto. Asegúrese de que los datos ingresados sean correctos, y pulse el botón “Registrar”
-
+Dentro de la sección "Proyectos", entre en "Edición".
+Ingrese el nombre, la descripción, el monto y seleccione la categoría que tendrá el nuevo proyecto. Asegúrese de que los datos ingresados sean correctos, y pulse el botón "Registrar"
 	                            </div>
 	                        </div>
 	                    </div>
-	                </div>
-	            </div>
+	                   
+		                   <div class="panel panel-default">
+		                        <div class="panel-heading">
+		                            <h4 class="panel-title">
+		                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed" aria-expanded="false"> Modificar proyectos</a>
+		                            </h4>
+		                        </div>
+		                        <div id="collapseThree" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+		                            <div class="panel-body">
+	Dentro de la sección "Proyectos", entre en "Edición".
+	Ingrese el nombre, la descripción, el monto y seleccione la categoría que tendrá el nuevo proyecto. Asegúrese de que los datos ingresados sean correctos, y pulse el botón "Registrar"
+		                            </div>
+		                        </div>
+		                   </div>
 
-	                    <div class="panel panel-default">
-	                        <div class="panel-heading">
-	                            <h4 class="panel-title">
-	                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="" aria-expanded="true">Registrar Gastos</a>
-	                            </h4>
-	                        </div>
-	                        <div id="collapseTwo" class="panel-collapse collapse in" aria-expanded="true" style="">
-	                            <div class="panel-body">
-	                                Localice la barra del lado izquierdo de la pantalla.  Dentro de la sección “Gastos”, entre en “Creación”.
-Ingrese el nombre y el monto del nuevo gasto. Asegúrese de que los datos ingresados sean correctos, y pulse el botón “Guardar”.
-
-	                            </div>
-	                        </div>
-	                    </div>
+			            <div class="panel panel-default">
+		                	<div class="panel-heading">
+		                    	<h4 class="panel-title">
+		                        	<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="" aria-expanded="true">Registrar Gastos</a>
+		                    	</h4>
+		                	</div>
+		                	<div id="collapseTwo" class="panel-collapse collapse in" aria-expanded="true" style="">
+			            		<div class="panel-body">
+			                    	Localice la barra del lado izquierdo de la pantalla.  Dentro de la sección "Gastos", entre en "Creación".
+		Ingrese el nombre y el monto del nuevo gasto. Asegúrese de que los datos ingresados sean correctos, y pulse el botón "Guardar".
+			                    </div>
+						   </div>
+					   </div>
+	                    
 	                    <div class="panel panel-default">
 	                        <div class="panel-heading">
 	                            <h4 class="panel-title">
@@ -159,84 +166,57 @@ Ingrese el nombre y el monto del nuevo gasto. Asegúrese de que los datos ingres
 	                        </div>
 	                        <div id="collapseFour" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 	                            <div class="panel-body">
-Dentro de la sección “Gastos”, entre en “Edición”.
-Ingrese el nombre y el monto del nuevo gasto. Asegúrese de que los datos ingresados sean correctos, y pulse el botón “Guardar”.
-
+Dentro de la sección "Gastos", entre en "Edición".
+Ingrese el nombre y el monto del nuevo gasto. Asegúrese de que los datos ingresados sean correctos, y pulse el botón "Guardar".
 	                            </div>
 	                        </div>
 	                    </div>
-		        </div>
-
-	        
-<div class="panel panel-default">
-	                        <div class="panel-heading">
-	                            <h4 class="panel-title">
-	                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" class="collapsed" aria-expanded="false">Visualizar los datos</a>
-	                            </h4>
-	                        </div>
-	                        <div id="collapseFive" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-	                            <div class="panel-body">
-	                                Consultar proyecto:
-Dentro de la sección “Proyectos”, entre en “Visualización”.
-Seleccione cuántos proyectos desea ver en la lista. Aparecerá una tabla donde se mostrarán datos de los proyectos dados de alta para la secretaría a la que corresponda.
-Si desea buscar un proyecto por nombre, puede ingresar el mismo en la barra de navegación que se encuentra en la parte derecha.
-
-Consultar gastos:
-Dentro de la sección “Gastos”, entre en “Visualización”.
-Seleccione cuántos gastos desea ver en la lista. Aparecerá una tabla donde se mostrarán los gastos dados de alta de la secretaría a la que corresponda.
-Si desea buscar un gasto por nombre, puede ingresar el mismo en la barra de navegación que se encuentra en la parte derecha.
-
-
-
-
-	                            </div>
-	                        </div>
-	                    </div>
+   
+						<div class="panel panel-default">
+		                        <div class="panel-heading">
+		                            <h4 class="panel-title">
+		                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" class="collapsed" aria-expanded="false">Visualizar los datos</a>
+		                            </h4>
+		                        </div>
+		                        <div id="collapseFive" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+		                            <div class="panel-body">
+		                                Consultar proyecto:
+	Dentro de la sección "Proyectos", entre en "Visualización".
+	Seleccione cuántos proyectos desea ver en la lista. Aparecerá una tabla donde se mostrarán datos de los proyectos dados de alta para la secretaría a la que corresponda.
+	Si desea buscar un proyecto por nombre, puede ingresar el mismo en la barra de navegación que se encuentra en la parte derecha.
+	
+	Consultar gastos:
+	Dentro de la sección "Gastos", entre en "Visualización".
+	Seleccione cuántos gastos desea ver en la lista. Aparecerá una tabla donde se mostrarán los gastos dados de alta de la secretaría a la que corresponda.
+	Si desea buscar un gasto por nombre, puede ingresar el mismo en la barra de navegación que se encuentra en la parte derecha.
+		                            </div>
+		                        </div>
+		                 </div>
 	                </div>
 	            </div>
 	            <!-- .panel-body -->
-	        </div>
-	        </div>
+            </div>
+            </div>
         </div>
         <!-- /#page-wrapper -->		
-        
-        <span style="visibility: hidden" th:text="${roleId}"></span>
-		<span style="visibility: hidden" th:text="${dependencyId}"></span>	
     </div>
     <!-- /#wrapper -->
 
-        <div class="modal show_modal" id="loader" data-backdrop="static">
-    		<div class="modal-dialog">
-        		<div class="modal-content">
-            		<div class="modal-body">
-                		<img class="center-block" th:scr="@{/resources/img/loading.gif}" src="../../resources/img/loading.gif" width="60" />
-            		</div>
-        		</div>
-    		</div>
-		</div>
+	<div class="modal show_modal" id="loader" data-backdrop="static">
+   		<div class="modal-dialog">
+       		<div class="modal-content">
+           		<div class="modal-body">
+               		<img class="center-block" th:scr="@{/resources/images/loading.gif}" src="../../resources/images/loading.gif" width="60" />
+           		</div>
+       		</div>
+   		</div>
+	</div>
+		
     <script src="../../resources/js/jquery.min.js" th:scr="@{/resources/js/jquery.min.js}"></script>
     <script src="../../resources/js/form.js" th:scr="@{/resources/js/form.js}"></script>
     <script src="../../resources/js/bootstrap.min.js" th:scr="@{/resources/js/bootstrap.min.js}"></script>
     <script src="../../resources/js/metisMenu.min.js" th:scr="@{/resources/js/metisMenu.min.js}"></script>
     <script src="../../resources/js/sb-admin-2.js" th:scr="@{/resources/js/sb-admin-2.js}"></script>
-
-	<script>
-		function checkProjectLink(role) {
-		  proyecto = document.getElementById("project");
-		  
-		  if(role == 'DEPENDENCY_ACCOUNTANT_USER' || role == 'DEPENDENCY_MANAGER_USER'){
-			  event.preventDefault();
-		  }
-		}
-		
-		function checkExpenseLink(role) {
-		  gasto = document.getElementById("expense");
-		  
-		  if(role == 'DEPENDENCY_PM_USER' || role == 'DEPENDENCY_MANAGER_USER'){
-			  event.preventDefault();
-		  }
-		}
-	</script>
 
 </body>
 </html>

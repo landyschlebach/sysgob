@@ -28,14 +28,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><img alt="Gobierno de México" th:src="@{/resources/img/logo_2.png}" src="../../resources/img/logo_2.png"/></a>
+                <a class="navbar-brand" href="#"><img alt="Gobierno de México" th:src="@{/resources/images/logo_2.png}" src="../../resources/images/logo_2.png"/></a>
             </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
             	<span>Usuario: </span>
-            	<span th:text="${user}" />
-            	<a href="login.html" th:href="@{/login/acceso}">| Cerrar Sesión</a>
+            	<span th:text="${session.user.name}" />
+            	<span> | </span>
+            	<a href="login.html" th:href="@{/login/acceso}">Cerrar Sesión</a>
             </ul>
             <!-- /.navbar-top-links -->
         </nav>
@@ -47,47 +48,43 @@
                         <a class="a_gray" href="index.html" th:href="@{/home}"><i class="fa fa-home fa-fw"></i>  Inicio</a>
                     </li>                        
                     <li>
-                        <a class="a_gray" href="#" th:href="@{#}"><i class="fa fa-folder fa-fw"></i>  Proyectos<span class="fa arrow"></span></a>
+                        <a class="a_gray" href="#"><i class="fa fa-folder fa-fw"></i>  Proyectos<span class="fa arrow"></span></a>
+						<th:block th:if="${session.role.name == 'DEPENDENCY_PM_USER' or session.role.name == 'DEPENDENCY_ADVANCED_USER'}" th:removal="all">
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="a_gray" id="project" 
-	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="formulario_proyectos.html" th:href="@{/proyectos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Crear</a>
+                                <a class="a_gray" id="project" href="formulario_proyectos.html" th:href="@{/proyectos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Crear</a>
                             </li>
                             <li>
-                                <a class="a_gray" id="project" 
-	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="editar_proyectos.html" th:href="@{/proyectos/modificar/1}"><i class="fa fa-edit fa-fw"></i>  Editar</a>
+                                <a class="a_gray" id="project" href="editar_proyectos.html" th:href="@{/proyectos/modificar/1}"><i class="fa fa-edit fa-fw"></i>  Editar</a>
                             </li>
                             <li>
-                                <a class="a_gray" id="project" 
-	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="eliminar_proyectos.html" th:href="@{/proyectos/eliminar/1}"><i class="fa fa-ban fa-fw"></i>  Remover</a>
+                                <a class="a_gray" id="project" href="eliminar_proyectos.html" th:href="@{/proyectos/eliminar}"><i class="fa fa-ban fa-fw"></i>  Remover</a>
                             </li>                                 
                             <li>
-                                <a class="a_gray" id="project" 
-	th:attr="onclick='javascript:checkProjectLink(\'' + ${role} + '\');'" href="proyectos.html" th:href="@{/proyectos/consulta}"><i class="fa fa-search fa-fw"></i>  Buscar</a>
+                                <a class="a_gray" id="project" href="proyectos.html" th:href="@{/proyectos/consulta}"><i class="fa fa-search fa-fw"></i>  Buscar</a>
                             </li>                            
                         </ul>
+                        </th:block>
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a class="a_gray" href="#" th:href="@{#}"><i class="fa fa-money"></i>  Gastos<span class="fa arrow"></span></a>
+                        <a class="a_gray" href="#"><i class="fa fa-money"></i>  Gastos<span class="fa arrow"></span></a>
+						<th:block th:if="${session.role.name == 'DEPENDENCY_ACCOUNTANT_USER' or session.role.name == 'DEPENDENCY_ADVANCED_USER'}" th:removal="all">
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="a_gray" id="expense" 
-	th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="formulario_gastos.html" th:href="@{/gastos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Crear</a>
+                                <a class="a_gray" id="expense" href="formulario_gastos.html" th:href="@{/gastos/nuevo}"><i class="fa fa-plus fa-fw"></i>  Crear</a>
                             </li>
                             <li>
-                                <a class="a_gray" id="expense" 
-    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="editar_gastos.html" th:href="@{/gastos/modificar}"><i class="fa fa-edit fa-fw"></i>  Editar</a>
+                                <a class="a_gray" id="expense" href="editar_gastos.html" th:href="@{/gastos/modificar}"><i class="fa fa-edit fa-fw"></i>  Editar</a>
                             </li> 
                             <li>
-                                <a class="a_gray" id="expense" 
-    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="eliminar_gastos.html" th:href="@{/gastos/eliminar}"><i class="fa fa-ban fa-fw"></i>  Remover</a>
+                                <a class="a_gray" id="expense" href="eliminar_gastos.html" th:href="@{/gastos/eliminar}"><i class="fa fa-ban fa-fw"></i>  Remover</a>
                             </li>                                                             
                             <li>
-                                <a class="a_gray" id="expense" 
-    th:attr="onclick='javascript:checkExpenseLink(\'' + ${role} + '\');'" href="gastos.html" th:href="@{/gastos/consulta}"><i class="fa fa-search fa-fw"></i>  Buscar</a>
+                                <a class="a_gray" id="expense" href="gastos.html" th:href="@{/gastos/consulta}"><i class="fa fa-search fa-fw"></i>  Buscar</a>
                             </li>                            
                         </ul>
+                        </th:block>
                         <!-- /.nav-second-level -->
                     </li>                    
                     <li>
@@ -145,10 +142,51 @@
 		        </div>
 	        </div>
 	        
-        	<div class="row content_margin">
-              <div class="col-lg-12">
-                  <form method="POST" action="/proyectos/modificar" th:action="@{/proyectos/modificar}">
-                  
+        	<div class="row">
+			<span th:if="${project == null}" th:utext="#{home.no.projects}"></span>
+              <th:block th:unless="${project == null}">
+                  <div class="col-lg-3 col-md-6">
+                      <div class="form-group">
+                          <label>Nombre del proyecto:</label>
+                          <span th:text="${project.name}"></span>
+                      </div>
+
+                      <div class="form-group">
+                          <label>Descripción:</label>
+						  <span th:text="${project.description}"></span>
+                      </div>
+                      
+                      <div class="form-group">
+                          <label>Fecha de creación:</label>
+						  <span th:text="${project.createDate}"></span>
+                      </div>
+                      
+                      <div class="form-group">
+                          <label>Fecha de modificación:</label>
+						  <span th:text="${project.updateDate}"></span>
+                      </div>
+                      
+                  </div>
+                  <div class="col-lg-3 col-md-6">    
+                      <div class="form-group">
+                          <label>Clasificación:</label>
+						  <span th:text="${project.categoryName}"></span>
+                      </div> 
+                      
+                      <div class="form-group">
+                          <label>Monto:</label>
+						  <span th:text="${project.amount}"></span>
+                      </div>          
+                      
+                      <div class="form-group">
+                          <label>Usuario:</label>
+						  <span th:text="${project.username}"></span>
+                      </div>                                         
+                 </div>     
+
+				<div class="col-lg-12"> 
+				<p>* Los siguientes campos se pueden editar.</p>                     
+                     <form method="POST" action="/proyectos/clasificar" th:action="@{/proyectos/modificar/(projectId=${project.projectId})}">
                       <div class="form-group">
                           <label>Nombre del proyecto:</label>
                           <input type="text" class="form-control" name="name"/>
@@ -165,25 +203,13 @@
                           <input type="number" class="form-control" name="amount"/>
                       </div>
                       
-                      <div class="form-group">
-                          <label>Categoría</label>
-                          <select class="form-control" name="categoryId">
-                              <option value="1">De Alto Impacto</option>
-                              <option value="2">Impacto Moderado Alto</option>
-                              <option value="3">Impacto Moderado Bajo</option>
-                              <option value="4">De Bajo Impacto</option>
-                          </select>
-                      </div>
-                      
                       <button type="submit" class="btn btn-default btn-danger">Registrar</button>
-                  </form>
-              </div>
+                 	  </form>
+             	   </div>
+              </th:block>
             </div>
         </div>
         <!-- /#page-wrapper -->
-        
-		<span style="visibility: hidden" th:text="${roleId}"></span>
-		<span style="visibility: hidden" th:text="${dependencyId}"></span>	
     </div>
     <!-- /#wrapper -->
 
@@ -191,7 +217,7 @@
     		<div class="modal-dialog">
         		<div class="modal-content">
             		<div class="modal-body">
-                		<img class="center-block" th:scr="@{/resources/img/loading.gif}" src="../../resources/img/loading.gif" width="60" />
+                		<img class="center-block" th:scr="@{/resources/images/loading.gif}" src="../../resources/images/loading.gif" width="60" />
             		</div>
         		</div>
     		</div>
@@ -201,24 +227,6 @@
     <script src="../../resources/js/bootstrap.min.js" th:scr="@{/resources/js/bootstrap.min.js}"></script>
     <script src="../../resources/js/metisMenu.min.js" th:scr="@{/resources/js/metisMenu.min.js}"></script>
     <script src="../../resources/js/sb-admin-2.js" th:scr="@{/resources/js/sb-admin-2.js}"></script>
-
-	<script>
-		function checkProjectLink(role) {
-		  proyecto = document.getElementById("project");
-		  
-		  if(role == 'DEPENDENCY_ACCOUNTANT_USER' || role == 'DEPENDENCY_MANAGER_USER'){
-			  event.preventDefault();
-		  }
-		}
-		
-		function checkExpenseLink(role) {
-		  gasto = document.getElementById("expense");
-		  
-		  if(role == 'DEPENDENCY_PM_USER' || role == 'DEPENDENCY_MANAGER_USER'){
-			  event.preventDefault();
-		  }
-		}
-	</script>
 
 </body>
 </html>
